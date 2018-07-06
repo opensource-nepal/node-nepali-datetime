@@ -1,0 +1,22 @@
+{
+  "name": "nepali-date",
+  "version": "0.1.0",
+  "description": "A Nepali date library for extracting dates based on Bikram Sambat (B. S.) and perform converstions with Gregorian calendar (A. D.)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "url": "https://github.com/sharingapples/nepali-date.git",
+    "type": "git"
+  },
+  "author": "Ranjan Shrestha",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^23.3.0",
+    "jest-babel": "^1.0.1",
+    "node-fetch": "^1.6.3"
+  }
+}
