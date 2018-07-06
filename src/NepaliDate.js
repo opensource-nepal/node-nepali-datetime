@@ -5,7 +5,7 @@ const SUM_IDX = 14;
 
 function parse(dateString) {
   // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
-  const parts = dateString.split(/[-\.\/]/, 3);
+  const parts = dateString.split(/[-./]/, 3);
   const [year, month, day] = parts.map((d) => {
     const n = parseInt(d, 10);
     if (Number.isNaN(n)) {
@@ -43,7 +43,7 @@ class NepaliDate {
           this.year = e.year;
           this.month = e.month;
           this.day = e.day;
-        } else if (typeof e === number) {
+        } else if (typeof e === 'number') {
           this.setEnglishDate(new Date(e));
         } else {
           throw new Error('Invalid date argument');
@@ -72,6 +72,7 @@ class NepaliDate {
     daysCount -= NEPALI_DATE_MAP[idx - 1][SUM_IDX];
     const tmp = NEPALI_DATE_MAP[idx];
 
+    // eslint-disable-next-line prefer-destructuring
     this.year = tmp[0];
     this.month = 0;
     while (daysCount > tmp[this.month + 1]) {
@@ -126,7 +127,7 @@ class NepaliDate {
   }
 
   setMonth(month) {
-    this.set(this.year, months, this.day);
+    this.set(this.year, month, this.day);
   }
 
   setDate(day) {
@@ -134,7 +135,7 @@ class NepaliDate {
   }
 
   set(year, month, date) {
-    const idx = year + (month >= 12 ? Math.floor(month / 12) : 0) - START_YEAR;
+    const idx = (year + Math.floor(month / 12)) - START_YEAR;
     const tmp = NEPALI_DATE_MAP[idx];
     let d = tmp[SUM_IDX] - tmp[SUM_IDX - 1];
     for (let i = 0; i < month; i += 1) {
