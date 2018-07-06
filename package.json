@@ -2,9 +2,13 @@
   "name": "nepali-date",
   "version": "0.1.0",
   "description": "A Nepali date library for extracting dates based on Bikram Sambat (B. S.) and perform converstions with Gregorian calendar (A. D.)",
-  "main": "index.js",
+  "main": "cjs/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src",
+    "clean": "rimraf cjs",
+    "build": "babel src -d cjs",
+    "prepare": "npm run lint && npm run test && npm run clean && npm run build"
   },
   "repository": {
     "url": "https://github.com/sharingapples/nepali-date.git",
@@ -14,9 +18,14 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.5",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.12.0",
     "jest": "^23.3.0",
     "jest-babel": "^1.0.1",
-    "node-fetch": "^1.6.3"
-  }
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {}
 }
