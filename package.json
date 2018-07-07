@@ -1,6 +1,6 @@
 {
   "name": "nepali-date",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Nepali date library for extracting dates based on Bikram Sambat (B. S.) and perform converstions with Gregorian calendar (A. D.)",
   "main": "cjs/index.js",
   "scripts": {
