@@ -64,7 +64,7 @@ class NepaliDate {
   setEnglishDate(date) {
     this.timestamp = date;
     let daysCount = Math.floor((this.timestamp - EPOCH) / 86400000);
-    let idx = Math.floor((daysCount - 1) / 365);
+    let idx = Math.floor(daysCount / 366);
     while (daysCount >= NEPALI_DATE_MAP[idx][SUM_IDX]) {
       idx += 1;
     }
@@ -75,7 +75,7 @@ class NepaliDate {
     // eslint-disable-next-line prefer-destructuring
     this.year = tmp[0];
     this.month = 0;
-    while (daysCount > tmp[this.month + 1]) {
+    while (daysCount >= tmp[this.month + 1]) {
       this.month += 1;
       daysCount -= tmp[this.month];
     }
@@ -138,7 +138,11 @@ class NepaliDate {
     const idx = (year + Math.floor(month / 12)) - START_YEAR;
     const tmp = NEPALI_DATE_MAP[idx];
     let d = tmp[SUM_IDX] - tmp[SUM_IDX - 1];
-    for (let i = 0; i < month; i += 1) {
+
+    const m = month % 12;
+    const mm = m < 0 ? 12 + m : m;
+
+    for (let i = 0; i < mm; i += 1) {
       d += tmp[i + 1];
     }
     d += date - 1;
