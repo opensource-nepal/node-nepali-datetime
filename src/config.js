@@ -1,6 +1,6 @@
-exports.EPOCH = new Date('1943-04-14').getTime();
+exports.EPOCH = new Date(1943, 3, 14).getTime();
 exports.START_YEAR = 2000;
-const MAX_DATE = new Date('2032-04-14');
+// const MAX_DATE = new Date(2032, 4, 14);
 
 exports.NEPALI_DATE_MAP = [
   [2000, 30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 31, 365],
