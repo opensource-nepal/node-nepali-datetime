@@ -17,7 +17,7 @@ const d2 = new NepaliDate('2075/3/5');
 const d3 = new NepaliDate('2075.03.5');
 
 // Create one from English Date
-const d4 = new NepaliDate(new Date('2017-01-15)); 
+const d4 = new NepaliDate(new Date('2017-01-15')); 
 
 // Create using year, month, date
 const d5 = new NepaliDate(2075, 0, 1); 
@@ -31,8 +31,8 @@ const d7 = new NepaliDate(2075, -1, 1); // '2074/12/1'
 // Format date in nepali 
 d6.format('yyyy-mm-dd'); // २०७५-०२-०१
 d6.format('YYY-MM-DD'); // 075-02-01
-d6.format('mmmm d, yyyy ddd); // जेष्ठ १, २०७५ मंगल
-d6.format('MMM D, YYYY DDD); // Jes 1, 2075 Tue
+d6.format('mmmm d, yyyy ddd'); // जेष्ठ १, २०७५ मंगल
+d6.format('MMM D, YYYY DDD'); // Jes 1, 2075 Tue
 
 // Retrieve english date from NepaliDate
 d1.getEnglishDate(); // Return Date object
