@@ -27,6 +27,7 @@ describe('NepaliDate', () => {
     expect(n.format('YYYY-MM-DD')).toBe('2038-07-15');
     expect(n.format('Y-M-D')).toBe('38-7-15');
     expect(n.format('Y-MMMM-ddd')).toBe('38-Kartik-शनि');
+    expect(n.format('"YYY" YYYY')).toBe('YYY 2038');
   });
 
   it('checks month, date setting', () => {
