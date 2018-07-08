@@ -40,12 +40,42 @@ d1.getTime();        // Return timestamp in milliseconds
 ```
 
 # API
-## constructor
-`new NepaliDate(string)`  
-`new NepaliDate(year, monthIndex, day)`  
-`new NepaliDate(timestamp)`  
-`new NepaliDate(Date)`  
-`new NepaliDate(NepaliDate)`  
+## Constructors
+* `new NepaliDate()`<br/>
+   Create a nepali date for current time.
+
+* `new NepaliDate(string)`<br/>
+   Create a date parsing string in the following format `yyyy[./-]mm[./-].dd`.<br/>
+   > `new NepaliDate('2075-03-05')`<br/> 
+     `new NepaliDate('2075/3/23')`<br/>
+     `new NepaliDate('2075.1.24')`<br/>
+     `new NepaliDate('2075.1') // Day is 1 by default`</br>
+     `new NepaliDate('2075') // Month and Day is 1 by default`<br/>
+   
+   If string is not a valid date, an error is thrown
+
+* `new NepaliDate(year, monthIndex, day)`<br/>
+  Create nepali date for the given year, month and day. Note that the month
+  value is an index starting at 0, i.e., 0 for Baisakh, 1 for Jestha and 
+  so on. The values do not need to be bound to the valid values, but would 
+  correctly round off for any value for monthIndex or day. For example, 
+  monthIndex 12 would mean month 0 for year + 1. Similarly, the day values 
+  will also perform the similar transformation, for example. day 40 would 
+  mean day 8, 9, 10, or 11 of next month depending on the number of days 
+  in the given month.
+  > `new NepaliDate(2075, 0, 1); // 2075/01/01`<br/>
+
+* `new NepaliDate(timestamp)`<br/>
+  Create nepali date from a unix timestamp (number of milliseconds since
+  epoch similar to the one used by Date).
+  > `new NepaliDate(Date.now()) // Create current date`
+
+* `new NepaliDate(Date)`<br/>
+  Create nepali date from javascript Date.
+  > `new NepaliDate(new Date('2017/01/23')) // 2073/10/10`<br/>
+* `new NepaliDate(NepaliDate)`<br/>
+  Create a clone of another `NepaliDate`.
+
 
 ## getYear()
 Retrieve full nepali year (2074, 2075, etc)
@@ -56,8 +86,8 @@ Retrieve month index (0 for Baisakh, 1 for Jestha) so on.
 ## getDate()
 Retrieve day of month (1, 2, ...)
 
-## getHours(), getMinutes(), getSeconds()
-Hours, minutes and seconds similar to date
+## getHours(), getMinutes(), getSeconds(), getMilliseconds()
+Hours, minutes, seconds and milliseconds similar to javascript `Date`.
 
 ## getEnglishDate()
 Retrieve Date object corresponding to the Nepali date
