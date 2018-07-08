@@ -27,7 +27,7 @@ a map based implementation. So, the library would work only within a
 certain period of time. At the moment it works between **2000 BS** to **2100 BS**.
 
 # Installation
-> `$ yarn install nepali-date`
+> `$ yarn add nepali-date`
 
 or
 
