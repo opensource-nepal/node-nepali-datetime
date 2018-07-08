@@ -51,4 +51,14 @@ describe('NepaliDate', () => {
     n2.setDate(-1);
     expect(n2.toString()).toBe('2074/12/29');
   });
+
+  it('checks for all methods', () => {
+    const d = new Date('2017-10-31T12:30:25.789');
+    const n = new NepaliDate(d);
+    expect(d.getTime()).toBe(n.getTime());
+    expect(d.getHours()).toBe(d.getHours());
+    expect(d.getMinutes()).toBe(d.getMinutes());
+    expect(d.getSeconds()).toBe(d.getSeconds());
+    expect(d.getMilliseconds()).toBe(d.getMilliseconds());
+  });
 });

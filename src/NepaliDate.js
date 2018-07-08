@@ -118,8 +118,12 @@ class NepaliDate {
     return this.timestamp.getSeconds();
   }
 
+  getMilliseconds() {
+    return this.timestamp.getMilliseconds();
+  }
+
   getTime() {
-    return this.date.getTime();
+    return this.timestamp.getTime();
   }
 
   setYear(year) {
