@@ -33,7 +33,9 @@ function parse(dateString) {
 
 class NepaliDate {
   constructor(...args) {
-    if (args.length === 1) {
+    if (args.length === 0) {
+      this.setEnglishDate(new Date());
+    } else if (args.length === 1) {
       const e = args[0];
       if (typeof e === 'object') {
         if (e instanceof Date) {
