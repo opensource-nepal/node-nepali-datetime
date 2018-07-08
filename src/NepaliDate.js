@@ -66,6 +66,9 @@ class NepaliDate {
   setEnglishDate(date) {
     this.timestamp = date;
     let daysCount = Math.floor((this.timestamp - EPOCH) / 86400000);
+    // Look for a index based on number of days since epoch.
+    // it is just to save some iterations searching from idx 0.
+    // So dividing by a number slightly higher than number of days in a year (365.25)
     let idx = Math.floor(daysCount / 366);
     while (daysCount >= NEPALI_DATE_MAP[idx][SUM_IDX]) {
       idx += 1;
@@ -76,11 +79,15 @@ class NepaliDate {
 
     // eslint-disable-next-line prefer-destructuring
     this.year = tmp[0];
+
+    // Month starts at 0, check for remaining days left
     this.month = 0;
     while (daysCount >= tmp[this.month + 1]) {
       this.month += 1;
       daysCount -= tmp[this.month];
     }
+
+    // The day of month is the remaining days + 1
     this.day = daysCount + 1;
   }
 
