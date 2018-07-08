@@ -38,6 +38,21 @@ d6.format('MMM D, YYYY DDD'); // Jes 1, 2075 Tue
 d1.getEnglishDate(); // Return Date object
 d1.getTime();        // Return timestamp in milliseconds
 ```
+# Bonus
+Install the package globally and get access to command lines `ad2bs`
+and `bs2ad` to convert dates from one format to another from command line.
+
+> `npm install -g nepali-date`
+
+or 
+
+> `yarn global add nepali-date`
+
+This will install the nepali-date library globally, installing `ad2bs`
+and `bs2ad` as command lines.
+
+> `ad2bs 2018-01-01`<br/>
+> `bs2ad 2075-01-01`<br/>
 
 # API
 ## Constructors
