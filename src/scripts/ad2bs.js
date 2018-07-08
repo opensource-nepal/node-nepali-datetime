@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 /* eslint-disable no-console */
-const NepaliDate = require('../cjs/NepaliDate').default;
+const NepaliDate = require('../NepaliDate').default;
 
 const ad = process.argv[2] ? new Date(process.argv[2]) : new Date();
 if (Number.isNaN(ad.getTime())) {

@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 /* eslint-disable no-console */
-const NepaliDate = require('../cjs/NepaliDate').default;
+const NepaliDate = require('../NepaliDate').default;
 
 function pad(n) {
   if (n < 10) {
