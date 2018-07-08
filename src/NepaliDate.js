@@ -6,7 +6,7 @@ const SUM_IDX = 14;
 function parse(dateString) {
   // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
   const parts = dateString.split(/[-./]/, 3);
-  const [year, month, day] = parts.map((d) => {
+  const [year, month = 1, day = 1] = parts.map((d) => {
     const n = parseInt(d, 10);
     if (Number.isNaN(n)) {
       throw new Error('Invalid date');
