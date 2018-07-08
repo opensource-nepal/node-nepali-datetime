@@ -3,12 +3,20 @@
   "version": "0.1.1",
   "description": "A Nepali date library for extracting dates based on Bikram Sambat (B. S.) and perform converstions with Gregorian calendar (A. D.)",
   "main": "cjs/index.js",
+  "files": [
+    "cjs",
+    "scripts"
+  ],
   "scripts": {
     "test": "jest",
     "lint": "eslint src",
     "clean": "rimraf cjs",
     "build": "babel src -d cjs",
     "prepare": "npm run lint && npm run test && npm run clean && npm run build"
+  },
+  "bin": {
+    "ad2bs": "node scripts/ad2bs.js",
+    "bs2ad": "node scripts/bs2ad.js"
   },
   "repository": {
     "url": "https://github.com/sharingapples/nepali-date.git",
