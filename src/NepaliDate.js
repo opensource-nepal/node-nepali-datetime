@@ -163,4 +163,8 @@ class NepaliDate {
   }
 }
 
+NepaliDate.minimum = () => new Date(EPOCH);
+NepaliDate.maximum = () => new Date(EPOCH
+  + ((NEPALI_DATE_MAP[NEPALI_DATE_MAP.length - 1][SUM_IDX]) * 86400000));
+
 export default NepaliDate;
