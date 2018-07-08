@@ -133,7 +133,7 @@ how many days are there in the month)
 Format the date to provide various output based on format string
 <pre>
 YYYY - 4 digit of year (2075)
-yyyy - 4 digit o year in nepali unicode (२०७५)
+yyyy - 4 digit of year in nepali unicode (२०७५)
 YYY  - 3 digit of year (075)
 yyy  - 3 digit of year (०७५)
 YY   - 2 digit of year
@@ -149,7 +149,7 @@ mmmm - full month name nepali (बैसाख, जेष्ठ, ...)
 D    - Day of Month (1, 2, ... 31, 32)
 d    - Day of Month in Nepali unicode (१, २, ३ ... ३१, ३२)
 DD   - Day of Month with zero padding (01, 02, ...)
-dd   - Day of Month wiht zero padding in Nepali unicode (०१, ०२, ...)
+dd   - Day of Month with zero padding in Nepali unicode (०१, ०२, ...)
 DDD  - Day of Week short form (Sun, Mon, Tue, ...)
 ddd  - Day of week in short form nepali (आइत, सोम, ...)
 DDDD - Day of week full form (Sunday, Monday, Tuesday, ...)
