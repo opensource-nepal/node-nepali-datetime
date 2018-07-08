@@ -40,6 +40,8 @@ const NepaliDate = require('nepali-date');
 const d1 = new NepaliDate('2075-03-05');
 const d2 = new NepaliDate('2075/3/5');
 const d3 = new NepaliDate('2075.03.5');
+const dp1 = new NepaliDate('2075/03'); // 2075/03/01
+const dp2 = new NepaliDate('2075'); // 2075/01/01
 
 // Create one from English Date
 const d4 = new NepaliDate(new Date('2017-01-15')); 
