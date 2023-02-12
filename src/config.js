@@ -1,8 +1,8 @@
-exports.EPOCH = new Date(1943, 3, 14).getTime();
-exports.START_YEAR = 2000;
+export const EPOCH = new Date(1943, 3, 14).getTime();
+export const START_YEAR = 2000;
 // const MAX_DATE = new Date(2032, 4, 14);
 
-exports.NEPALI_DATE_MAP = [
+export const NEPALI_DATE_MAP = [
   [2000, 30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 31, 365],
   [2001, 31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30, 365],
   [2002, 31, 31, 32, 32, 31, 30, 30, 29, 30, 29, 30, 30, 365],
@@ -95,6 +95,6 @@ exports.NEPALI_DATE_MAP = [
 ];
 
 // Include the progressive sum at the end of the array
-exports.NEPALI_DATE_MAP.forEach((l, idx, arr) => {
+NEPALI_DATE_MAP.forEach((l, idx, arr) => {
   l.push(l[13] + (idx === 0 ? 0 : arr[idx - 1][14]));
 });

@@ -166,7 +166,6 @@ class NepaliDate {
     return format(this, formatStr);
   }
 
-
   toString() {
     return `${this.year}/${this.month + 1}/${this.day}`;
   }
