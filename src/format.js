@@ -200,5 +200,5 @@ function tokenize(formatStr) {
 // ddd    week day nepali short form
 // dddd   week day nepali full form
 export default function format(nepaliDate, formatStr) {
-  return tokenize(formatStr).map(f => f(nepaliDate)).join('');
+  return tokenize(formatStr).map((f) => f(nepaliDate)).join('');
 }
