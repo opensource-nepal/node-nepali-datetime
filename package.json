@@ -4,6 +4,7 @@
     "description": "A Nepali date library for extracting dates based on Bikram Sambat (B. S.) and perform converstions with Gregorian calendar (A. D.)",
     "main": "index.js",
     "type": "module",
+    "files": ["dist/**/*"],
     "scripts": {
         "test": "jest",
         "lint": "tslint --project tsconfig.json",
