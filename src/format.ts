@@ -139,7 +139,8 @@ function pass(seq: any): any {
     return () => seq
 }
 
-const fn = {
+
+const fn: { [key: string]: (size: number) => (date: NepaliDate) => string | number } = {
     Y: yearEn,
     y: yearNp,
     M: monthEn,
@@ -155,7 +156,7 @@ function isSpecial(ch: string) {
 function tokenize(formatStr: string) {
     let inQuote = false
     let seq = ""
-    let special = ""
+    let special: string = ""
     let specialSize = 0
 
     const tokens = []
@@ -169,6 +170,7 @@ function tokenize(formatStr: string) {
 
         // Time to process special
         if (special !== "") {
+            const specialToFn = fn[special]
             tokens.push(fn[special](specialSize))
             special = ""
             specialSize = 0
