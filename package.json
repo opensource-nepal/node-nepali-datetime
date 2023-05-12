@@ -20,10 +20,6 @@
     "scripts": {
         "build": "npm run clean && rollup -c",
         "clean": "rimraf dist",
-        "format": "prettier --write 'src/**/*.ts' 'src/**/*.js'",
-        "lint": "tslint --project tsconfig.json",
-        "lint-fix": "tslint --project tsconfig.json --fix",
-        "start": "npm run build && node dist/index.js",
         "test": "jest"
     },
     "repository": {
@@ -41,6 +37,7 @@
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-typescript2": "^0.34.1",
+        "ts-jest": "^29.1.0",
         "typescript": "^4.9.5"
     }
 }
