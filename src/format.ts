@@ -156,7 +156,7 @@ function isSpecial(ch: string) {
 function tokenize(formatStr: string) {
     let inQuote = false
     let seq = ""
-    let special: string = ""
+    let special = ""
     let specialSize = 0
 
     const tokens = []
@@ -170,7 +170,6 @@ function tokenize(formatStr: string) {
 
         // Time to process special
         if (special !== "") {
-            const specialToFn = fn[special]
             tokens.push(fn[special](specialSize))
             special = ""
             specialSize = 0

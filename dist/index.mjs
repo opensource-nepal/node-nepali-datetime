@@ -251,7 +251,6 @@ function tokenize(formatStr) {
         }
         // Time to process special
         if (special !== "") {
-            fn[special];
             tokens.push(fn[special](specialSize));
             special = "";
             specialSize = 0;
