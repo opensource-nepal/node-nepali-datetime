@@ -1,4 +1,4 @@
-# nepali-date
+# nepali-datetime
 
 A Nepali Date library for nepali date parsing and formatting.
 
@@ -31,16 +31,16 @@ certain period of time. At the moment it works between **2000 BS** to **2100 BS*
 
 # Installation
 
-> `$ yarn add nepali-date`
+> `$ yarn add nepali-datetime`
 
 or
 
-> `$ npm install nepali-date`
+> `$ npm install nepali-datetime`
 
 # Usage
 
 ```javascript
-const NepaliDate = require("nepali-date")
+const NepaliDate = require("nepali-datetime")
 
 const d1 = new NepaliDate("2075-03-05")
 const d2 = new NepaliDate("2075/3/5")
@@ -76,13 +76,13 @@ d1.getTime() // Return timestamp in milliseconds
 Install the package globally and get access to command lines `ad2bs`
 and `bs2ad` to convert dates from one format to another from command line.
 
-> `npm install -g nepali-date`
+> `npm install -g nepali-datetime`
 
 or
 
-> `yarn global add nepali-date`
+> `yarn global add nepali-datetime`
 
-This will install the nepali-date library globally, installing `ad2bs`
+This will install the nepali-datetime library globally, installing `ad2bs`
 and `bs2ad` as command lines.
 
 > `ad2bs 2018-01-01`<br/> > `bs2ad 2075-01-01`<br/>
