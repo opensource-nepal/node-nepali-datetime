@@ -139,7 +139,8 @@ function pass(seq: any): any {
     return () => seq
 }
 
-const fn = {
+
+const fn: { [key: string]: (size: number) => (date: NepaliDate) => string | number } = {
     Y: yearEn,
     y: yearNp,
     M: monthEn,

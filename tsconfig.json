@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "allowJs": true,
-        "target": "es5",
+        "target": "esnext",
+        "module": "esnext",
+        "rootDir": "src",
         "declaration": true,
-        "module": "commonjs"
+        "sourceMap": true,
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true
     },
-    "include": [
-        "./src/**/*.ts",
-        "./src/**/*.js"
-    ]
+    "include": ["src"],
+    "exclude": ["node_modules", "dist", "__test__"]
 }
