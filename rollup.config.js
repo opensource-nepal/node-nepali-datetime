@@ -2,7 +2,7 @@ const typescript = require("@rollup/plugin-typescript")
 const commonjs = require("@rollup/plugin-commonjs")
 const resolve = require("@rollup/plugin-node-resolve")
 
-module.exports = {
+module.exports = [{
     input: "src/index.ts",
     output: [
         {
@@ -17,4 +17,19 @@ module.exports = {
         },
     ],
     plugins: [typescript(), commonjs(), resolve()],
-}
+}, {
+    input: "src/dateConverter.ts",
+    output: [
+        {
+            file: "dist/dateConverter.js",
+            format: "cjs",
+            sourcemap: true,
+        },
+        {
+            file: "dist/dateConverter.mjs",
+            format: "esm",
+            sourcemap: true,
+        },
+    ],
+    plugins: [typescript(), commonjs(), resolve()],
+}]
