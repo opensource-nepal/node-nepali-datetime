@@ -21,12 +21,12 @@
  * Usage Example:
  *
  * ```typescript
- * import { englishToNepali, nepaliToEnglish } from './dateConverter';
+ * import dateConverter from './dateConverter';
  *
- * const [npYear, npMonth, npDay] = englishToNepali(2023, 5, 27);
+ * const [npYear, npMonth, npDay] = dateConverter.englishToNepali(2023, 5, 27);
  * console.log(`Nepali Date: ${npYear}-${npMonth}-${npDay}`);
  *
- * const [enYear, enMonth, enDay] = nepaliToEnglish(2080, 2, 15);
+ * const [enYear, enMonth, enDay] = dateConverter.nepaliToEnglish(2080, 2, 15);
  * console.log(`English Date: ${enYear}-${enMonth}-${enDay}`);
  * ```
  *
