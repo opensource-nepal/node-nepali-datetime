@@ -39,9 +39,17 @@ or
 
 # Usage
 
-```javascript
-const NepaliDate = require("nepali-datetime")
+### NepaliDate
 
+```javascript
+import NepaliDate from "nepali-datetime"
+
+// or
+
+const NepaliDate = require("nepali-datetime")
+```
+
+```javascript
 const d1 = new NepaliDate("2075-03-05")
 const d2 = new NepaliDate("2075/3/5")
 const d3 = new NepaliDate("2075.03.5")
@@ -69,6 +77,20 @@ d6.format("MMM D, YYYY DDD") // Jes 1, 2075 Tue
 // Retrieve english date from NepaliDate
 d1.getEnglishDate() // Return Date object
 d1.getTime() // Return timestamp in milliseconds
+```
+
+### dateConverter
+
+The Date Converter module converts English dates to Nepali dates and Nepali dates to English dates. It does not contain any extra functionality.
+
+```javascript
+import dateConverter from "nepali-datetime/dateConverter"
+
+// english to nepali date conversion
+const [npYear, npMonth, npDay] = dateConverter.englishToNepali(2023, 5, 27)
+
+// nepali to english date conversion
+const [enYear, enMonth, enDay] = dateConverter.nepaliToEnglish(2080, 2, 15)
 ```
 
 # Bonus

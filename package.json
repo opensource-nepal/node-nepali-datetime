@@ -10,9 +10,10 @@
             "require": "./dist/index.js",
             "import": "./dist/index.mjs"
         },
-        "./dist/index.js": "./dist/index.js",
-        "./dist/index.mjs": "./dist/index.mjs",
-        "./dist/index.d.ts": "./dist/index.d.ts"
+        "./dateConverter": {
+            "require": "./dist/dateConverter.js",
+            "import": "./dist/dateConverter.mjs"
+        }
     },
     "files": [
         "dist"
