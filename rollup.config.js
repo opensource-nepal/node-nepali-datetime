@@ -18,7 +18,7 @@ module.exports = [{
     ],
     plugins: [typescript(), commonjs(), resolve()],
 }, {
-    input: "src/dateConverter.ts",
+    input: "src/dateConverter/index.ts",
     output: [
         {
             file: "dist/dateConverter.js",
