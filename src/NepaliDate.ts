@@ -1,7 +1,6 @@
-import { START_YEAR, NEPALI_DATE_MAP, EPOCH } from "./config"
+import dateConverter from "./dateConverter"
 import format from "./format"
 
-const SUM_IDX = 14
 
 function parse(dateString: string): number[] {
     // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
@@ -13,20 +12,6 @@ function parse(dateString: string): number[] {
         }
         return n
     })
-
-    // Make sure we are within range
-    if (year < START_YEAR || year >= START_YEAR + NEPALI_DATE_MAP.length) {
-        throw new Error("Nepal year out of range")
-    }
-
-    if (month < 1 || month > 12) {
-        throw new Error("Invalid nepali month must be between 1 - 12")
-    }
-
-    const daysInMonth = NEPALI_DATE_MAP[year - START_YEAR][month]
-    if (day < 1 || day > daysInMonth) {
-        throw new Error(`Invalid nepali date must be between 1 - ${daysInMonth} in ${year} ${month}`)
-    }
 
     return [year, month - 1, day]
 }
@@ -70,32 +55,28 @@ class NepaliDate {
         }
     }
 
-    setEnglishDate(date: Date) {
+    /**
+     * Sets the English date and optionally computes the corresponding Nepali date.
+     * Handles all the operations and variables while setting the English date.
+     *
+     * @param date The English date to set.
+     * @param computeNepaliDate Flag indicating whether to compute the Nepali date. Default is `false`.
+     * @returns void
+     */
+    private _setEnglishDate(date: Date, computeNepaliDate: boolean = false) {
         this.timestamp = date
-        let daysCount = Math.floor((this.timestamp.getTime() - EPOCH) / 86400000)
-        // Look for a index based on number of days since epoch.
-        // it is just to save some iterations searching from idx 0.
-        // So dividing by a number slightly higher than number of days in a year (365.25)
-        let idx = Math.floor(daysCount / 366)
-        while (daysCount >= NEPALI_DATE_MAP[idx][SUM_IDX]) {
-            idx += 1
-        }
 
-        daysCount -= NEPALI_DATE_MAP[idx - 1][SUM_IDX]
-        const tmp = NEPALI_DATE_MAP[idx]
+        if (!computeNepaliDate)
+            return
 
-        // eslint-disable-next-line prefer-destructuring
-        this.year = tmp[0]
+        const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(date.getFullYear(), date.getMonth(), date.getDate())
+        this.year = yearNp
+        this.month = month0Np
+        this.day = dayNp
+    }
 
-        // Month starts at 0, check for remaining days left
-        this.month = 0
-        while (daysCount >= tmp[this.month + 1]) {
-            this.month += 1
-            daysCount -= tmp[this.month]
-        }
-
-        // The day of month is the remaining days + 1
-        this.day = daysCount + 1
+    setEnglishDate(date: Date) {
+        this._setEnglishDate(date, true)
     }
 
     getEnglishDate() {
@@ -155,18 +136,11 @@ class NepaliDate {
     }
 
     set(year: number, month: number, date: number) {
-        const idx = year + Math.floor(month / 12) - START_YEAR
-        const tmp = NEPALI_DATE_MAP[idx]
-        let d = tmp[SUM_IDX] - tmp[SUM_IDX - 1]
-
-        const m = month % 12
-        const mm = m < 0 ? 12 + m : m
-
-        for (let i = 0; i < mm; i += 1) {
-            d += tmp[i + 1]
-        }
-        d += date - 1
-        this.setEnglishDate(new Date(EPOCH + d * 86400000))
+        const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(year, month, date)
+        this.year = year
+        this.month = month
+        this.day = date
+        this._setEnglishDate(new Date(yearEn, month0EN, dayEn))
     }
 
     format(formatStr: string) {
@@ -178,7 +152,7 @@ class NepaliDate {
     }
 }
 
-NepaliDate.minimum = () => new Date(EPOCH)
-NepaliDate.maximum = () => new Date(EPOCH + NEPALI_DATE_MAP[NEPALI_DATE_MAP.length - 1][SUM_IDX] * 86400000)
+NepaliDate.minimum = () => new Date(dateConverter.enMinYear(), 0, 1)
+NepaliDate.maximum = () => new Date(dateConverter.enMaxYear(), 11, 31)
 
 export default NepaliDate

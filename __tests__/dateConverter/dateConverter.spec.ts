@@ -1,4 +1,4 @@
-import dateConverter from '../../src/dateConverter/dateConverter'
+import dateConverter from '../../src/dateConverter'
 
 describe('dateConverter date range', () => {
     it('test for dateConverter english date range', () => {
