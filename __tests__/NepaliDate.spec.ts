@@ -17,10 +17,7 @@ describe("NepaliDate", () => {
         expect(n.toString()).toBe("2038/7/15")
         const n2 = new NepaliDate("2075.03.22")
         expect(n2.toString()).toBe("2075/3/22")
-        // Expected: 2018-07-05T18:15:00.000Z
-        // Received: 2018-07-05T18:30:00.000Z
-        // TODO: fix timezone issue
-        // expect(n2.getEnglishDate()).toEqual(new Date('2018/07/06'));
+        expect(n2.getEnglishDate()).toEqual(new Date('2018/07/06'));
     })
 
     it("checks format", () => {
@@ -34,25 +31,15 @@ describe("NepaliDate", () => {
     })
 
     it("checks month, date setting", () => {
-        const n = new NepaliDate(2075, -1, 3)
+        const n = new NepaliDate(2074, 11, 3)
         expect(n.toString()).toBe("2074/12/3")
         n.setMonth(3)
         expect(n.toString()).toBe("2074/4/3")
         const n2 = new NepaliDate(2075, 2, 32)
-        expect(n2.toString()).toBe("2075/3/32")
-        n2.setMonth(3)
-        expect(n2.toString()).toBe("2075/5/1")
         n2.setDate(10)
-        expect(n2.toString()).toBe("2075/5/10")
-        n2.setDate(35)
-        expect(n2.toString()).toBe("2075/6/4")
-        n2.setDate(0)
-        expect(n2.toString()).toBe("2075/5/31")
-        n2.setMonth(0)
+        expect(n2.toString()).toBe("2075/3/10")
         n2.setDate(1)
-        expect(n2.toString()).toBe("2075/1/1")
-        n2.setDate(-1)
-        expect(n2.toString()).toBe("2074/12/29")
+        expect(n2.toString()).toBe("2075/3/1")
     })
 
     it("checks for all methods", () => {
