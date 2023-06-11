@@ -1,4 +1,5 @@
 import NepaliDate from "../src/NepaliDate"
+import { ValidationError } from "../src/validators"
 
 describe("NepaliDate", () => {
     it("checks for nepali date validity", () => {
@@ -17,7 +18,7 @@ describe("NepaliDate", () => {
         expect(n.toString()).toBe("2038/7/15")
         const n2 = new NepaliDate("2075.03.22")
         expect(n2.toString()).toBe("2075/3/22")
-        expect(n2.getEnglishDate()).toEqual(new Date('2018/07/06'));
+        expect(n2.getEnglishDate()).toEqual(new Date('2018/07/06'))
     })
 
     it("checks format", () => {
@@ -45,10 +46,236 @@ describe("NepaliDate", () => {
     it("checks for all methods", () => {
         const d = new Date("2017-10-31T12:30:25.789")
         const n = new NepaliDate(d)
-        expect(d.getTime()).toBe(n.getTime())
-        expect(d.getHours()).toBe(d.getHours())
-        expect(d.getMinutes()).toBe(d.getMinutes())
-        expect(d.getSeconds()).toBe(d.getSeconds())
-        expect(d.getMilliseconds()).toBe(d.getMilliseconds())
+        expect(n.getTime()).toBe(d.getTime())
+        expect(n.getHours()).toBe(d.getHours())
+        expect(n.getMinutes()).toBe(d.getMinutes())
+        expect(n.getSeconds()).toBe(d.getSeconds())
+        expect(n.getMilliseconds()).toBe(d.getMilliseconds())
+    })
+})
+
+describe("NepaliDate with Time feature initialization", () => {
+    // Test case for time support
+    it("should support hours", () => {
+        const d = new NepaliDate(2080, 1, 12, 1)
+        expect(d.getHours()).toBe(1)
+        expect(d.getMinutes()).toBe(0)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+    })
+
+    it("should support minutes", () => {
+        const d = new NepaliDate(2080, 1, 12, 1, 2)
+        expect(d.getHours()).toBe(1)
+        expect(d.getMinutes()).toBe(2)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+    })
+
+    it("should support seconds", () => {
+        const d = new NepaliDate(2080, 1, 12, 1, 2, 3)
+        expect(d.getHours()).toBe(1)
+        expect(d.getMinutes()).toBe(2)
+        expect(d.getSeconds()).toBe(3)
+        expect(d.getMilliseconds()).toBe(0)
+    })
+
+    it("should support milliseconds", () => {
+        const d = new NepaliDate(2080, 1, 12, 1, 2, 3, 4)
+        expect(d.getHours()).toBe(1)
+        expect(d.getMinutes()).toBe(2)
+        expect(d.getSeconds()).toBe(3)
+        expect(d.getMilliseconds()).toBe(4)
+    })
+
+    // Test case for valid time components
+    it('should not throw an error for valid time components', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 30
+        const second = 45
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).not.toThrow()
+    })
+
+    // Test cases for invalid time components
+    it('should throw a ValidationError for invalid hour', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 24
+        const minute = 30
+        const second = 45
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+    })
+
+    it('should throw a ValidationError for invalid negative hour', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = -1
+        const minute = 30
+        const second = 45
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+    })
+
+    it('should throw a ValidationError for invalid minute', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 60
+        const second = 45
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+    })
+
+    it('should throw a ValidationError for invalid negative minute', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = -1
+        const second = 45
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+    })
+
+    it('should throw a ValidationError for invalid second', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 30
+        const second = 60
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+    })
+
+    it('should throw a ValidationError for invalid negative second', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 30
+        const second = -1
+        const ms = 500
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+    })
+
+    it('should throw a ValidationError for invalid millisecond', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 30
+        const second = 45
+        const ms = 1000
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
+    })
+
+    it('should throw a ValidationError for invalid negative millisecond', () => {
+        const [year, month, day] = [2080, 1, 12]
+        const hour = 12
+        const minute = 30
+        const second = 45
+        const ms = -1
+
+        expect(() => {
+            new NepaliDate(year, month, day, hour, minute, second, ms)
+        }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
+    })
+})
+
+
+describe('NepaliDate with Time feature: set methods', () => {
+    let nepaliDate: NepaliDate
+
+    beforeEach(() => {
+        nepaliDate = new NepaliDate()
+    })
+
+    describe('setHours', () => {
+        it('should set the hour on the current date and time', () => {
+            const hour = 9
+            nepaliDate.setHours(hour)
+
+            expect(nepaliDate.getHours()).toBe(hour)
+        })
+
+        it('should throw a ValidationError for invalid hour', () => {
+            const invalidHour = 24
+            expect(() => {
+                nepaliDate.setHours(invalidHour)
+            }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+        })
+    })
+
+    describe('setMinutes', () => {
+        it('should set the minute on the current date and time', () => {
+            const minute = 30
+            nepaliDate.setMinutes(minute)
+
+            expect(nepaliDate.getMinutes()).toBe(minute)
+        })
+        
+        it('should throw a ValidationError for invalid minute', () => {
+            const invalidMinute = 60
+            expect(() => {
+                nepaliDate.setMinutes(invalidMinute)
+            }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+        })
+    })
+
+    describe('setSeconds', () => {
+        it('should set the second on the current date and time', () => {
+            const second = 30
+            nepaliDate.setSeconds(second)
+
+            expect(nepaliDate.getSeconds()).toBe(second)
+        })
+        
+        it('should throw a ValidationError for invalid second', () => {
+            const invalidSecond = 60
+            expect(() => {
+                nepaliDate.setSeconds(invalidSecond)
+            }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+        })
+    })
+
+    describe('setMilliseconds', () => {
+        it('should set the milliseconds on the current date and time', () => {
+            const milliseconds = 30
+            nepaliDate.setMilliseconds(milliseconds)
+
+            expect(nepaliDate.getMilliseconds()).toBe(milliseconds)
+        })
+        
+        it('should throw a ValidationError for invalid milliseconds', () => {
+            const invalidMillisecond = 1000
+            expect(() => {
+                nepaliDate.setMilliseconds(invalidMillisecond)
+            }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
+        })
+    })
+
+    describe('setTime', () => {
+        it('should set the timestamp', () => {
+            const timestamp = 1625097600000 // June 30, 2021 00:00:00 UTC
+            nepaliDate.setTime(timestamp)
+            expect(nepaliDate.getTime()).toBe(timestamp)
+        })
     })
 })

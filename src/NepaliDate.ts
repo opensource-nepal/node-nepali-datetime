@@ -1,5 +1,6 @@
 import dateConverter from "./dateConverter"
 import format from "./format"
+import { validateTime } from "./validators"
 
 
 function parse(dateString: string): number[] {
@@ -48,10 +49,16 @@ class NepaliDate {
             } else {
                 throw new Error("Invalid date argument")
             }
-        } else if (args.length === 3) {
-            this.set(args[0], args[1], args[2])
         } else {
-            throw new Error("Invalid argument syntax")
+            this.set(
+                args[0], // year
+                args[1], // month
+                args[2] ?? 1, // day
+                args[3] ?? 0, // hour
+                args[4] ?? 0, // minute
+                args[5] ?? 0, // second
+                args[6] ?? 0, // ms
+            )
         }
     }
 
@@ -124,23 +131,135 @@ class NepaliDate {
     }
 
     setYear(year: number) {
-        this.set(year, this.month, this.day)
+        this.set(
+            year,
+            this.month,
+            this.day,
+            this.timestamp.getHours(),
+            this.timestamp.getMinutes(),
+            this.timestamp.getSeconds(),
+            this.timestamp.getMilliseconds()
+        )
     }
 
     setMonth(month: number) {
-        this.set(this.year, month, this.day)
+        this.set(
+            this.year,
+            month,
+            this.day,
+            this.timestamp.getHours(),
+            this.timestamp.getMinutes(),
+            this.timestamp.getSeconds(),
+            this.timestamp.getMilliseconds()
+        )
     }
 
     setDate(day: number) {
-        this.set(this.year, this.month, day)
+        this.set(
+            this.year,
+            this.month,
+            day,
+            this.timestamp.getHours(),
+            this.timestamp.getMinutes(),
+            this.timestamp.getSeconds(),
+            this.timestamp.getMilliseconds()
+        )
     }
 
-    set(year: number, month: number, date: number) {
+    /**
+     * Sets hour on the current date and time
+     *
+     * @param hour Hour to set
+     * @throws {ValidationError} if hour is out of range
+     * @returns void
+     */
+    setHours(hour: number) {
+        this.set(
+            this.year,
+            this.month,
+            this.day,
+            hour,
+            this.timestamp.getMinutes(),
+            this.timestamp.getSeconds(),
+            this.timestamp.getMilliseconds()
+        )
+    }
+
+    /**
+     * Sets minute on the current date and time
+     *
+     * @param minute Minute to set
+     * @throws {ValidationError} if minute is out of range
+     * @returns void
+     */
+    setMinutes(minute: number) {
+        this.set(
+            this.year,
+            this.month,
+            this.day,
+            this.timestamp.getHours(),
+            minute,
+            this.timestamp.getSeconds(),
+            this.timestamp.getMilliseconds()
+        )
+    }
+
+    /**
+     * Sets second on the current date and time
+     *
+     * @param second Second to set
+     * @throws {ValidationError} if second is out of range
+     * @returns void
+     */
+    setSeconds(second: number) {
+        this.set(
+            this.year,
+            this.month,
+            this.day,
+            this.timestamp.getHours(),
+            this.timestamp.getMinutes(),
+            second,
+            this.timestamp.getMilliseconds()
+        )
+    }
+
+    /**
+     * Sets milliseconds on the current date and time
+     *
+     * @param ms Milliseconds to set
+     * @throws {ValidationError} if milliseconds is out of range
+     * @returns void
+     */
+    setMilliseconds(ms: number) {
+        this.set(
+            this.year,
+            this.month,
+            this.day,
+            this.timestamp.getHours(),
+            this.timestamp.getMinutes(),
+            this.timestamp.getSeconds(),
+            ms
+        )
+    }
+
+    /**
+     * Sets time on the current date and time
+     *
+     * @param time Time to set (timestamp)
+     * @returns void
+     */
+    setTime(time: number){
+        this.setEnglishDate(new Date(time))
+    }
+
+    set(year: number, month: number, date: number,
+        hour: number = 0, minute: number = 0, second: number = 0, ms: number = 0) {
+        validateTime(hour, minute, second, ms)
         const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(year, month, date)
         this.year = year
         this.month = month
         this.day = date
-        this._setEnglishDate(new Date(yearEn, month0EN, dayEn))
+        this._setEnglishDate(new Date(yearEn, month0EN, dayEn, hour, minute, second, ms))
     }
 
     format(formatStr: string) {
