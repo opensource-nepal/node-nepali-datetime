@@ -8,6 +8,7 @@ describe("NepaliDate", () => {
         expect(n.getYear()).toBe(2038)
         expect(n.getMonth()).toBe(6)
         expect(n.getDate()).toBe(15)
+        expect(n.getDay()).toBe(6)
 
         const n2 = new NepaliDate(new Date("2018-08-17"))
         expect(n2.toString()).toBe("2075/5/1")
@@ -16,9 +17,11 @@ describe("NepaliDate", () => {
     it("checks parser", () => {
         const n = new NepaliDate("2038-07-15")
         expect(n.toString()).toBe("2038/7/15")
+
         const n2 = new NepaliDate("2075.03.22")
         expect(n2.toString()).toBe("2075/3/22")
-        expect(n2.getEnglishDate()).toEqual(new Date('2018/07/06'))
+
+        expect(n2.getEnglishDate().toISOString()).toEqual("2018-07-05T18:15:00.000Z")
     })
 
     it("checks format", () => {
@@ -44,13 +47,15 @@ describe("NepaliDate", () => {
     })
 
     it("checks for all methods", () => {
-        const d = new Date("2017-10-31T12:30:25.789")
+        const d = new Date("2017-10-31T12:30:25.789Z")
         const n = new NepaliDate(d)
-        expect(n.getTime()).toBe(d.getTime())
-        expect(n.getHours()).toBe(d.getHours())
-        expect(n.getMinutes()).toBe(d.getMinutes())
-        expect(n.getSeconds()).toBe(d.getSeconds())
-        expect(n.getMilliseconds()).toBe(d.getMilliseconds())
+
+        expect(n.getTime()).toBe(1509453025789)
+        expect(n.getDay()).toBe(2)
+        expect(n.getHours()).toBe(18)
+        expect(n.getMinutes()).toBe(15)
+        expect(n.getSeconds()).toBe(25)
+        expect(n.getMilliseconds()).toBe(789)
     })
 })
 
@@ -197,6 +202,25 @@ describe("NepaliDate with Time feature initialization", () => {
             new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
     })
+
+
+    // timezone support
+
+    it('should set the Nepali hours and minutes from a given time when running on a different timezone system', () => {
+        const t = 1686501122598  // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
+        const d = new NepaliDate(t)
+
+        expect(d.getHours()).toBe(22)
+        expect(d.getMinutes()).toBe(17)
+    })
+
+    it('should set the unix timestamp from a given nepali params when running on a different timezone system', () => {
+        const d = new NepaliDate(2080, 1, 28, 22, 17, 2, 598)
+
+        expect(d.getTime()).toBe(1686501122598) // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
+        expect(d.getHours()).toBe(22)
+        expect(d.getMinutes()).toBe(17)
+    })
 })
 
 
@@ -230,7 +254,7 @@ describe('NepaliDate with Time feature: set methods', () => {
 
             expect(nepaliDate.getMinutes()).toBe(minute)
         })
-        
+
         it('should throw a ValidationError for invalid minute', () => {
             const invalidMinute = 60
             expect(() => {
@@ -246,7 +270,7 @@ describe('NepaliDate with Time feature: set methods', () => {
 
             expect(nepaliDate.getSeconds()).toBe(second)
         })
-        
+
         it('should throw a ValidationError for invalid second', () => {
             const invalidSecond = 60
             expect(() => {
@@ -262,7 +286,7 @@ describe('NepaliDate with Time feature: set methods', () => {
 
             expect(nepaliDate.getMilliseconds()).toBe(milliseconds)
         })
-        
+
         it('should throw a ValidationError for invalid milliseconds', () => {
             const invalidMillisecond = 1000
             expect(() => {
