@@ -11,11 +11,13 @@ import {
 } from "./constants"
 
 interface NepaliDate {
-    year: number;
-    month: number;
-    day: number;
-    getDay(): number;
+    year: number
+    month: number
+    day: number
+    getDay(): number
 }
+
+/* Helper functions */
 
 function pad(n: number): string {
     if (n < 10) {
@@ -32,19 +34,20 @@ function npDigit(str: string): string {
     return res
 }
 
-function yearEn(size: number): (date: NepaliDate) => string {
+/* Formatters */
+
+function yearEn(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
-        if (size <= 2) {
+        if (size === 1 || size === 4)
+            return String(date.year)
+        if (size === 2) {
             return String(date.year).substring(2)
         }
-        if (size === 3) {
-            return String(date.year).substring(1)
-        }
-        return String(date.year)
+        return format.repeat(size)
     }
 }
 
-function yearNp(size: number): (date: NepaliDate) => string {
+function yearNp(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size <= 2) {
             return npDigit(String(date.year).substring(2))
@@ -56,7 +59,7 @@ function yearNp(size: number): (date: NepaliDate) => string {
     }
 }
 
-function monthEn(size: number): (date: NepaliDate) => string {
+function monthEn(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size === 1) {
             return String(date.month + 1)
@@ -67,11 +70,14 @@ function monthEn(size: number): (date: NepaliDate) => string {
         if (size === 3) {
             return MONTHS_SHORT_EN[date.month]
         }
-        return MONTHS_EN[date.month]
+        if (size === 4) {
+            return MONTHS_EN[date.month]
+        }
+        return format.repeat(size)
     }
 }
 
-function monthNp(size: number): (date: NepaliDate) => string {
+function monthNp(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size === 1) {
             return npDigit(String(date.month + 1))
@@ -86,7 +92,7 @@ function monthNp(size: number): (date: NepaliDate) => string {
     }
 }
 
-function dateEn(size: number): (date: NepaliDate) => string {
+function dateEn(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size === 1) {
             return String(date.day)
@@ -94,10 +100,11 @@ function dateEn(size: number): (date: NepaliDate) => string {
         if (size === 2) {
             return pad(date.day)
         }
+        return format.repeat(size)
     }
 }
 
-function dateNp(size: number): (date: NepaliDate) => string {
+function dateNp(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size === 1) {
             return npDigit(String(date.day))
@@ -108,7 +115,7 @@ function dateNp(size: number): (date: NepaliDate) => string {
     }
 }
 
-function weekDayEn(size: number): (date: NepaliDate) => string {
+function weekDayEn(format: string, size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size === 1) {
             return String(date.getDay())
@@ -117,7 +124,11 @@ function weekDayEn(size: number): (date: NepaliDate) => string {
             // "dd" and "ddd" => "Fri"
             return WEEKDAYS_SHORT_EN[date.getDay()]
         }
-        return WEEKDAYS_LONG_EN[date.getDay()]
+        if(size === 4){
+            return WEEKDAYS_LONG_EN[date.getDay()]
+        }
+
+        return format.repeat(size)
     }
 }
 
@@ -125,8 +136,9 @@ function pass(seq: string): () => string {
     return () => seq
 }
 
+/* formatting functions */
 
-const formatToFunctionMap: { [key: string]: (size: number) => (date: NepaliDate) => string } = {
+const formattersMap: { [key: string]: (format: string, size: number) => (date: NepaliDate) => string } = {
     Y: yearEn,
     // y: yearNp,
     M: monthEn,
@@ -136,7 +148,7 @@ const formatToFunctionMap: { [key: string]: (size: number) => (date: NepaliDate)
 }
 
 function isSpecial(ch: string) {
-    return ch in formatToFunctionMap
+    return ch in formattersMap
 }
 
 function tokenize(formatStr: string) {
@@ -156,7 +168,7 @@ function tokenize(formatStr: string) {
 
         // Time to process special
         if (special !== "") {
-            tokens.push(formatToFunctionMap[special](specialSize))
+            tokens.push(formattersMap[special](special, specialSize))
             special = ""
             specialSize = 0
         }
@@ -184,7 +196,7 @@ function tokenize(formatStr: string) {
     if (seq) {
         tokens.push(pass(seq))
     } else if (special) {
-        tokens.push(formatToFunctionMap[special](specialSize))
+        tokens.push(formattersMap[special](special, specialSize))
     }
 
     return tokens

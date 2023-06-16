@@ -29,7 +29,7 @@ describe("NepaliDate", () => {
         // expect(n.format("yyyy/mm/dd")).toBe("२०३८/०७/१५")
         // expect(n.format("yy-m-d")).toBe("३८-७-१५")
         expect(n.format("YYYY-MM-DD")).toBe("2038-07-15")
-        expect(n.format("Y-M-D")).toBe("38-7-15")
+        expect(n.format("YY-M-D")).toBe("38-7-15")
         // expect(n.format("Y-MMMM-ddd")).toBe("38-Kartik-शनि")
         expect(n.format('"YYY" YYYY')).toBe("YYY 2038")
     })
