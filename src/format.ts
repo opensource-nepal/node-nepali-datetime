@@ -32,7 +32,7 @@ function npDigit(str: string): string {
     return res
 }
 
-function yearEn(size: number): (date: NepaliDate) => string | number {
+function yearEn(size: number): (date: NepaliDate) => string {
     return (date) => {
         if (size <= 2) {
             return String(date.year).substring(2)
@@ -40,7 +40,7 @@ function yearEn(size: number): (date: NepaliDate) => string | number {
         if (size === 3) {
             return String(date.year).substring(1)
         }
-        return date.year
+        return String(date.year)
     }
 }
 
@@ -94,10 +94,6 @@ function dateEn(size: number): (date: NepaliDate) => string {
         if (size === 2) {
             return pad(date.day)
         }
-        if (size === 3) {
-            return WEEKDAYS_SHORT_EN[date.getDay()]
-        }
-        return WEEKDAYS_LONG_EN[date.getDay()]
     }
 }
 
@@ -109,29 +105,38 @@ function dateNp(size: number): (date: NepaliDate) => string {
         if (size === 2) {
             return npDigit(pad(date.day))
         }
-        if (size === 3) {
-            return WEEKDAYS_SHORT_NP[date.getDay()]
-        }
-        return WEEKDAYS_LONG_NP[date.getDay()]
     }
 }
 
-function pass(seq: any): any {
+function weekDayEn(size: number): (date: NepaliDate) => string {
+    return (date) => {
+        if (size === 1) {
+            return String(date.getDay())
+        }
+        if (size > 1 && size < 4) {
+            // "dd" and "ddd" => "Fri"
+            return WEEKDAYS_SHORT_EN[date.getDay()]
+        }
+        return WEEKDAYS_LONG_EN[date.getDay()]
+    }
+}
+
+function pass(seq: string): () => string {
     return () => seq
 }
 
 
-const fn: { [key: string]: (size: number) => (date: NepaliDate) => string | number } = {
+const formatToFunctionMap: { [key: string]: (size: number) => (date: NepaliDate) => string } = {
     Y: yearEn,
     // y: yearNp,
     M: monthEn,
     // m: monthNp,
     D: dateEn,
-    // d: dateNp,
+    d: weekDayEn,
 }
 
 function isSpecial(ch: string) {
-    return ch in fn
+    return ch in formatToFunctionMap
 }
 
 function tokenize(formatStr: string) {
@@ -140,7 +145,7 @@ function tokenize(formatStr: string) {
     let special = ""
     let specialSize = 0
 
-    const tokens = []
+    const tokens = [] as ((date: NepaliDate) => string)[]
 
     for (const ch of formatStr) {
         if (ch === special) {
@@ -151,7 +156,7 @@ function tokenize(formatStr: string) {
 
         // Time to process special
         if (special !== "") {
-            tokens.push(fn[special](specialSize))
+            tokens.push(formatToFunctionMap[special](specialSize))
             special = ""
             specialSize = 0
         }
@@ -179,35 +184,12 @@ function tokenize(formatStr: string) {
     if (seq) {
         tokens.push(pass(seq))
     } else if (special) {
-        tokens.push(fn[special](specialSize))
+        tokens.push(formatToFunctionMap[special](specialSize))
     }
 
     return tokens
 }
 
-// Parse the format string for special characters
-// YY     2 digit year
-// YYY    3 digit year
-// YYYY   4 digit year
-// yy     2 digit year in Nepali
-// yyy    3 digit year in Nepali
-// yyyy   4 digit year in Nepali
-// M      month number
-// MM     0 padded 2 digit month
-// MMM    3 character month name
-// MMMM   Full month name
-// m      digit month in nepali unicode
-// mm     0 padded 2 digit month in nepali unicode
-// mmm    Partial Month name in nepali unicode
-// mmmm   Full month name in nepali unicode
-// D      date number
-// DD     0 padded date number (2 digit)
-// DDD    week day english short form
-// DDDD   week day english full form
-// d      date number in nepali
-// dd     0 padded date number in nepali (2 digit)
-// ddd    week day nepali short form
-// dddd   week day nepali full form
 export default function format(nepaliDate: NepaliDate, formatStr: string): string {
     return tokenize(formatStr)
         .map((f) => f(nepaliDate))
