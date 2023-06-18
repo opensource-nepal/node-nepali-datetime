@@ -1,4 +1,4 @@
-import format from '../src/format'
+import { format, formatNepali } from '../src/format'
 import NepaliDate from '../src/NepaliDate'
 
 describe('format', () => {
@@ -132,5 +132,140 @@ describe('format', () => {
         const formatStr = 'd'
         const formattedDate = format(nepaliDate1, formatStr)
         expect(formattedDate).toEqual('4')
+    })
+})
+
+
+describe('formatNepali', () => {
+    const nepaliDate1 = new NepaliDate(2080, 1, 32, 7, 40)
+    const nepaliDate2 = new NepaliDate(2080, 1, 8, 7, 55)
+    const nepaliDate3 = new NepaliDate(2080, 8, 15, 16, 9, 40)
+
+    it('should format NepaliDate for the provided format string', () => {
+        const formatStr = 'YYYY-MM-DD'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२०८०-०२-३२')
+    })
+
+    it('should handle a format string with repeated formats', () => {
+        const formatStr = 'YYYY YYYY'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२०८० २०८०')
+    })
+
+    //   it('should handle a format string with multiple formats', () => {
+    //     const formatStr = 'YYYY-MM-DD HH:mm'
+    //     const formattedDate = formatNepali(nepaliDate1, formatStr)
+    //     expect(formattedDate).toEqual('2080-02-32 07:40')
+    //   })
+
+    //   it('should handle a format string with unknown tokens', () => {
+    //     const formatStr = 'YYYY-QQ-DD HH:mm:ss'
+    //     const formattedDate = formatNepali(nepaliDate1, formatStr)
+    //     expect(formattedDate).toEqual('2080-QQ-32 07:40:00')
+    //   })
+
+    //   it('should handle a format string with escaped characters', () => {
+    //     const formatStr = 'YYYY-MM-DD \\HH:mm'
+    //     const formattedDate = formatNepali(nepaliDate1, formatStr)
+    //     expect(formattedDate).toEqual('2080-02-32 07:40')
+    //   })
+
+    it('should format NepaliDate with the non leading zeros format', () => {
+        const formatStr = 'YYYY-M-D'
+        const formattedDate = formatNepali(nepaliDate2, formatStr)
+        expect(formattedDate).toEqual('२०८०-२-८')
+    })
+
+    it('should not format NepaliDate for invalid format size', () => {
+        const formatStr = 'YYYYY-MMMMM-DDD ddddd' // invalid format
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('YYYYY-MMMMM-DDD ddddd')
+    })
+
+    /* individual format tests (positive cases) */
+
+    it('should format NepaliDate for YYYY: 4 digit year', () => {
+        const formatStr = 'YYYY'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२०८०')
+    })
+
+    it('should format NepaliDate for Y: 4 digit year', () => {
+        const formatStr = 'Y'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२०८०')
+    })
+
+    it('should format NepaliDate for YYYY: 4 digit year', () => {
+        const formatStr = 'YYYY'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२०८०')
+    })
+
+    it('should format NepaliDate for YY: 2 digit year', () => {
+        const formatStr = 'YY'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('८०')
+    })
+
+    it('should format NepaliDate for MMMM: full month name', () => {
+        const formatStr = 'MMMM'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('जेठ')
+    })
+
+    it('should format NepaliDate for MMM: month abbr name', () => {
+        const formatStr = 'MMM'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('जे')
+    })
+
+    it('should format NepaliDate for MM: month', () => {
+        const formatStr = 'MM'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('०२')
+    })
+
+    it('should format NepaliDate for M: month with non leading zero', () => {
+        const formatStr = 'M'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('२')
+    })
+
+    it('should format NepaliDate for DD: day', () => {
+        const formatStr = 'DD'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('३२')
+    })
+
+    it('should format NepaliDate for D: day', () => {
+        const formatStr = 'D'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('३२')
+    })
+
+    it('should format NepaliDate for dddd: week day name', () => {
+        const formatStr = 'dddd'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('बिहिबार')
+    })
+
+    it('should format NepaliDate for ddd: week day abbr name', () => {
+        const formatStr = 'ddd'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('बिहि')
+    })
+
+    it('should format NepaliDate for dd: week day abbr name', () => {
+        const formatStr = 'dd'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('बिहि')
+    })
+
+    it('should format NepaliDate for d: week day number', () => {
+        const formatStr = 'd'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('४')
     })
 })

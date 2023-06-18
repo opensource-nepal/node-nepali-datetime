@@ -1,5 +1,5 @@
 import dateConverter from "./dateConverter"
-import format from "./format"
+import { format, formatNepali } from "./format"
 import { getDate, getNepalDateAndTime } from "./utils"
 import { validateTime } from "./validators"
 
@@ -294,6 +294,15 @@ class NepaliDate {
 
     format(formatStr: string) {
         return format(this, formatStr)
+    }
+
+    /**
+     * Returns a string representation of the NepaliDate object in the specified format in the Nepali (Devanagari).
+     * @param formatStr The format string for the desired output.
+     * @returns  A string representation of the NepaliDate object in the specified format.
+     */
+    formatNepali(formatStr: string) {
+        return formatNepali(this, formatStr)
     }
 
     toString(): string {
