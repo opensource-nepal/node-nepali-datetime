@@ -16,7 +16,11 @@ interface NepaliDate {
     year: number
     month: number
     day: number
-    getDay(): number
+    hour: number
+    minute: number
+    weekDay: number
+    getSeconds: () => number
+    getMilliseconds: () => number
 }
 
 interface Formatter {
@@ -135,14 +139,14 @@ function dateNp(format: string, size: number): Formatter {
 function weekDayEn(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
-            return String(date.getDay())
+            return String(date.weekDay)
         }
         if (size > 1 && size < 4) {
             // "dd" and "ddd" => "Fri"
-            return WEEKDAYS_SHORT_EN[date.getDay()]
+            return WEEKDAYS_SHORT_EN[date.weekDay]
         }
         if (size === 4) {
-            return WEEKDAYS_LONG_EN[date.getDay()]
+            return WEEKDAYS_LONG_EN[date.weekDay]
         }
 
         return format.repeat(size)
@@ -152,16 +156,173 @@ function weekDayEn(format: string, size: number): Formatter {
 function weekDayNp(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
-            return npDigit(String(date.getDay()))
+            return npDigit(String(date.weekDay))
         }
         if (size > 1 && size < 4) {
-            return WEEKDAYS_SHORT_NP[date.getDay()]
+            return WEEKDAYS_SHORT_NP[date.weekDay]
         }
         if (size === 4) {
-            return WEEKDAYS_LONG_NP[date.getDay()]
+            return WEEKDAYS_LONG_NP[date.weekDay]
         }
 
         return format.repeat(size)
+    }
+}
+
+function hour24En(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return String(date.hour)
+        }
+        if (size === 2) {
+            return pad(date.hour)
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour24Np(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return npDigit(String(date.hour))
+        }
+        if (size === 2) {
+            return npDigit(pad(date.hour))
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour12En(format: string, size: number): Formatter {
+    return (date) => {
+        const hour = date.hour > 12 ? date.hour - 12 : date.hour
+
+        if (size === 1) {
+            return String(hour)
+        }
+        if (size === 2) {
+            return pad(hour)
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour12Np(format: string, size: number): Formatter {
+    return (date) => {
+        const hour = date.hour > 12 ? date.hour - 12 : date.hour
+
+        if (size === 1) {
+            return npDigit(String(hour))
+        }
+        if (size === 2) {
+            return npDigit(pad(hour))
+        }
+        return format.repeat(size)
+    }
+}
+
+function minuteEn(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return String(date.minute)
+        }
+        if (size === 2) {
+            return pad(date.minute)
+        }
+        return format.repeat(size)
+    }
+}
+
+function minuteNp(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return npDigit(String(date.minute))
+        }
+        if (size === 2) {
+            return npDigit(pad(date.minute))
+        }
+        return format.repeat(size)
+    }
+}
+
+function secondEn(format: string, size: number): Formatter {
+    return (date) => {
+        const seconds = date.getSeconds()
+        if (size === 1) {
+            return String(seconds)
+        }
+        if (size === 2) {
+            return pad(seconds)
+        }
+        return format.repeat(size)
+    }
+}
+
+function secondNp(format: string, size: number): Formatter {
+    return (date) => {
+        const seconds = date.getSeconds()
+        if (size === 1) {
+            return npDigit(String(seconds))
+        }
+        if (size === 2) {
+            return npDigit(pad(seconds))
+        }
+        return format.repeat(size)
+    }
+}
+
+function millisecondEn(format: string, size: number): Formatter {
+    return (date) => {
+        const ms = date.getMilliseconds()
+        if (size < 4) {
+            return String(ms).substring(0, size)
+        }
+        if (size < 10) {
+            return `${ms}${'0'.repeat(size - 3)}`
+        }
+        return format.repeat(size)
+    }
+}
+
+function millisecondNp(format: string, size: number): Formatter {
+    return (date) => {
+        const ms = date.getMilliseconds()
+        if (size < 4) {
+            return npDigit(String(ms).substring(0, size))
+        }
+        if (size < 10) {
+            return npDigit(`${ms}${'0'.repeat(size - 3)}`)
+        }
+        return format.repeat(size)
+    }
+}
+
+function amPmUpperCaseEn(format: string, size: number): Formatter {
+    return (date) => {
+        return date.hour > 12 ? 'PM' : 'AM'
+    }
+}
+
+function amPmNp(format: string, size: number): Formatter {
+    return (date) => {
+        /**
+         * The output of this method is yet to be decided.
+         * Further discussion are needed for this method.
+         *
+         * The most common words used in Nepal are below:
+         * - बिहान
+         * - मध्यान्ह
+         * - दिउसो
+         * - बेलुका
+         * - रात
+         */
+        return format
+    }
+}
+
+function amPmLowerCaseEn(format: string, size: number): Formatter {
+    return (date) => {
+        return date.hour > 12 ? 'pm' : 'am'
     }
 }
 
@@ -176,11 +337,16 @@ function pass(seq: string): () => string {
  */
 const formattersFactoryMapEn: FormatterFactoryMap = {
     Y: yearEn,
-    // y: yearNp,
     M: monthEn,
-    // m: monthNp,
     D: dateEn,
     d: weekDayEn,
+    H: hour24En,
+    h: hour12En,
+    m: minuteEn,
+    s: secondEn,
+    S: millisecondEn,
+    A: amPmUpperCaseEn,
+    a: amPmLowerCaseEn,
 }
 
 /**
@@ -191,6 +357,13 @@ const formattersFactoryMapNp: FormatterFactoryMap = {
     M: monthNp,
     D: dateNp,
     d: weekDayNp,
+    H: hour24Np,
+    h: hour12Np,
+    m: minuteNp,
+    s: secondNp,
+    S: millisecondNp,
+    A: amPmNp,
+    a: amPmNp,
 }
 
 /**
