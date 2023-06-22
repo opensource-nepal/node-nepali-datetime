@@ -148,7 +148,7 @@ const _checkEnglishDate = (year: number, month: number, day: number): boolean =>
 const _getTotalDaysFromEnglishDate = (year: number, month: number, day: number): number => {
     let total_days = year * 365 + day
     for (let i = 0; i < month - 1; i++) {
-        total_days += _getEnMonths(year)[i]
+        total_days += EN_MONTHS[i]
     }
 
     // adding leap days (ie. leap year count)
