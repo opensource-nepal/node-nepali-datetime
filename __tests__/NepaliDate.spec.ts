@@ -14,14 +14,29 @@ describe("NepaliDate", () => {
         expect(n2.toString()).toBe("2075/5/1")
     })
 
-    it("checks parser", () => {
+    it("checks parser for date only", () => {
         const n = new NepaliDate("2038-07-15")
         expect(n.toString()).toBe("2038/7/15")
 
         const n2 = new NepaliDate("2075.03.22")
         expect(n2.toString()).toBe("2075/3/22")
-
         expect(n2.getEnglishDate().toISOString()).toEqual("2018-07-05T18:15:00.000Z")
+    })
+
+    it("checks parser for date and time", () => {
+        const n = new NepaliDate("2080-07-15 7:18")
+        expect(n.toString()).toBe("2080/7/15")
+        expect(n.getHours()).toBe(7)
+        expect(n.getMinutes()).toBe(18)
+        expect(n.getSeconds()).toBe(0)
+        expect(n.getMilliseconds()).toBe(0)
+
+        const n1 = new NepaliDate("2080-07-15 17:07:1:888")
+        expect(n1.toString()).toBe("2080/7/15")
+        expect(n1.getHours()).toBe(17)
+        expect(n1.getMinutes()).toBe(7)
+        expect(n1.getSeconds()).toBe(1)
+        expect(n1.getMilliseconds()).toBe(888)
     })
 
     it("checks format", () => {
