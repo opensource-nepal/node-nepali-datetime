@@ -1,22 +1,9 @@
 import dateConverter from "./dateConverter"
 import { format, formatNepali } from "./format"
+import parse from "./parse"
 import { getDate, getNepalDateAndTime } from "./utils"
 import { validateTime } from "./validators"
 
-
-function parse(dateString: string): number[] {
-    // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
-    const parts: string[] = dateString.split(/[-./]/, 3)
-    const [year, month = 1, day = 1] = parts.map((d) => {
-        const n = parseInt(d, 10)
-        if (Number.isNaN(n)) {
-            throw new Error("Invalid date")
-        }
-        return n
-    })
-
-    return [year, month - 1, day]
-}
 
 class NepaliDate {
     timestamp: Date

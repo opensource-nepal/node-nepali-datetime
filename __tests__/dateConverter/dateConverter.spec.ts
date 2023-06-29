@@ -57,6 +57,13 @@ describe('dateConverter englishToNepali', () => {
         expect(d).toBe(29)
     })
 
+    test('should return valid past Nepali date 2', () => {
+        const [y, m, d] = dateConverter.englishToNepali(1944, 4, 28)
+        expect(y).toBe(2001)
+        expect(m).toBe(1)
+        expect(d).toBe(15)
+    })
+
     test('should return valid recent Nepali date', () => {
         const [y, m, d] = dateConverter.englishToNepali(2023, 0, 28)
         expect(y).toBe(2079)
@@ -129,6 +136,13 @@ describe('dateConverter nepaliToEnglish', () => {
         expect(y).toBe(1994)
         expect(m).toBe(7)
         expect(d).toBe(13)
+    })
+
+    test('should return valid past English date 2', () => {
+        const [y, m, d] = dateConverter.nepaliToEnglish(2001, 1, 15)
+        expect(y).toBe(1944)
+        expect(m).toBe(4)
+        expect(d).toBe(28)
     })
 
     it('should return valid recent English date', () => {
