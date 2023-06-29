@@ -3,7 +3,10 @@ import { ValidationError } from "../src/validators"
 
 describe("NepaliDate", () => {
     it("checks for nepali date validity", () => {
-        const n = new NepaliDate(new Date("1981.10.31"))
+        // 373314600000
+        // Fri Oct 30 1981 18:30:00 GMT+0000
+        // Sat Oct 31 1981 00:00:00 GMT+0530 (Nepal Time)
+        const n = new NepaliDate(new Date(373314600000))
         expect(n.toString()).toBe("2038/7/15")
         expect(n.getYear()).toBe(2038)
         expect(n.getMonth()).toBe(6)

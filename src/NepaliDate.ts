@@ -69,13 +69,13 @@ class NepaliDate {
         this.timestamp = date
 
         // getting Nepal's hour, minute, and weekDay
-        const { hour, minute, weekDay } = getNepalDateAndTime(date)
+        const { year, month0, day, hour, minute, weekDay } = getNepalDateAndTime(date)
         this.hour = hour
         this.minute = minute
         this.weekDay = weekDay
 
         if (computeNepaliDate) {
-            const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(date.getFullYear(), date.getMonth(), date.getDate())
+            const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(year, month0, day)
             this.year = yearNp
             this.month = month0Np
             this.day = dayNp
