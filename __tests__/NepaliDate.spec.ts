@@ -41,11 +41,11 @@ describe("NepaliDate", () => {
 
     it("checks format", () => {
         const n = new NepaliDate("2038-07-15")
-        expect(n.format("yyyy/mm/dd")).toBe("२०३८/०७/१५")
-        expect(n.format("yy-m-d")).toBe("३८-७-१५")
+        expect(n.formatNepali("YYYY/MM/DD")).toBe("२०३८/०७/१५")
+        expect(n.formatNepali("YY-M-D")).toBe("३८-७-१५")
         expect(n.format("YYYY-MM-DD")).toBe("2038-07-15")
-        expect(n.format("Y-M-D")).toBe("38-7-15")
-        expect(n.format("Y-MMMM-ddd")).toBe("38-Kartik-शनि")
+        expect(n.format("YY-M-D")).toBe("38-7-15")
+        expect(n.formatNepali("Y-MMMM-ddd")).toBe("२०३८-कार्तिक-शनि")
         expect(n.format('"YYY" YYYY')).toBe("YYY 2038")
     })
 

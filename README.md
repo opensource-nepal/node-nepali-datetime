@@ -69,10 +69,10 @@ const d6 = new NepaliDate(2075, 13, 1) // '2076/2/1'
 const d7 = new NepaliDate(2075, -1, 1) // '2074/12/1'
 
 // Format date in nepali
-d6.format("yyyy-mm-dd") // २०७५-०२-०१
-d6.format("YYY-MM-DD") // 075-02-01
-d6.format("mmmm d, yyyy ddd") // जेष्ठ १, २०७५ मंगल
+d6.format("YY-MM-DD") // 75-02-01
+d6.formatNepali("YYYY-MM-DD") // २०७५-०२-०१
 d6.format("MMM D, YYYY DDD") // Jes 1, 2075 Tue
+d6.formatNepali("MMMM D, YYYY ddd") // जेष्ठ १, २०७५ मंगल
 
 // Retrieve english date from NepaliDate
 d1.getEnglishDate() // Return Date object
@@ -171,9 +171,9 @@ Hours, minutes, seconds and milliseconds similar to javascript `Date`.
 
 Retrieve Date object corresponding to the Nepali date
 
-## set(year, month, date)
+## set(year, month, date, hour=0, minute=0, second=0, ms=0)
 
-Change date to given year, month and day of month
+Change date to given year, month, day of month, hour, minute, second, and ms
 
 ## setYear(year)
 
@@ -197,34 +197,36 @@ the date to the last date of previous month, setting date to 35 will
 change the date to some day in the next month (3, 4, 5, depending on
 how many days are there in the month)
 
-## format(formatStr)
+## format
 
 Format the date to provide various output based on format string
 
-<pre>
-YYYY - 4 digit of year (2075)
-yyyy - 4 digit of year in nepali unicode (२०७५)
-YYY  - 3 digit of year (075)
-yyy  - 3 digit of year (०७५)
-YY   - 2 digit of year
-yy   - 2 digit of year in nepali unicode (७५)
-M    - month number (1 - 12)
-m    - month number (१ - १२) in nepali unicode
-MM   - month number with 0 padding (01 - 12)
-mm   - month number in nepali unicode with 0 padding - (०१-१२)
-MMM  - short month name (Bai, Jes, Asa, Shr, etc.)
-mmm  - short month name in nepali unicde (ब‍ै, जे, अ, श्रा, etc)
-MMMM - full month name (Baisakh, Jestha, Asar, ...)
-mmmm - full month name nepali (बैसाख, जेष्ठ, ...)
-D    - Day of Month (1, 2, ... 31, 32)
-d    - Day of Month in Nepali unicode (१, २, ३ ... ३१, ३२)
-DD   - Day of Month with zero padding (01, 02, ...)
-dd   - Day of Month with zero padding in Nepali unicode (०१, ०२, ...)
-DDD  - Day of Week short form (Sun, Mon, Tue, ...)
-ddd  - Day of week in short form nepali (आइत, सोम, ...)
-DDDD - Day of week full form (Sunday, Monday, Tuesday, ...)
-dddd - Day of week full form nepali (आइतबार, सोमबार, ...)
-</pre>
+```js
+const myNepaliDate = NepaliDate()
+myNepaliDate.format("YYYY-MM-DD HH:mm:ss")
+```
+
+| Format Token | Description                      | Example             |
+|--------------|----------------------------------|---------------------|
+| YYYY         | 4-digit year                     | 2023                |
+| YY           | 2-digit year                     | 23                  |
+| MMMM         | Full month name                  | January             |
+| MMM          | Abbreviated month name           | Jan                 |
+| MM           | 2-digit month                    | 01-12               |
+| DD           | 2-digit day of the month         | 01-31               |
+| dddd         | Full day of the week             | Monday              |
+| ddd          | Abbreviated day of the week      | Mon                 |
+| HH           | 2-digit hour (24-hour format)    | 00-23               |
+| hh           | 2-digit hour (12-hour format)    | 01-12               |
+| mm           | 2-digit minutes                  | 00-59               |
+| ss           | 2-digit seconds                  | 00-59               |
+| SSS          | 3-digit milliseconds             | 000-999             |
+| A            | Uppercase AM/PM                  | AM or PM            |
+| a            | Lowercase am/pm                  | am or pm            |
 
 Any other character is printed as is. If you need to print the
 special characters (YMDymd), enclose them within quotes.
+
+## formatNepali
+
+`formatNepali` is similar to the `format` method. It returns the representation of the NepaliDate object in the specified format in the Nepali.

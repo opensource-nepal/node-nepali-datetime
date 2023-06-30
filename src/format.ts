@@ -1,40 +1,41 @@
-import NepaliDate from "./NepaliDate"
+import {
+    MONTHS_EN,
+    MONTHS_NP,
+    MONTHS_SHORT_EN,
+    MONTHS_SHORT_NP,
+    NUM_NP,
+    WEEKDAYS_LONG_EN,
+    WEEKDAYS_LONG_NP,
+    WEEKDAYS_SHORT_EN,
+    WEEKDAYS_SHORT_NP
+} from "./constants"
 
-const MONTHS_EN = [
-    "Baisakh",
-    "Jestha",
-    "Asar",
-    "Shrawan",
-    "Bhadra",
-    "Aswin",
-    "Kartik",
-    "Mangsir",
-    "Poush",
-    "Magh",
-    "Falgun",
-    "Chaitra",
-]
-const MONTHS_SHORT_EN = ["Bai", "Jes", "Asa", "Shr", "Bhd", "Asw", "Kar", "Man", "Pou", "Mag", "Fal", "Cha"]
-const MONTHS_NP = [
-    "बैशाख",
-    "जेठ",
-    "असार",
-    "श्रावण",
-    "भाद्र",
-    "आश्विन",
-    "कार्तिक",
-    "मंसिर",
-    "पौष",
-    "माघ",
-    "फाल्गुण",
-    "चैत्र",
-]
-const MONTHS_SHORT_NP = ["बै", "जे", "अ", "श्रा", "भा", "आ", "का", "मं", "पौ", "मा", "फा", "चै"]
-const NUM_NP = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"]
-const WEEKDAYS_SHORT_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-const WEEKDAYS_LONG_EN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-const WEEKDAYS_SHORT_NP = ["आइत", "सोम", "मंगल", "बुध", "बिहि", "शुक्र", "शनि"]
-const WEEKDAYS_LONG_NP = ["आइतबार", "सोमबार", "मंगलबार", "बुधबार", "बिहिबार", "शुक्रबार", "शनिबार"]
+type Locale = 'en' | 'ne'
+
+interface NepaliDate {
+    year: number
+    month: number
+    day: number
+    hour: number
+    minute: number
+    weekDay: number
+    getSeconds: () => number
+    getMilliseconds: () => number
+}
+
+interface Formatter {
+    (date: NepaliDate): string
+}
+
+interface FormatterFactory {
+    (format: string, size: number): Formatter
+}
+
+interface FormatterFactoryMap {
+    [key: string]: FormatterFactory
+}
+
+/* Helper functions */
 
 function pad(n: number): string {
     if (n < 10) {
@@ -51,31 +52,31 @@ function npDigit(str: string): string {
     return res
 }
 
-function yearEn(size: number): (date: NepaliDate) => string | number {
+/* Formatters */
+
+function yearEn(format: string, size: number): Formatter {
     return (date) => {
-        if (size <= 2) {
+        if (size === 1 || size === 4)
+            return String(date.year)
+        if (size === 2) {
             return String(date.year).substring(2)
         }
-        if (size === 3) {
-            return String(date.year).substring(1)
-        }
-        return date.year
+        return format.repeat(size)
     }
 }
 
-function yearNp(size: number): (date: NepaliDate) => string {
+function yearNp(format: string, size: number): Formatter {
     return (date) => {
-        if (size <= 2) {
+        if (size === 1 || size === 4)
+            return npDigit(String(date.year))
+        if (size === 2) {
             return npDigit(String(date.year).substring(2))
         }
-        if (size === 3) {
-            return npDigit(String(date.year).substring(1))
-        }
-        return npDigit(String(date.year))
+        return format.repeat(size)
     }
 }
 
-function monthEn(size: number): (date: NepaliDate) => string {
+function monthEn(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
             return String(date.month + 1)
@@ -86,11 +87,14 @@ function monthEn(size: number): (date: NepaliDate) => string {
         if (size === 3) {
             return MONTHS_SHORT_EN[date.month]
         }
-        return MONTHS_EN[date.month]
+        if (size === 4) {
+            return MONTHS_EN[date.month]
+        }
+        return format.repeat(size)
     }
 }
 
-function monthNp(size: number): (date: NepaliDate) => string {
+function monthNp(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
             return npDigit(String(date.month + 1))
@@ -101,11 +105,14 @@ function monthNp(size: number): (date: NepaliDate) => string {
         if (size === 3) {
             return MONTHS_SHORT_NP[date.month]
         }
-        return MONTHS_NP[date.month]
+        if (size === 4) {
+            return MONTHS_NP[date.month]
+        }
+        return format.repeat(size)
     }
 }
 
-function dateEn(size: number): (date: NepaliDate) => string {
+function dateEn(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
             return String(date.day)
@@ -113,14 +120,11 @@ function dateEn(size: number): (date: NepaliDate) => string {
         if (size === 2) {
             return pad(date.day)
         }
-        if (size === 3) {
-            return WEEKDAYS_SHORT_EN[date.getDay()]
-        }
-        return WEEKDAYS_LONG_EN[date.getDay()]
+        return format.repeat(size)
     }
 }
 
-function dateNp(size: number): (date: NepaliDate) => string {
+function dateNp(format: string, size: number): Formatter {
     return (date) => {
         if (size === 1) {
             return npDigit(String(date.day))
@@ -128,38 +132,265 @@ function dateNp(size: number): (date: NepaliDate) => string {
         if (size === 2) {
             return npDigit(pad(date.day))
         }
-        if (size === 3) {
-            return WEEKDAYS_SHORT_NP[date.getDay()]
-        }
-        return WEEKDAYS_LONG_NP[date.getDay()]
+        return format.repeat(size)
     }
 }
 
-function pass(seq: any): any {
+function weekDayEn(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return String(date.weekDay)
+        }
+        if (size > 1 && size < 4) {
+            // "dd" and "ddd" => "Fri"
+            return WEEKDAYS_SHORT_EN[date.weekDay]
+        }
+        if (size === 4) {
+            return WEEKDAYS_LONG_EN[date.weekDay]
+        }
+
+        return format.repeat(size)
+    }
+}
+
+function weekDayNp(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return npDigit(String(date.weekDay))
+        }
+        if (size > 1 && size < 4) {
+            return WEEKDAYS_SHORT_NP[date.weekDay]
+        }
+        if (size === 4) {
+            return WEEKDAYS_LONG_NP[date.weekDay]
+        }
+
+        return format.repeat(size)
+    }
+}
+
+function hour24En(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return String(date.hour)
+        }
+        if (size === 2) {
+            return pad(date.hour)
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour24Np(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return npDigit(String(date.hour))
+        }
+        if (size === 2) {
+            return npDigit(pad(date.hour))
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour12En(format: string, size: number): Formatter {
+    return (date) => {
+        const hour = date.hour > 12 ? date.hour - 12 : date.hour
+
+        if (size === 1) {
+            return String(hour)
+        }
+        if (size === 2) {
+            return pad(hour)
+        }
+        return format.repeat(size)
+    }
+}
+
+function hour12Np(format: string, size: number): Formatter {
+    return (date) => {
+        const hour = date.hour > 12 ? date.hour - 12 : date.hour
+
+        if (size === 1) {
+            return npDigit(String(hour))
+        }
+        if (size === 2) {
+            return npDigit(pad(hour))
+        }
+        return format.repeat(size)
+    }
+}
+
+function minuteEn(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return String(date.minute)
+        }
+        if (size === 2) {
+            return pad(date.minute)
+        }
+        return format.repeat(size)
+    }
+}
+
+function minuteNp(format: string, size: number): Formatter {
+    return (date) => {
+        if (size === 1) {
+            return npDigit(String(date.minute))
+        }
+        if (size === 2) {
+            return npDigit(pad(date.minute))
+        }
+        return format.repeat(size)
+    }
+}
+
+function secondEn(format: string, size: number): Formatter {
+    return (date) => {
+        const seconds = date.getSeconds()
+        if (size === 1) {
+            return String(seconds)
+        }
+        if (size === 2) {
+            return pad(seconds)
+        }
+        return format.repeat(size)
+    }
+}
+
+function secondNp(format: string, size: number): Formatter {
+    return (date) => {
+        const seconds = date.getSeconds()
+        if (size === 1) {
+            return npDigit(String(seconds))
+        }
+        if (size === 2) {
+            return npDigit(pad(seconds))
+        }
+        return format.repeat(size)
+    }
+}
+
+function millisecondEn(format: string, size: number): Formatter {
+    return (date) => {
+        const ms = date.getMilliseconds()
+        if (size < 4) {
+            return String(ms).substring(0, size)
+        }
+        if (size < 10) {
+            return `${ms}${'0'.repeat(size - 3)}`
+        }
+        return format.repeat(size)
+    }
+}
+
+function millisecondNp(format: string, size: number): Formatter {
+    return (date) => {
+        const ms = date.getMilliseconds()
+        if (size < 4) {
+            return npDigit(String(ms).substring(0, size))
+        }
+        if (size < 10) {
+            return npDigit(`${ms}${'0'.repeat(size - 3)}`)
+        }
+        return format.repeat(size)
+    }
+}
+
+function amPmUpperCaseEn(format: string, size: number): Formatter {
+    return (date) => {
+        return date.hour > 12 ? 'PM' : 'AM'
+    }
+}
+
+function amPmNp(format: string, size: number): Formatter {
+    return (date) => {
+        /**
+         * The output of this method is yet to be decided.
+         * Further discussion are needed for this method.
+         *
+         * The most common words used in Nepal are below:
+         * - बिहान
+         * - मध्यान्ह
+         * - दिउसो
+         * - बेलुका
+         * - रात
+         */
+        return format
+    }
+}
+
+function amPmLowerCaseEn(format: string, size: number): Formatter {
+    return (date) => {
+        return date.hour > 12 ? 'pm' : 'am'
+    }
+}
+
+function pass(seq: string): () => string {
     return () => seq
 }
 
+/* formatting functions */
 
-const fn: { [key: string]: (size: number) => (date: NepaliDate) => string | number } = {
+/**
+ * Map of formatter factory functions for English format.
+ */
+const formattersFactoryMapEn: FormatterFactoryMap = {
     Y: yearEn,
-    y: yearNp,
     M: monthEn,
-    m: monthNp,
     D: dateEn,
-    d: dateNp,
+    d: weekDayEn,
+    H: hour24En,
+    h: hour12En,
+    m: minuteEn,
+    s: secondEn,
+    S: millisecondEn,
+    A: amPmUpperCaseEn,
+    a: amPmLowerCaseEn,
 }
 
-function isSpecial(ch: string) {
-    return ch in fn
+/**
+ * Map of formatter factory functions for Nepali format.
+ */
+const formattersFactoryMapNp: FormatterFactoryMap = {
+    Y: yearNp,
+    M: monthNp,
+    D: dateNp,
+    d: weekDayNp,
+    H: hour24Np,
+    h: hour12Np,
+    m: minuteNp,
+    s: secondNp,
+    S: millisecondNp,
+    A: amPmNp,
+    a: amPmNp,
 }
 
-function tokenize(formatStr: string) {
+/**
+ * Get the formatter map based on the locale.
+ * @param locale - The locale identifier. Valid values are 'en' for English and 'ne' for Nepali.
+ * @returns The formatter map for the specified locale.
+ */
+function getFormattersFactoryMap(locale: Locale): FormatterFactoryMap {
+    if (locale === 'ne') {
+        return formattersFactoryMapNp
+    }
+    return formattersFactoryMapEn
+}
+
+
+function isSpecial(ch: string, locale: Locale) {
+    return ch in getFormattersFactoryMap(locale)
+}
+
+function getFormatters(formatStr: string, locale: Locale) {
     let inQuote = false
     let seq = ""
     let special = ""
     let specialSize = 0
+    const formattersFactoryMap = getFormattersFactoryMap(locale)
 
-    const tokens = []
+    const formatters: Formatter[] = []
 
     for (const ch of formatStr) {
         if (ch === special) {
@@ -170,7 +401,9 @@ function tokenize(formatStr: string) {
 
         // Time to process special
         if (special !== "") {
-            tokens.push(fn[special](specialSize))
+            const formatterFactory = formattersFactoryMap[special]
+            const formatter = formatterFactory(special, specialSize)
+            formatters.push(formatter)
             special = ""
             specialSize = 0
         }
@@ -181,12 +414,12 @@ function tokenize(formatStr: string) {
             continue
         }
 
-        if (!isSpecial(ch) || inQuote) {
+        if (!isSpecial(ch, locale) || inQuote) {
             seq += ch
         } else {
             // got a special character
             if (seq) {
-                tokens.push(pass(seq))
+                formatters.push(pass(seq))
                 seq = ""
             }
 
@@ -196,39 +429,24 @@ function tokenize(formatStr: string) {
     }
 
     if (seq) {
-        tokens.push(pass(seq))
+        formatters.push(pass(seq))
     } else if (special) {
-        tokens.push(fn[special](specialSize))
+        const formatterFactory = formattersFactoryMap[special]
+        const formatter = formatterFactory(special, specialSize)
+        formatters.push(formatter)
     }
 
-    return tokens
+    return formatters
 }
 
-// Parse the format string for special characters
-// YY     2 digit year
-// YYY    3 digit year
-// YYYY   4 digit year
-// yy     2 digit year in Nepali
-// yyy    3 digit year in Nepali
-// yyyy   4 digit year in Nepali
-// M      month number
-// MM     0 padded 2 digit month
-// MMM    3 character month name
-// MMMM   Full month name
-// m      digit month in nepali unicode
-// mm     0 padded 2 digit month in nepali unicode
-// mmm    Partial Month name in nepali unicode
-// mmmm   Full month name in nepali unicode
-// D      date number
-// DD     0 padded date number (2 digit)
-// DDD    week day english short form
-// DDDD   week day english full form
-// d      date number in nepali
-// dd     0 padded date number in nepali (2 digit)
-// ddd    week day nepali short form
-// dddd   week day nepali full form
-export default function format(nepaliDate: NepaliDate, formatStr: string): string {
-    return tokenize(formatStr)
+export function format(nepaliDate: NepaliDate, formatStr: string): string {
+    return getFormatters(formatStr, 'en')
+        .map((f) => f(nepaliDate))
+        .join("")
+}
+
+export function formatNepali(nepaliDate: NepaliDate, formatStr: string): string {
+    return getFormatters(formatStr, 'ne')
         .map((f) => f(nepaliDate))
         .join("")
 }
