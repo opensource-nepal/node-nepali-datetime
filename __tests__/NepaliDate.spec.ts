@@ -3,7 +3,10 @@ import { ValidationError } from "../src/validators"
 
 describe("NepaliDate", () => {
     it("checks for nepali date validity", () => {
-        const n = new NepaliDate(new Date("1981.10.31"))
+        // 373314600000
+        // Fri Oct 30 1981 18:30:00 GMT+0000
+        // Sat Oct 31 1981 00:00:00 GMT+0530 (Nepal Time)
+        const n = new NepaliDate(new Date(373314600000))
         expect(n.toString()).toBe("2038/7/15")
         expect(n.getYear()).toBe(2038)
         expect(n.getMonth()).toBe(6)
@@ -117,7 +120,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).not.toThrow()
     })
 
@@ -130,7 +133,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
     })
 
@@ -142,7 +145,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
     })
 
@@ -154,7 +157,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
     })
 
@@ -166,7 +169,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
     })
 
@@ -178,7 +181,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Second should be in the range 0-59'))
     })
 
@@ -190,7 +193,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 500
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Second should be in the range 0-59'))
     })
 
@@ -202,7 +205,7 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = 1000
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
     })
 
@@ -214,10 +217,9 @@ describe("NepaliDate with Time feature initialization", () => {
         const ms = -1
 
         expect(() => {
-            new NepaliDate(year, month, day, hour, minute, second, ms)
+            const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
         }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
     })
-
 
     // timezone support
 
@@ -235,6 +237,316 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getTime()).toBe(1686501122598) // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
         expect(d.getHours()).toBe(22)
         expect(d.getMinutes()).toBe(17)
+    })
+
+    it('should support date and time of past year with GMT+5:30', () => {
+        // -807708794322
+        // Sun May 28 1944 12:26:45 GMT+0000
+        // Sun May 28 1944 17:56:45 GMT+0530 (Nepal Time)
+        const d = new NepaliDate(2001, 1, 15, 17, 56, 45, 678)
+
+        // timestamp
+        expect(d.getTime()).toBe(-807708794322)
+
+        // dates
+        expect(d.getYear()).toBe(2001)
+        expect(d.getMonth()).toBe(1)
+        expect(d.getDate()).toBe(15)
+        expect(d.getDay()).toBe(0)
+
+        // times
+        expect(d.getHours()).toBe(17)
+        expect(d.getMinutes()).toBe(56)
+        expect(d.getSeconds()).toBe(45)
+        expect(d.getMilliseconds()).toBe(678)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1944)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
+        expect(d.getEnglishDate().getUTCDate()).toBe(28)
+        expect(d.getEnglishDate().getUTCHours()).toBe(12)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(26)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+    })
+
+    it('should support timestamp of past year with GMT+5:30', () => {
+        // -807708794322
+        // Sun May 28 1944 12:26:45 GMT+0000
+        // Sun May 28 1944 17:56:45 GMT+0530 (Nepal Time)
+
+        const d = new NepaliDate(-807708794322)
+
+        // timestamp
+        expect(d.getTime()).toBe(-807708794322)
+
+        // dates
+        expect(d.getYear()).toBe(2001)
+        expect(d.getMonth()).toBe(1)
+        expect(d.getDate()).toBe(15)
+
+        // times
+        expect(d.getHours()).toBe(17)
+        expect(d.getMinutes()).toBe(56)
+        expect(d.getSeconds()).toBe(45)
+        expect(d.getMilliseconds()).toBe(678)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1944)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
+        expect(d.getEnglishDate().getUTCDate()).toBe(28)
+        expect(d.getEnglishDate().getUTCHours()).toBe(12)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(26)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+    })
+
+    it('should support date and time of recent year with GMT+5:45', () => {
+        // 1685362305678
+        // Mon May 29 2023 12:11:45 GMT+0000
+        // Mon May 29 2023 17:56:45 GMT+0545 (Nepal Time)
+
+        const d = new NepaliDate(2080, 1, 15, 17, 56, 45, 678)
+
+        // timestamp
+        expect(d.getTime()).toBe(1685362305678)
+
+        // dates
+        expect(d.getYear()).toBe(2080)
+        expect(d.getMonth()).toBe(1)
+        expect(d.getDate()).toBe(15)
+
+        // times
+        expect(d.getHours()).toBe(17)
+        expect(d.getMinutes()).toBe(56)
+        expect(d.getSeconds()).toBe(45)
+        expect(d.getMilliseconds()).toBe(678)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(2023)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
+        expect(d.getEnglishDate().getUTCDate()).toBe(29)
+        expect(d.getEnglishDate().getUTCHours()).toBe(12)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(11)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+    })
+
+    it('should support timestamp of recent year with GMT+5:45', () => {
+        // 1685362305678
+        // Mon May 29 2023 12:11:45 GMT+0000
+        // Mon May 29 2023 17:56:45 GMT+0545 (Nepal Time)
+
+        const d = new NepaliDate(1685362305678)
+
+        // timestamp
+        expect(d.getTime()).toBe(1685362305678)
+
+        // dates
+        expect(d.getYear()).toBe(2080)
+        expect(d.getMonth()).toBe(1)
+        expect(d.getDate()).toBe(15)
+
+        // times
+        expect(d.getHours()).toBe(17)
+        expect(d.getMinutes()).toBe(56)
+        expect(d.getSeconds()).toBe(45)
+        expect(d.getMilliseconds()).toBe(678)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(2023)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
+        expect(d.getEnglishDate().getUTCDate()).toBe(29)
+        expect(d.getEnglishDate().getUTCHours()).toBe(12)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(11)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+    })
+
+    it('should support date and time of edge of GMT+5:45', () => {
+        // 504901800000
+        // Tue Dec 31 1985 18:30:00 GMT+0000
+        // Wed Jan 1 1986 00:15:00 GMT+05:45 (Nepal Time)
+
+        const d = new NepaliDate(2042, 8, 17, 0, 0)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901800000)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(17)
+
+        // times
+        expect(d.getHours()).toBe(0)
+        expect(d.getMinutes()).toBe(15)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(30)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+    })
+
+    it('should support timestamp of edge of GMT+5:45', () => {
+        // 504901800000
+        // Tue Dec 31 1985 18:30:00 GMT+0000
+        // Wed Jan 1 1986 00:15:00 GMT+05:45 (Nepal Time)
+
+        const d = new NepaliDate(504901800000)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901800000)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(17)
+
+        // times
+        expect(d.getHours()).toBe(0)
+        expect(d.getMinutes()).toBe(15)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(30)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+    })
+
+    it('should support date and time of edge of GMT+5:30', () => {
+        // 504901799999
+        // Tue Dec 31 1985 18:29:59.999 GMT+0000
+        // Tue Dec 31 1985 23:59:59.999 GMT+05:30 (Nepal Time)
+
+        const d = new NepaliDate(2042, 8, 16, 23, 59, 59, 999)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901799999)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(16)
+
+        // times
+        expect(d.getHours()).toBe(23)
+        expect(d.getMinutes()).toBe(59)
+        expect(d.getSeconds()).toBe(59)
+        expect(d.getMilliseconds()).toBe(999)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(29)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(59)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(999)
+    })
+
+    it('should support timestamp of edge of GMT+5:30', () => {
+        // 504901799999
+        // Tue Dec 31 1985 18:29:59.999 GMT+0000
+        // Tue Dec 31 1985 23:59:59.999 GMT+05:30 (Nepal Time)
+
+        const d = new NepaliDate(504901799999)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901799999)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(16)
+
+        // times
+        expect(d.getHours()).toBe(23)
+        expect(d.getMinutes()).toBe(59)
+        expect(d.getSeconds()).toBe(59)
+        expect(d.getMilliseconds()).toBe(999)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(29)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(59)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(999)
+    })
+
+    it('should support date and time of edge of GMT+5:45 after 15 minutes', () => {
+        // 504901860000
+        // Tue Dec 31 1985 18:31:00 GMT+0000
+        // Wed Jan 1 1986 00:16:00 GMT+05:45 (Nepal Time)
+
+        const d = new NepaliDate(2042, 8, 17, 0, 16)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901860000)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(17)
+
+        // times
+        expect(d.getHours()).toBe(0)
+        expect(d.getMinutes()).toBe(16)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(31)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+    })
+
+    it('should support timestamp of edge of GMT+5:45 after 15 minutes', () => {
+        // 504901860000
+        // Tue Dec 31 1985 18:31:00 GMT+0000
+        // Wed Jan 1 1986 00:16:00 GMT+05:45 (Nepal Time)
+
+        const d = new NepaliDate(504901860000)
+
+        // timestamp
+        expect(d.getTime()).toBe(504901860000)
+
+        // dates
+        expect(d.getYear()).toBe(2042)
+        expect(d.getMonth()).toBe(8)
+        expect(d.getDate()).toBe(17)
+
+        // times
+        expect(d.getHours()).toBe(0)
+        expect(d.getMinutes()).toBe(16)
+        expect(d.getSeconds()).toBe(0)
+        expect(d.getMilliseconds()).toBe(0)
+
+        // english dates and times
+        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
+        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
+        expect(d.getEnglishDate().getUTCDate()).toBe(31)
+        expect(d.getEnglishDate().getUTCHours()).toBe(18)
+        expect(d.getEnglishDate().getUTCMinutes()).toBe(31)
+        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
+        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
     })
 })
 
