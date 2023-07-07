@@ -9,8 +9,12 @@ describe("NepaliDate", () => {
         const n = new NepaliDate(new Date(373314600000))
         expect(n.toString()).toBe("2038/7/15")
         expect(n.getYear()).toBe(2038)
+        expect(n.getEnglishYear()).toBe(1981)
         expect(n.getMonth()).toBe(6)
+        expect(n.getEnglishMonth()).toBe(9)
         expect(n.getDate()).toBe(15)
+        expect(n.getEnglishDate()).toBe(31)
+        expect(n.getDateObject().getUTCDate()).toEqual(30)
         expect(n.getDay()).toBe(6)
 
         const n2 = new NepaliDate(new Date("2018-08-17"))
@@ -23,7 +27,10 @@ describe("NepaliDate", () => {
 
         const n2 = new NepaliDate("2075.03.22")
         expect(n2.toString()).toBe("2075/3/22")
-        expect(n2.getEnglishDate().toISOString()).toEqual("2018-07-05T18:15:00.000Z")
+        expect(n2.getDateObject().toISOString()).toEqual("2018-07-05T18:15:00.000Z")
+        expect(n2.getEnglishYear()).toBe(2018)
+        expect(n2.getEnglishMonth()).toBe(6)
+        expect(n2.getEnglishDate()).toBe(6)
     })
 
     it("checks parser for date and time", () => {
@@ -261,13 +268,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(678)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1944)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
-        expect(d.getEnglishDate().getUTCDate()).toBe(28)
-        expect(d.getEnglishDate().getUTCHours()).toBe(12)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(26)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1944)
+        expect(d.getDateObject().getUTCMonth()).toBe(4)
+        expect(d.getDateObject().getUTCDate()).toBe(28)
+        expect(d.getDateObject().getUTCHours()).toBe(12)
+        expect(d.getDateObject().getUTCMinutes()).toBe(26)
+        expect(d.getDateObject().getUTCSeconds()).toBe(45)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
     })
 
     it('should support timestamp of past year with GMT+5:30', () => {
@@ -292,13 +299,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(678)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1944)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
-        expect(d.getEnglishDate().getUTCDate()).toBe(28)
-        expect(d.getEnglishDate().getUTCHours()).toBe(12)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(26)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1944)
+        expect(d.getDateObject().getUTCMonth()).toBe(4)
+        expect(d.getDateObject().getUTCDate()).toBe(28)
+        expect(d.getDateObject().getUTCHours()).toBe(12)
+        expect(d.getDateObject().getUTCMinutes()).toBe(26)
+        expect(d.getDateObject().getUTCSeconds()).toBe(45)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
     })
 
     it('should support date and time of recent year with GMT+5:45', () => {
@@ -323,13 +330,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(678)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(2023)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
-        expect(d.getEnglishDate().getUTCDate()).toBe(29)
-        expect(d.getEnglishDate().getUTCHours()).toBe(12)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(11)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+        expect(d.getDateObject().getUTCFullYear()).toBe(2023)
+        expect(d.getDateObject().getUTCMonth()).toBe(4)
+        expect(d.getDateObject().getUTCDate()).toBe(29)
+        expect(d.getDateObject().getUTCHours()).toBe(12)
+        expect(d.getDateObject().getUTCMinutes()).toBe(11)
+        expect(d.getDateObject().getUTCSeconds()).toBe(45)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
     })
 
     it('should support timestamp of recent year with GMT+5:45', () => {
@@ -354,13 +361,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(678)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(2023)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(4)
-        expect(d.getEnglishDate().getUTCDate()).toBe(29)
-        expect(d.getEnglishDate().getUTCHours()).toBe(12)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(11)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(45)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(678)
+        expect(d.getDateObject().getUTCFullYear()).toBe(2023)
+        expect(d.getDateObject().getUTCMonth()).toBe(4)
+        expect(d.getDateObject().getUTCDate()).toBe(29)
+        expect(d.getDateObject().getUTCHours()).toBe(12)
+        expect(d.getDateObject().getUTCMinutes()).toBe(11)
+        expect(d.getDateObject().getUTCSeconds()).toBe(45)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
     })
 
     it('should support date and time of edge of GMT+5:45', () => {
@@ -385,13 +392,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(0)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(30)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(30)
+        expect(d.getDateObject().getUTCSeconds()).toBe(0)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
     })
 
     it('should support timestamp of edge of GMT+5:45', () => {
@@ -416,13 +423,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(0)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(30)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(30)
+        expect(d.getDateObject().getUTCSeconds()).toBe(0)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
     })
 
     it('should support date and time of edge of GMT+5:30', () => {
@@ -447,13 +454,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(999)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(29)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(59)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(999)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(29)
+        expect(d.getDateObject().getUTCSeconds()).toBe(59)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(999)
     })
 
     it('should support timestamp of edge of GMT+5:30', () => {
@@ -478,13 +485,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(999)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(29)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(59)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(999)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(29)
+        expect(d.getDateObject().getUTCSeconds()).toBe(59)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(999)
     })
 
     it('should support date and time of edge of GMT+5:45 after 15 minutes', () => {
@@ -509,13 +516,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(0)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(31)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(31)
+        expect(d.getDateObject().getUTCSeconds()).toBe(0)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
     })
 
     it('should support timestamp of edge of GMT+5:45 after 15 minutes', () => {
@@ -540,13 +547,13 @@ describe("NepaliDate with Time feature initialization", () => {
         expect(d.getMilliseconds()).toBe(0)
 
         // english dates and times
-        expect(d.getEnglishDate().getUTCFullYear()).toBe(1985)
-        expect(d.getEnglishDate().getUTCMonth()).toBe(11)
-        expect(d.getEnglishDate().getUTCDate()).toBe(31)
-        expect(d.getEnglishDate().getUTCHours()).toBe(18)
-        expect(d.getEnglishDate().getUTCMinutes()).toBe(31)
-        expect(d.getEnglishDate().getUTCSeconds()).toBe(0)
-        expect(d.getEnglishDate().getUTCMilliseconds()).toBe(0)
+        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
+        expect(d.getDateObject().getUTCMonth()).toBe(11)
+        expect(d.getDateObject().getUTCDate()).toBe(31)
+        expect(d.getDateObject().getUTCHours()).toBe(18)
+        expect(d.getDateObject().getUTCMinutes()).toBe(31)
+        expect(d.getDateObject().getUTCSeconds()).toBe(0)
+        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
     })
 })
 
