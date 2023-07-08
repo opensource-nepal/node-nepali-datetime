@@ -334,6 +334,33 @@ class NepaliDate {
     toString(): string {
         return `${this.year}/${this.month + 1}/${this.day}`
     }
+
+    /* Static methods */
+
+    /**
+     * Creates a new instance of NepaliDate from an English calendar parameters.
+     *
+     * @param year - The year in English calendar format.
+     * @param month0 - The month (0-11) in English calendar format.
+     * @param date - The day of the month in English calendar format.
+     * @param hour - The hour (0-23) in English calendar format. Default is 0.
+     * @param minute - The minute (0-59) in English calendar format. Default is 0.
+     * @param second - The second (0-59) in English calendar format. Default is 0.
+     * @param ms - The millisecond (0-999) in English calendar format. Default is 0.
+     * @returns A new instance of NepaliDate corresponding to the provided English date.
+     */
+    static fromEnglishDate(
+        year: number,
+        month0: number,
+        date: number,
+        hour: number = 0,
+        minute: number = 0,
+        second: number = 0,
+        ms: number = 0
+    ): NepaliDate {
+        const englishDate = getDate(year, month0, date, hour, minute, second, ms)
+        return new NepaliDate(englishDate)
+    }
 }
 
 NepaliDate.minimum = () => new Date(dateConverter.enMinYear(), 0, 1)

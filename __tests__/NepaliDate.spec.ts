@@ -82,6 +82,59 @@ describe("NepaliDate", () => {
         expect(n.getSeconds()).toBe(25)
         expect(n.getMilliseconds()).toBe(789)
     })
+
+    it('should be initialized from fromEnglishDate', () => {
+        const n = NepaliDate.fromEnglishDate(2019, 2, 11, 3, 29, 38, 689)
+
+        // checking nepali calendar date
+        expect(n.toString()).toBe("2075/11/27")
+        expect(n.getYear()).toBe(2075)
+        expect(n.getMonth()).toBe(10)
+        expect(n.getDate()).toBe(27)
+        expect(n.getDay()).toBe(1)
+
+        // checking nepali time
+        expect(n.getHours()).toBe(3)
+        expect(n.getMinutes()).toBe(29)
+        expect(n.getSeconds()).toBe(38)
+        expect(n.getMilliseconds()).toBe(689)
+
+        // checking date object
+        expect(n.getTime()).toEqual(1552254278689)
+        expect(n.getDateObject().toISOString()).toEqual("2019-03-10T21:44:38.689Z")
+
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(2019)
+        expect(n.getEnglishMonth()).toBe(2)
+        expect(n.getEnglishDate()).toBe(11)
+    })
+
+    it('should be initialized from fromEnglishDate for +5:30 timezone', () => {
+        const n = NepaliDate.fromEnglishDate(1944, 2, 11, 3, 29, 38, 689)
+
+        // checking nepali calendar date
+        expect(n.toString()).toBe("2000/11/28")
+        expect(n.getYear()).toBe(2000)
+        expect(n.getMonth()).toBe(10)
+        expect(n.getDate()).toBe(28)
+        expect(n.getDay()).toBe(6)
+
+        // checking nepali time
+        expect(n.getHours()).toBe(3)
+        expect(n.getMinutes()).toBe(29)
+        expect(n.getSeconds()).toBe(38)
+        expect(n.getMilliseconds()).toBe(689)
+
+        // checking date object
+        expect(n.getTime()).toEqual(-814500021311)
+        expect(n.getDateObject().toISOString()).toEqual("1944-03-10T21:59:38.689Z")
+
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1944)
+        expect(n.getEnglishMonth()).toBe(2)
+        expect(n.getEnglishDate()).toBe(11)
+    })
+
 })
 
 describe("NepaliDate with Time feature initialization", () => {
