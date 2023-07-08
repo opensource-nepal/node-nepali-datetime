@@ -30,8 +30,11 @@ class NepaliDate {
                 } else if (e instanceof NepaliDate) {
                     this.timestamp = e.timestamp
                     this.year = e.year
+                    this.yearEn = e.yearEn
                     this.month = e.month
+                    this.monthEn = e.monthEn
                     this.day = e.day
+                    this.dayEn = e.dayEn
                     this.hour = e.hour
                     this.minute = e.minute
                     this.weekDay = e.weekDay
