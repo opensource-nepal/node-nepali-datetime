@@ -1,33 +1,6 @@
 # nepali-datetime
 
-A Nepali Date library for nepali date parsing and formatting.
-
-The lunar calendar based on Bikram Samvat seems to have varied
-from it's original specification. As the number of days on each
-month do not adhere to their standards when checked over a period.
-
-<pre>
-1 Baishakh	30.950 exactly
-2 Jestha	31.429 exactly
-3 Ashadh	31.638 exactly
-4 Shrawan	31.463 exactly
-5 Bhadra	31.012 exactly
-6 Ashwin	30.428 exactly
-7 Kartik	29.879 exactly
-8 Mangsir	29.475 exactly
-9 Poush		29.310 exactly
-10 Magh		29.457 exactly
-11 Falgun	29.841 exactly
-12 Chaitra	30.377 exactly
-+++++++++++++++++++++++++++++++
-Total		365.259
-</pre>
-
-_The exact length of each month is the time taken by the Sun to move through a full zodiac sign._
-
-Since, the nepali calendar didn't follow this closely. We have to use
-a map based implementation. So, the library would work only within a
-certain period of time. At the moment it works between **2000 BS** to **2100 BS**.
+A Node project designed to support native JavaScript-like features for Nepali dates. It includes features such as 'NepaliDate' for Nepali date support and 'dateConverter' for date conversions.
 
 # Installation
 
@@ -230,3 +203,7 @@ special characters (YMDymd), enclose them within quotes.
 ## formatNepali
 
 `formatNepali` is similar to the `format` method. It returns the representation of the NepaliDate object in the specified format in the Nepali.
+
+## Contribution
+
+We appreciate feedback and contribution to this package. To get started please see our [contribution guide](CONTRIBUTING.md).
