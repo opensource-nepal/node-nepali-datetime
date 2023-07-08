@@ -8,8 +8,11 @@ import { validateTime } from "./validators"
 class NepaliDate {
     timestamp: Date
     year: number
+    yearEn: number
     month: number
+    monthEn: number
     day: number
+    dayEn: number
     hour: number
     minute: number
     weekDay: number
@@ -18,12 +21,12 @@ class NepaliDate {
 
     constructor(...args: any[]) {
         if (args.length === 0) {
-            this.setEnglishDate(new Date())
+            this._setDateObject(new Date())
         } else if (args.length === 1) {
             const e = args[0]
             if (typeof e === "object") {
                 if (e instanceof Date) {
-                    this.setEnglishDate(e)
+                    this._setDateObject(e)
                 } else if (e instanceof NepaliDate) {
                     this.timestamp = e.timestamp
                     this.year = e.year
@@ -36,7 +39,7 @@ class NepaliDate {
                     throw new Error("Invalid date argument")
                 }
             } else if (typeof e === "number") {
-                this.setEnglishDate(new Date(e))
+                this._setDateObject(new Date(e))
             }
             else if (typeof e === "string") {
                 // Try to parse the date
@@ -65,11 +68,14 @@ class NepaliDate {
      * @param computeNepaliDate Flag indicating whether to compute the Nepali date. Default is `false`.
      * @returns void
      */
-    private _setEnglishDate(date: Date, computeNepaliDate: boolean = false) {
+    private _setDateObject(date: Date, computeNepaliDate: boolean = true) {
         this.timestamp = date
 
         // getting Nepal's hour, minute, and weekDay
         const { year, month0, day, hour, minute, weekDay } = getNepalDateAndTime(date)
+        this.yearEn = year
+        this.monthEn = month0
+        this.dayEn = day
         this.hour = hour
         this.minute = minute
         this.weekDay = weekDay
@@ -82,11 +88,7 @@ class NepaliDate {
         }
     }
 
-    setEnglishDate(date: Date) {
-        this._setEnglishDate(date, true)
-    }
-
-    getEnglishDate() {
+    getDateObject() {
         return this.timestamp
     }
 
@@ -94,21 +96,58 @@ class NepaliDate {
         this.set.apply(this, parse(dateString))
     }
 
+    /**
+     * Retrieves the year of the Nepali date in the Nepali calendar.
+     *
+     * @returns {number} The full numeric value representing the year. Eg. 2080
+     */
     getYear(): number {
         return this.year
     }
 
+    /**
+     * Retrieves the year of the Nepali date in the English calendar.
+     *
+     * @returns {number} The full numeric value representing the year. Eg. 2009
+     */
+    getEnglishYear(): number {
+        return this.yearEn
+    }
+
+    /**
+     * Retrieves the month of the Nepali date in the Nepali calendar.
+     *
+     * @returns {number} The numeric value representing the month. 0 for Baishakh and 11 for Chaitra.
+     */
     getMonth(): number {
         return this.month
     }
 
     /**
-     * Get the day of the month represented by a numeric value.
+     * Retrieves the month of the Nepali date in the English calendar.
      *
-     * @returns The numeric value representing the day of the month.
+     * @returns {number} The numeric value representing the month. 0 for January and 11 for December.
+     */
+    getEnglishMonth(): number {
+        return this.monthEn
+    }
+
+    /**
+     * Retrieves the day of the month represented of Nepali date in Nepali calendar.
+     *
+     * @returns {number} The numeric value representing the day of the month.
      */
     getDate(): number {
         return this.day
+    }
+
+    /**
+     * Retrieves the day of the month represented of Nepali date in English calendar.
+     *
+     * @returns {number} The numeric value representing the day of the month.
+     */
+    getEnglishDate(): number {
+        return this.dayEn
     }
 
     /**
@@ -266,7 +305,7 @@ class NepaliDate {
      * @returns void
      */
     setTime(time: number) {
-        this.setEnglishDate(new Date(time))
+        this._setDateObject(new Date(time))
     }
 
     set(year: number, month: number, date: number,
@@ -276,7 +315,7 @@ class NepaliDate {
         this.year = year
         this.month = month
         this.day = date
-        this._setEnglishDate(getDate(yearEn, month0EN, dayEn, hour, minute, second, ms))
+        this._setDateObject(getDate(yearEn, month0EN, dayEn, hour, minute, second, ms), false)
     }
 
     format(formatStr: string) {
