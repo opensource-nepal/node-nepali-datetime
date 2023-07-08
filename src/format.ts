@@ -19,6 +19,11 @@ interface NepaliDate {
     hour: number
     minute: number
     weekDay: number
+    getYear: () => number
+    getMonth: () => number
+    getDate: () => number
+    getHours: () => number
+    getMinutes: () => number
     getSeconds: () => number
     getMilliseconds: () => number
 }
@@ -37,8 +42,33 @@ interface FormatterFactoryMap {
 
 /* Helper functions */
 
-function pad(n: number): string {
+/**
+ * Pads a number with a leading zero if it is less than 10.
+ *
+ * Output: 1 => 01, 11 => 11
+ *
+ * @param n - The number to be padded.
+ * @returns The padded number as a string.
+ */
+function zeroPadding(n: number): string {
     if (n < 10) {
+        return `0${n}`
+    }
+    return `${n}`
+}
+
+/**
+ * Pads a number with a leading zero if it is less than 100.
+ *
+ * Output: 1 => 001, 11 => 011, 111 => 111
+ *
+ * @param n - The number to be padded.
+ * @returns The padded number as a string.
+ */
+function millisecondZeroPadding(n: number): string {
+    if (n < 10) {
+        return `00${n}`
+    } else if (n < 100) {
         return `0${n}`
     }
     return `${n}`
@@ -82,7 +112,7 @@ function monthEn(format: string, size: number): Formatter {
             return String(date.month + 1)
         }
         if (size === 2) {
-            return pad(date.month + 1)
+            return zeroPadding(date.month + 1)
         }
         if (size === 3) {
             return MONTHS_SHORT_EN[date.month]
@@ -100,7 +130,7 @@ function monthNp(format: string, size: number): Formatter {
             return npDigit(String(date.month + 1))
         }
         if (size === 2) {
-            return npDigit(pad(date.month + 1))
+            return npDigit(zeroPadding(date.month + 1))
         }
         if (size === 3) {
             return MONTHS_SHORT_NP[date.month]
@@ -118,7 +148,7 @@ function dateEn(format: string, size: number): Formatter {
             return String(date.day)
         }
         if (size === 2) {
-            return pad(date.day)
+            return zeroPadding(date.day)
         }
         return format.repeat(size)
     }
@@ -130,7 +160,7 @@ function dateNp(format: string, size: number): Formatter {
             return npDigit(String(date.day))
         }
         if (size === 2) {
-            return npDigit(pad(date.day))
+            return npDigit(zeroPadding(date.day))
         }
         return format.repeat(size)
     }
@@ -175,7 +205,7 @@ function hour24En(format: string, size: number): Formatter {
             return String(date.hour)
         }
         if (size === 2) {
-            return pad(date.hour)
+            return zeroPadding(date.hour)
         }
         return format.repeat(size)
     }
@@ -187,7 +217,7 @@ function hour24Np(format: string, size: number): Formatter {
             return npDigit(String(date.hour))
         }
         if (size === 2) {
-            return npDigit(pad(date.hour))
+            return npDigit(zeroPadding(date.hour))
         }
         return format.repeat(size)
     }
@@ -201,7 +231,7 @@ function hour12En(format: string, size: number): Formatter {
             return String(hour)
         }
         if (size === 2) {
-            return pad(hour)
+            return zeroPadding(hour)
         }
         return format.repeat(size)
     }
@@ -215,7 +245,7 @@ function hour12Np(format: string, size: number): Formatter {
             return npDigit(String(hour))
         }
         if (size === 2) {
-            return npDigit(pad(hour))
+            return npDigit(zeroPadding(hour))
         }
         return format.repeat(size)
     }
@@ -227,7 +257,7 @@ function minuteEn(format: string, size: number): Formatter {
             return String(date.minute)
         }
         if (size === 2) {
-            return pad(date.minute)
+            return zeroPadding(date.minute)
         }
         return format.repeat(size)
     }
@@ -239,7 +269,7 @@ function minuteNp(format: string, size: number): Formatter {
             return npDigit(String(date.minute))
         }
         if (size === 2) {
-            return npDigit(pad(date.minute))
+            return npDigit(zeroPadding(date.minute))
         }
         return format.repeat(size)
     }
@@ -252,7 +282,7 @@ function secondEn(format: string, size: number): Formatter {
             return String(seconds)
         }
         if (size === 2) {
-            return pad(seconds)
+            return zeroPadding(seconds)
         }
         return format.repeat(size)
     }
@@ -265,7 +295,7 @@ function secondNp(format: string, size: number): Formatter {
             return npDigit(String(seconds))
         }
         if (size === 2) {
-            return npDigit(pad(seconds))
+            return npDigit(zeroPadding(seconds))
         }
         return format.repeat(size)
     }
@@ -275,10 +305,10 @@ function millisecondEn(format: string, size: number): Formatter {
     return (date) => {
         const ms = date.getMilliseconds()
         if (size < 4) {
-            return String(ms).substring(0, size)
+            return millisecondZeroPadding(ms).substring(0, size)
         }
         if (size < 10) {
-            return `${ms}${'0'.repeat(size - 3)}`
+            return `${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`
         }
         return format.repeat(size)
     }
@@ -288,10 +318,10 @@ function millisecondNp(format: string, size: number): Formatter {
     return (date) => {
         const ms = date.getMilliseconds()
         if (size < 4) {
-            return npDigit(String(ms).substring(0, size))
+            return npDigit(millisecondZeroPadding(ms).substring(0, size))
         }
         if (size < 10) {
-            return npDigit(`${ms}${'0'.repeat(size - 3)}`)
+            return npDigit(`${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`)
         }
         return format.repeat(size)
     }
@@ -449,4 +479,28 @@ export function formatNepali(nepaliDate: NepaliDate, formatStr: string): string 
     return getFormatters(formatStr, 'ne')
         .map((f) => f(nepaliDate))
         .join("")
+}
+
+/**
+ * Converts a NepaliDate object to a toString() representation.
+ * Returns in format YYYY-MM-DD HH:mm:ss[.SSS].
+ * This method is light-weight than format/formatNepali method.
+ *
+ * @param nepaliDate - The NepaliDate object to be converted.
+ * @returns The formatted string representation of the NepaliDate.
+ */
+export function nepaliDateToString(nepaliDate: NepaliDate) {
+    const dateString = `${zeroPadding(nepaliDate.getYear())}-${zeroPadding(nepaliDate.getMonth() + 1)}-${zeroPadding(nepaliDate.getDate())}`
+    const timeString = `${zeroPadding(nepaliDate.getHours())}:${zeroPadding(nepaliDate.getMinutes())}:${zeroPadding(nepaliDate.getSeconds())}`
+
+    // millisecond
+    const ms = nepaliDate.getMilliseconds()
+    let millisecondString
+    if (ms === 0) {
+        millisecondString = ''
+    } else {
+        millisecondString = `.${millisecondZeroPadding(ms)}`
+    }
+
+    return `${dateString} ${timeString}${millisecondString}`
 }
