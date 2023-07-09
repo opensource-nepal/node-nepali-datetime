@@ -4,3 +4,4 @@ cjs
 
 yarn-error.log
 .log/
+coverage

@@ -1,0 +1,4 @@
+# This files contains codecov configurations.
+
+# Disabling comments
+comment: false
