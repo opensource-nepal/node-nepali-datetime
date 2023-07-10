@@ -30,17 +30,17 @@
  * console.log(`English Date: ${enYear}-${enMonth}-${enDay}`);
  * ```
  *
- * Note: There are two types of month variables used in this file. 
- * The first is `month0`, which represents month values starting from 0, 
- * for example, 0 for January and 0 for Baishakh. 
+ * Note: There are two types of month variables used in this file.
+ * The first is `month0`, which represents month values starting from 0,
+ * for example, 0 for January and 0 for Baishakh.
  * The second is `month`, which represents month values starting from 1.
  */
-import { 
+import {
     NP_INITIAL_YEAR,
     REFERENCE_EN_DATE,
     EN_MONTHS,
     EN_LEAP_YEAR_MONTHS,
-    NP_MONTHS_DATA 
+    NP_MONTHS_DATA,
 } from './constants'
 
 /**
@@ -54,7 +54,7 @@ class DateOutOfRangeError extends Error {
 }
 
 /*
-* utility methods */
+ * utility methods */
 
 /**
  * Returns the minimum valid year for date conversion.
@@ -94,11 +94,9 @@ const npMaxYear = (): number => {
  * @returns A boolean indicating whether the year is a leap year.
  */
 const _isLeapYear = (year: number): boolean => {
-    if (year % 400 === 0)
-        return true
+    if (year % 400 === 0) return true
 
-    if (year % 100 === 0)
-        return false
+    if (year % 100 === 0) return false
 
     return year % 4 === 0
 }
@@ -109,14 +107,11 @@ const _isLeapYear = (year: number): boolean => {
  * @returns An array containing the number of days in each month of the year.
  */
 const _getEnMonths = (year: number): number[] => {
-    return _isLeapYear(year)
-        ? EN_LEAP_YEAR_MONTHS
-        : EN_MONTHS
+    return _isLeapYear(year) ? EN_LEAP_YEAR_MONTHS : EN_MONTHS
 }
 
-
 /*
-* ENGLISH TO NEPALI DATE CONVERSION */
+ * ENGLISH TO NEPALI DATE CONVERSION */
 
 /**
  * Checks if the provided English date is valid.
@@ -126,14 +121,11 @@ const _getEnMonths = (year: number): number[] => {
  * @returns True if the date is valid, false otherwise.
  */
 const _checkEnglishDate = (year: number, month: number, day: number): boolean => {
-    if (year < enMinYear() || year > enMaxYear())
-        return false
+    if (year < enMinYear() || year > enMaxYear()) return false
 
-    if (month < 1 || month > 12)
-        return false
+    if (month < 1 || month > 12) return false
 
-    if (day < 1 || day > _getEnMonths(year)[month - 1])
-        return false
+    if (day < 1 || day > _getEnMonths(year)[month - 1]) return false
 
     return true
 }
@@ -145,7 +137,11 @@ const _checkEnglishDate = (year: number, month: number, day: number): boolean =>
  * @param day - The day in English calendar.
  * @returns The total number of days.
  */
-const _getTotalDaysFromEnglishDate = (year: number, month: number, day: number): number => {
+const _getTotalDaysFromEnglishDate = (
+    year: number,
+    month: number,
+    day: number
+): number => {
     let total_days = year * 365 + day
     for (let i = 0; i < month - 1; i++) {
         total_days += EN_MONTHS[i]
@@ -168,7 +164,11 @@ const _getTotalDaysFromEnglishDate = (year: number, month: number, day: number):
  * @returns The corresponding Nepali date as an array of [year, month, day].
  * @throws {DateOutOfRangeError} If the provided date is out of range.
  */
-function englishToNepali(year: number, month0: number, day: number): [number, number, number] {
+function englishToNepali(
+    year: number,
+    month0: number,
+    day: number
+): [number, number, number] {
     const month = month0 + 1
 
     // VALIDATION
@@ -186,7 +186,7 @@ function englishToNepali(year: number, month0: number, day: number): [number, nu
     // calculating days count from the reference date
     let difference: number = Math.abs(
         _getTotalDaysFromEnglishDate(year, month, day) -
-        _getTotalDaysFromEnglishDate(...REFERENCE_EN_DATE)
+            _getTotalDaysFromEnglishDate(...REFERENCE_EN_DATE)
     )
 
     // YEAR
@@ -214,9 +214,8 @@ function englishToNepali(year: number, month0: number, day: number): [number, nu
     return [np_year, np_month - 1, np_day]
 }
 
-
 /*
-* NEPALI TO ENGLISH DATE CONVERSION */
+ * NEPALI TO ENGLISH DATE CONVERSION */
 
 /**
  * Checks if the provided Nepali date is valid and within the range.
@@ -226,11 +225,9 @@ function englishToNepali(year: number, month0: number, day: number): [number, nu
  * @returns True if the date is valid and within the range, false otherwise.
  */
 const _checkNepaliDate = (year: number, month: number, day: number): boolean => {
-    if (year < npMinYear() || year > npMaxYear())
-        return false
+    if (year < npMinYear() || year > npMaxYear()) return false
 
-    if (month < 1 || month > 12)
-        return false
+    if (month < 1 || month > 12) return false
 
     if (day < 1 || day > NP_MONTHS_DATA[year - NP_INITIAL_YEAR][0][month - 1])
         return false
@@ -245,7 +242,11 @@ const _checkNepaliDate = (year: number, month: number, day: number): boolean => 
  * @param day - The day in Nepali calendar.
  * @returns The total number of days from the reference date to the provided Nepali date.
  */
-const _getTotalDaysFromNepaliDate = (year: number, month: number, day: number): number => {
+const _getTotalDaysFromNepaliDate = (
+    year: number,
+    month: number,
+    day: number
+): number => {
     let total_days = day - 1
 
     const year_index = year - NP_INITIAL_YEAR
@@ -268,7 +269,11 @@ const _getTotalDaysFromNepaliDate = (year: number, month: number, day: number): 
  * @returns An array containing the corresponding English year, month, and day.
  * @throws {DateOutOfRangeError} If the provided Nepali date is out of range.
  */
-const nepaliToEnglish = (year: number, month0: number, day: number): [number, number, number] => {
+const nepaliToEnglish = (
+    year: number,
+    month0: number,
+    day: number
+): [number, number, number] => {
     const month = month0 + 1
 
     // VALIDATION
@@ -282,9 +287,12 @@ const nepaliToEnglish = (year: number, month0: number, day: number): [number, nu
     let [en_year, en_month, en_day] = [REFERENCE_EN_DATE[0], 1, 1]
     // calculating difference from the adjusted reference (eg. 1943/4/14 - 1943/01/01)
     const ref_year_months = _getEnMonths(en_year)
-    const reference_diff: number = ref_year_months.slice(0, REFERENCE_EN_DATE[1] - 1)
-        .reduce((acc, curr) => acc + curr, 0)
-        + REFERENCE_EN_DATE[2] - 1 // day - 1
+    const reference_diff: number =
+        ref_year_months
+            .slice(0, REFERENCE_EN_DATE[1] - 1)
+            .reduce((acc, curr) => acc + curr, 0) +
+        REFERENCE_EN_DATE[2] -
+        1 // day - 1
 
     // DIFFERENCE
     // calculating days count from the reference date
@@ -317,7 +325,6 @@ const nepaliToEnglish = (year: number, month0: number, day: number): [number, nu
     en_day += difference
 
     return [en_year, en_month - 1, en_day]
-
 }
 
 export default {

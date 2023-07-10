@@ -1,10 +1,12 @@
-import dateConverter from "./dateConverter"
-import { format, formatNepali, nepaliDateToString } from "./format"
-import parse from "./parse"
-import { getDate, getNepalDateAndTime } from "./utils"
-import { validateTime } from "./validators"
+import dateConverter from './dateConverter'
+import { format, formatNepali, nepaliDateToString } from './format'
+import parse from './parse'
+import { getDate, getNepalDateAndTime } from './utils'
+import { validateTime } from './validators'
 
-
+/**
+ * Represents a Nepali calendar date.
+ */
 class NepaliDate {
     timestamp: Date
     year: number
@@ -19,12 +21,52 @@ class NepaliDate {
     static minimum: () => Date
     static maximum: () => Date
 
+    /**
+     * Creates a new NepaliDate object.
+     *
+     * @param args - The arguments to create the NepaliDate object.
+     *
+     * Examples Parameters:
+     *   - No parameters: Creates a NepaliDate object for the current date and time.
+     *     ```
+     *     const now = new NepaliDate();
+     *     ```
+     *
+     *   - Nepali date time string: Parses the string as a Nepali calendar date.
+     *     ```
+     *     const date1 = new NepaliDate('2079-02-15');
+     *     const date2 = new NepaliDate('2079-02-15 14:00');
+     *     ```
+     *
+     *   - Unix timestamp (in milliseconds):
+     *     ```
+     *     const date2 = new NepaliDate(1654210800000);
+     *     ```
+     *
+     *   - Date object: Converts the JavaScript Date object to a NepaliDate object.
+     *     ```
+     *     const jsDate = new Date();
+     *     const date3 = new NepaliDate(jsDate);
+     *     ```
+     *
+     *   - NepaliDate object: Creates a new NepaliDate object with the same values.
+     *     ```
+     *     const date4 = new NepaliDate(date3);
+     *     ```
+     *
+     *   - Nepali calendar date and time parameters: Specifies the components of a Nepali calendar date.
+     *     ```
+     *     const date5 = new NepaliDate(2079, 2, 15, 10, 30);
+     *     ```
+     *
+     * @throws {Error} If an invalid date argument is provided.
+     */
     constructor(...args: any[]) {
         if (args.length === 0) {
             this._setDateObject(new Date())
         } else if (args.length === 1) {
             const e = args[0]
-            if (typeof e === "object") {
+            if (typeof e === 'object') {
                 if (e instanceof Date) {
                     this._setDateObject(e)
                 } else if (e instanceof NepaliDate) {
@@ -39,16 +81,15 @@ class NepaliDate {
                     this.minute = e.minute
                     this.weekDay = e.weekDay
                 } else {
-                    throw new Error("Invalid date argument")
+                    throw new Error('Invalid date argument')
                 }
-            } else if (typeof e === "number") {
+            } else if (typeof e === 'number') {
                 this._setDateObject(new Date(e))
-            }
-            else if (typeof e === "string") {
+            } else if (typeof e === 'string') {
                 // Try to parse the date
                 this.set.apply(this, parse(e))
             } else {
-                throw new Error("Invalid date argument")
+                throw new Error('Invalid date argument')
             }
         } else {
             this.set(
@@ -58,7 +99,7 @@ class NepaliDate {
                 args[3] ?? 0, // hour
                 args[4] ?? 0, // minute
                 args[5] ?? 0, // second
-                args[6] ?? 0, // ms
+                args[6] ?? 0 // ms
             )
         }
     }
@@ -84,17 +125,31 @@ class NepaliDate {
         this.weekDay = weekDay
 
         if (computeNepaliDate) {
-            const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(year, month0, day)
+            const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(
+                year,
+                month0,
+                day
+            )
             this.year = yearNp
             this.month = month0Np
             this.day = dayNp
         }
     }
 
+    /**
+     * Retrieves the Date object equivalent to the NepaliDate.
+     *
+     * @returns {Date} The equivalent JavaScript Date object.
+     */
     getDateObject() {
         return this.timestamp
     }
 
+    /**
+     * Parses a string representation of a Nepali calendar date and sets the NepaliDate object accordingly.
+     *
+     * @param {string} dateString - The string representation of the Nepali calendar date.
+     */
     parse(dateString: string) {
         this.set.apply(this, parse(dateString))
     }
@@ -154,7 +209,7 @@ class NepaliDate {
     }
 
     /**
-     * Get the day of the week represented by a numeric value.
+     * Retrieves the day of the week represented by a numeric value.
      *
      * @returns The numeric value representing the day of the week.
      *          0: Sunday
@@ -169,26 +224,57 @@ class NepaliDate {
         return this.weekDay
     }
 
+    /**
+     * Retrieves the hour value of the Nepali date.
+     *
+     * @returns {number} The numeric value representing the hour.
+     */
     getHours(): number {
         return this.hour
     }
 
+    /**
+     * Retrieves the minute value of the Nepali date.
+     *
+     * @returns {number} The numeric value representing the minute.
+     */
     getMinutes(): number {
         return this.minute
     }
 
+    /**
+     * Retrieves the second value of the Nepali date.
+     *
+     * @returns {number} The numeric value representing the second.
+     */
     getSeconds(): number {
         return this.timestamp.getSeconds()
     }
 
+    /**
+     * Retrieves the millisecond value of the Nepali date.
+     *
+     * @returns {number} The numeric value representing the millisecond.
+     */
     getMilliseconds(): number {
         return this.timestamp.getMilliseconds()
     }
 
+    /**
+     * Retrieves the unix timestamp (in milliseconds) of the Nepali date.
+     *
+     * @returns {number} The numeric value representing the time in milliseconds.
+     */
     getTime(): number {
         return this.timestamp.getTime()
     }
 
+    /**
+     * Sets the day on the current date and time
+     *
+     * @param {number} year - The numeric value representing the year.
+     * @throws {ValidationError} if year is out of range
+     */
     setYear(year: number) {
         this.set(
             year,
@@ -201,6 +287,12 @@ class NepaliDate {
         )
     }
 
+    /**
+     * Sets the day on the current date and time
+     *
+     * @param {number} month - The numeric value representing the month.
+     * @throws {ValidationError} if month is out of range
+     */
     setMonth(month: number) {
         this.set(
             this.year,
@@ -213,6 +305,12 @@ class NepaliDate {
         )
     }
 
+    /**
+     * Sets the day on the current date and time
+     *
+     * @param {number} day - The numeric value representing the day.
+     * @throws {ValidationError} if day is out of range
+     */
     setDate(day: number) {
         this.set(
             this.year,
@@ -230,7 +328,6 @@ class NepaliDate {
      *
      * @param hour Hour to set
      * @throws {ValidationError} if hour is out of range
-     * @returns void
      */
     setHours(hour: number) {
         this.set(
@@ -249,7 +346,6 @@ class NepaliDate {
      *
      * @param minute Minute to set
      * @throws {ValidationError} if minute is out of range
-     * @returns void
      */
     setMinutes(minute: number) {
         this.set(
@@ -268,7 +364,6 @@ class NepaliDate {
      *
      * @param second Second to set
      * @throws {ValidationError} if second is out of range
-     * @returns void
      */
     setSeconds(second: number) {
         this.set(
@@ -287,7 +382,6 @@ class NepaliDate {
      *
      * @param ms Milliseconds to set
      * @throws {ValidationError} if milliseconds is out of range
-     * @returns void
      */
     setMilliseconds(ms: number) {
         this.set(
@@ -302,38 +396,73 @@ class NepaliDate {
     }
 
     /**
-     * Sets time on the current date and time
+     * Sets time on the object.
      *
      * @param time Time to set (timestamp)
-     * @returns void
      */
     setTime(time: number) {
         this._setDateObject(new Date(time))
     }
 
-    set(year: number, month: number, date: number,
-        hour: number = 0, minute: number = 0, second: number = 0, ms: number = 0) {
+    /**
+     * Sets the Nepali date and time values.
+     *
+     * @param {number} year - The numeric value representing the year.
+     * @param {number} month - The numeric value representing the month.
+     * @param {number} date - The numeric value representing the day.
+     * @param {number} [hour=0] - The numeric value representing the hour.
+     * @param {number} [minute=0] - The numeric value representing the minute.
+     * @param {number} [second=0] - The numeric value representing the second.
+     * @param {number} [ms=0] - The numeric value representing the millisecond.
+     */
+    set(
+        year: number,
+        month: number,
+        date: number,
+        hour: number = 0,
+        minute: number = 0,
+        second: number = 0,
+        ms: number = 0
+    ) {
         validateTime(hour, minute, second, ms)
-        const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(year, month, date)
+        const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(
+            year,
+            month,
+            date
+        )
         this.year = year
         this.month = month
         this.day = date
-        this._setDateObject(getDate(yearEn, month0EN, dayEn, hour, minute, second, ms), false)
+        this._setDateObject(
+            getDate(yearEn, month0EN, dayEn, hour, minute, second, ms),
+            false
+        )
     }
 
-    format(formatStr: string) {
+    /**
+     * Returns a string representation (in English) of the NepaliDate object in the specified format.
+     *
+     * @param {string} formatStr - The format string specifying the desired format.
+     * @returns {string} The formatted Nepali date string.
+     */
+    format(formatStr: string): string {
         return format(this, formatStr)
     }
 
     /**
-     * Returns a string representation of the NepaliDate object in the specified format in the Nepali (Devanagari).
+     * Returns a string representation in the Nepali (Devanagari) of the NepaliDate object in the specified format.
      * @param formatStr The format string for the desired output.
-     * @returns  A string representation of the NepaliDate object in the specified format.
+     * @returns {string} A string representation of the NepaliDate object in the specified format.
      */
-    formatNepali(formatStr: string) {
+    formatNepali(formatStr: string): string {
         return formatNepali(this, formatStr)
     }
 
+    /**
+     * Returns a string representation of the NepaliDate object.
+     *
+     * @returns {string} The string representation of the Nepali date.
+     */
     toString(): string {
         return nepaliDateToString(this)
     }

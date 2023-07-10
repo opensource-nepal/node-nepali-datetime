@@ -7,8 +7,8 @@ import {
     WEEKDAYS_LONG_EN,
     WEEKDAYS_LONG_NP,
     WEEKDAYS_SHORT_EN,
-    WEEKDAYS_SHORT_NP
-} from "./constants"
+    WEEKDAYS_SHORT_NP,
+} from './constants'
 
 type Locale = 'en' | 'ne'
 
@@ -75,7 +75,7 @@ function millisecondZeroPadding(n: number): string {
 }
 
 function npDigit(str: string): string {
-    let res = ""
+    let res = ''
     for (let i = 0; i < str.length; i += 1) {
         res += NUM_NP[str.charCodeAt(i) - 48]
     }
@@ -85,9 +85,8 @@ function npDigit(str: string): string {
 /* Formatters */
 
 function yearEn(format: string, size: number): Formatter {
-    return (date) => {
-        if (size === 1 || size === 4)
-            return String(date.year)
+    return date => {
+        if (size === 1 || size === 4) return String(date.year)
         if (size === 2) {
             return String(date.year).substring(2)
         }
@@ -96,9 +95,8 @@ function yearEn(format: string, size: number): Formatter {
 }
 
 function yearNp(format: string, size: number): Formatter {
-    return (date) => {
-        if (size === 1 || size === 4)
-            return npDigit(String(date.year))
+    return date => {
+        if (size === 1 || size === 4) return npDigit(String(date.year))
         if (size === 2) {
             return npDigit(String(date.year).substring(2))
         }
@@ -107,7 +105,7 @@ function yearNp(format: string, size: number): Formatter {
 }
 
 function monthEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return String(date.month + 1)
         }
@@ -125,7 +123,7 @@ function monthEn(format: string, size: number): Formatter {
 }
 
 function monthNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return npDigit(String(date.month + 1))
         }
@@ -143,7 +141,7 @@ function monthNp(format: string, size: number): Formatter {
 }
 
 function dateEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return String(date.day)
         }
@@ -155,7 +153,7 @@ function dateEn(format: string, size: number): Formatter {
 }
 
 function dateNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return npDigit(String(date.day))
         }
@@ -167,7 +165,7 @@ function dateNp(format: string, size: number): Formatter {
 }
 
 function weekDayEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return String(date.weekDay)
         }
@@ -184,7 +182,7 @@ function weekDayEn(format: string, size: number): Formatter {
 }
 
 function weekDayNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return npDigit(String(date.weekDay))
         }
@@ -200,7 +198,7 @@ function weekDayNp(format: string, size: number): Formatter {
 }
 
 function hour24En(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return String(date.hour)
         }
@@ -212,7 +210,7 @@ function hour24En(format: string, size: number): Formatter {
 }
 
 function hour24Np(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return npDigit(String(date.hour))
         }
@@ -224,7 +222,7 @@ function hour24Np(format: string, size: number): Formatter {
 }
 
 function hour12En(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const hour = date.hour > 12 ? date.hour - 12 : date.hour
 
         if (size === 1) {
@@ -238,7 +236,7 @@ function hour12En(format: string, size: number): Formatter {
 }
 
 function hour12Np(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const hour = date.hour > 12 ? date.hour - 12 : date.hour
 
         if (size === 1) {
@@ -252,7 +250,7 @@ function hour12Np(format: string, size: number): Formatter {
 }
 
 function minuteEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return String(date.minute)
         }
@@ -264,7 +262,7 @@ function minuteEn(format: string, size: number): Formatter {
 }
 
 function minuteNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         if (size === 1) {
             return npDigit(String(date.minute))
         }
@@ -276,7 +274,7 @@ function minuteNp(format: string, size: number): Formatter {
 }
 
 function secondEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const seconds = date.getSeconds()
         if (size === 1) {
             return String(seconds)
@@ -289,7 +287,7 @@ function secondEn(format: string, size: number): Formatter {
 }
 
 function secondNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const seconds = date.getSeconds()
         if (size === 1) {
             return npDigit(String(seconds))
@@ -302,7 +300,7 @@ function secondNp(format: string, size: number): Formatter {
 }
 
 function millisecondEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const ms = date.getMilliseconds()
         if (size < 4) {
             return millisecondZeroPadding(ms).substring(0, size)
@@ -315,7 +313,7 @@ function millisecondEn(format: string, size: number): Formatter {
 }
 
 function millisecondNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         const ms = date.getMilliseconds()
         if (size < 4) {
             return npDigit(millisecondZeroPadding(ms).substring(0, size))
@@ -328,13 +326,13 @@ function millisecondNp(format: string, size: number): Formatter {
 }
 
 function amPmUpperCaseEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         return date.hour > 12 ? 'PM' : 'AM'
     }
 }
 
 function amPmNp(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         /**
          * The output of this method is yet to be decided.
          * Further discussion are needed for this method.
@@ -351,7 +349,7 @@ function amPmNp(format: string, size: number): Formatter {
 }
 
 function amPmLowerCaseEn(format: string, size: number): Formatter {
-    return (date) => {
+    return date => {
         return date.hour > 12 ? 'pm' : 'am'
     }
 }
@@ -408,15 +406,14 @@ function getFormattersFactoryMap(locale: Locale): FormatterFactoryMap {
     return formattersFactoryMapEn
 }
 
-
 function isSpecial(ch: string, locale: Locale) {
     return ch in getFormattersFactoryMap(locale)
 }
 
 function getFormatters(formatStr: string, locale: Locale) {
     let inQuote = false
-    let seq = ""
-    let special = ""
+    let seq = ''
+    let special = ''
     let specialSize = 0
     const formattersFactoryMap = getFormattersFactoryMap(locale)
 
@@ -430,11 +427,11 @@ function getFormatters(formatStr: string, locale: Locale) {
         }
 
         // Time to process special
-        if (special !== "") {
+        if (special !== '') {
             const formatterFactory = formattersFactoryMap[special]
             const formatter = formatterFactory(special, specialSize)
             formatters.push(formatter)
-            special = ""
+            special = ''
             specialSize = 0
         }
 
@@ -450,7 +447,7 @@ function getFormatters(formatStr: string, locale: Locale) {
             // got a special character
             if (seq) {
                 formatters.push(pass(seq))
-                seq = ""
+                seq = ''
             }
 
             special = ch
@@ -471,14 +468,14 @@ function getFormatters(formatStr: string, locale: Locale) {
 
 export function format(nepaliDate: NepaliDate, formatStr: string): string {
     return getFormatters(formatStr, 'en')
-        .map((f) => f(nepaliDate))
-        .join("")
+        .map(f => f(nepaliDate))
+        .join('')
 }
 
 export function formatNepali(nepaliDate: NepaliDate, formatStr: string): string {
     return getFormatters(formatStr, 'ne')
-        .map((f) => f(nepaliDate))
-        .join("")
+        .map(f => f(nepaliDate))
+        .join('')
 }
 
 /**
@@ -490,8 +487,12 @@ export function formatNepali(nepaliDate: NepaliDate, formatStr: string): string 
  * @returns The formatted string representation of the NepaliDate.
  */
 export function nepaliDateToString(nepaliDate: NepaliDate) {
-    const dateString = `${zeroPadding(nepaliDate.getYear())}-${zeroPadding(nepaliDate.getMonth() + 1)}-${zeroPadding(nepaliDate.getDate())}`
-    const timeString = `${zeroPadding(nepaliDate.getHours())}:${zeroPadding(nepaliDate.getMinutes())}:${zeroPadding(nepaliDate.getSeconds())}`
+    const dateString = `${zeroPadding(nepaliDate.getYear())}-${zeroPadding(
+        nepaliDate.getMonth() + 1
+    )}-${zeroPadding(nepaliDate.getDate())}`
+    const timeString = `${zeroPadding(nepaliDate.getHours())}:${zeroPadding(
+        nepaliDate.getMinutes()
+    )}:${zeroPadding(nepaliDate.getSeconds())}`
 
     // millisecond
     const ms = nepaliDate.getMilliseconds()

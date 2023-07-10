@@ -1,2 +1,2 @@
-import dateConverter from "./dateConverter"
+import dateConverter from './dateConverter'
 export default dateConverter
