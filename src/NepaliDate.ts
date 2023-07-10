@@ -30,8 +30,11 @@ class NepaliDate {
                 } else if (e instanceof NepaliDate) {
                     this.timestamp = e.timestamp
                     this.year = e.year
+                    this.yearEn = e.yearEn
                     this.month = e.month
+                    this.monthEn = e.monthEn
                     this.day = e.day
+                    this.dayEn = e.dayEn
                     this.hour = e.hour
                     this.minute = e.minute
                     this.weekDay = e.weekDay
@@ -333,6 +336,33 @@ class NepaliDate {
 
     toString(): string {
         return nepaliDateToString(this)
+    }
+
+    /* Static methods */
+
+    /**
+     * Creates a new instance of NepaliDate from an English calendar parameters.
+     *
+     * @param year - The year in English calendar format.
+     * @param month0 - The month (0-11) in English calendar format.
+     * @param date - The day of the month in English calendar format.
+     * @param hour - The hour (0-23) in English calendar format. Default is 0.
+     * @param minute - The minute (0-59) in English calendar format. Default is 0.
+     * @param second - The second (0-59) in English calendar format. Default is 0.
+     * @param ms - The millisecond (0-999) in English calendar format. Default is 0.
+     * @returns A new instance of NepaliDate corresponding to the provided English date.
+     */
+    static fromEnglishDate(
+        year: number,
+        month0: number,
+        date: number,
+        hour: number = 0,
+        minute: number = 0,
+        second: number = 0,
+        ms: number = 0
+    ): NepaliDate {
+        const englishDate = getDate(year, month0, date, hour, minute, second, ms)
+        return new NepaliDate(englishDate)
     }
 }
 
