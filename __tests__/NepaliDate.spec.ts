@@ -84,7 +84,7 @@ describe("NepaliDate", () => {
         const n = NepaliDate.fromEnglishDate(2019, 2, 11, 3, 29, 38, 689)
 
         // checking nepali calendar date
-        expect(n.toString()).toBe("2075/11/27")
+        expect(n.toString()).toBe("2075-11-27 03:29:38.689")
         expect(n.getYear()).toBe(2075)
         expect(n.getMonth()).toBe(10)
         expect(n.getDate()).toBe(27)
@@ -110,7 +110,7 @@ describe("NepaliDate", () => {
         const n = NepaliDate.fromEnglishDate(1944, 2, 11, 3, 29, 38, 689)
 
         // checking nepali calendar date
-        expect(n.toString()).toBe("2000/11/28")
+        expect(n.toString()).toBe("2000-11-28 03:29:38.689")
         expect(n.getYear()).toBe(2000)
         expect(n.getMonth()).toBe(10)
         expect(n.getDate()).toBe(28)
