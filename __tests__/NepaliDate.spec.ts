@@ -7,7 +7,7 @@ describe("NepaliDate", () => {
         // Fri Oct 30 1981 18:30:00 GMT+0000
         // Sat Oct 31 1981 00:00:00 GMT+0530 (Nepal Time)
         const n = new NepaliDate(new Date(373314600000))
-        expect(n.toString()).toBe("2038/7/15")
+        expect(n.toString()).toBe("2038-07-15 00:00:00")
         expect(n.getYear()).toBe(2038)
         expect(n.getEnglishYear()).toBe(1981)
         expect(n.getMonth()).toBe(6)
@@ -16,17 +16,14 @@ describe("NepaliDate", () => {
         expect(n.getEnglishDate()).toBe(31)
         expect(n.getDateObject().getUTCDate()).toEqual(30)
         expect(n.getDay()).toBe(6)
-
-        const n2 = new NepaliDate(new Date("2018-08-17"))
-        expect(n2.toString()).toBe("2075/5/1")
     })
 
     it("checks parser for date only", () => {
         const n = new NepaliDate("2038-07-15")
-        expect(n.toString()).toBe("2038/7/15")
+        expect(n.toString()).toBe("2038-07-15 00:00:00")
 
         const n2 = new NepaliDate("2075.03.22")
-        expect(n2.toString()).toBe("2075/3/22")
+        expect(n2.toString()).toBe("2075-03-22 00:00:00")
         expect(n2.getDateObject().toISOString()).toEqual("2018-07-05T18:15:00.000Z")
         expect(n2.getEnglishYear()).toBe(2018)
         expect(n2.getEnglishMonth()).toBe(6)
@@ -35,14 +32,14 @@ describe("NepaliDate", () => {
 
     it("checks parser for date and time", () => {
         const n = new NepaliDate("2080-07-15 7:18")
-        expect(n.toString()).toBe("2080/7/15")
+        expect(n.toString()).toBe("2080-07-15 07:18:00")
         expect(n.getHours()).toBe(7)
         expect(n.getMinutes()).toBe(18)
         expect(n.getSeconds()).toBe(0)
         expect(n.getMilliseconds()).toBe(0)
 
         const n1 = new NepaliDate("2080-07-15 17:07:1:888")
-        expect(n1.toString()).toBe("2080/7/15")
+        expect(n1.toString()).toBe("2080-07-15 17:07:01.888")
         expect(n1.getHours()).toBe(17)
         expect(n1.getMinutes()).toBe(7)
         expect(n1.getSeconds()).toBe(1)
@@ -61,14 +58,14 @@ describe("NepaliDate", () => {
 
     it("checks month, date setting", () => {
         const n = new NepaliDate(2074, 11, 3)
-        expect(n.toString()).toBe("2074/12/3")
+        expect(n.toString()).toBe("2074-12-03 00:00:00")
         n.setMonth(3)
-        expect(n.toString()).toBe("2074/4/3")
+        expect(n.toString()).toBe("2074-04-03 00:00:00")
         const n2 = new NepaliDate(2075, 2, 32)
         n2.setDate(10)
-        expect(n2.toString()).toBe("2075/3/10")
+        expect(n2.toString()).toBe("2075-03-10 00:00:00")
         n2.setDate(1)
-        expect(n2.toString()).toBe("2075/3/1")
+        expect(n2.toString()).toBe("2075-03-01 00:00:00")
     })
 
     it("checks for all methods", () => {

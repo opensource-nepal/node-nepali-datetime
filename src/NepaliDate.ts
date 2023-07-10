@@ -1,5 +1,5 @@
 import dateConverter from "./dateConverter"
-import { format, formatNepali } from "./format"
+import { format, formatNepali, nepaliDateToString } from "./format"
 import parse from "./parse"
 import { getDate, getNepalDateAndTime } from "./utils"
 import { validateTime } from "./validators"
@@ -332,7 +332,7 @@ class NepaliDate {
     }
 
     toString(): string {
-        return `${this.year}/${this.month + 1}/${this.day}`
+        return nepaliDateToString(this)
     }
 }
 
