@@ -21,7 +21,8 @@
     "scripts": {
         "build": "npm run clean && rollup -c",
         "clean": "rimraf dist",
-        "test": "jest"
+        "test": "jest",
+        "coverage": "jest --coverage"
     },
     "repository": {
         "url": "https://github.com/opensource-nepal/node-nepali-datetime.git",

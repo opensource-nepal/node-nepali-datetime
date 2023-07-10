@@ -33,5 +33,12 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Run tests
-        run: npm test
+      - name: Run tests and generate coverage
+        run: npm run coverage
+
+      - name: Send coverage reports to CodeCov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+          verbose: true
