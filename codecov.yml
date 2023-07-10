@@ -2,3 +2,4 @@
 
 # Disabling comments
 comment: false
+github_checks: false
