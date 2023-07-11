@@ -225,7 +225,6 @@ describe('format', () => {
     })
 })
 
-
 describe('formatNepali', () => {
     const nepaliDate1 = new NepaliDate(2080, 1, 32, 7, 40)
     const nepaliDate2 = new NepaliDate(2080, 1, 8, 20, 55, 32)
@@ -254,7 +253,6 @@ describe('formatNepali', () => {
         const formattedDate = formatNepali(nepaliDate1, formatStr)
         expect(formattedDate).toEqual('२०८०-QQ-३२ ०७:४०:००')
     })
-
 
     it('should format NepaliDate with the non leading zeros format', () => {
         const formatStr = 'YYYY-M-D'

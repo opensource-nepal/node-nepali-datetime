@@ -4,7 +4,6 @@ describe('dateConverter date range', () => {
     it('test for dateConverter english date range', () => {
         expect(dateConverter.enMinYear()).toBe(1944)
         expect(dateConverter.enMaxYear()).toBe(2042)
-
     })
 
     it('test for dateConverter english date range', () => {
@@ -94,7 +93,6 @@ describe('dateConverter englishToNepali', () => {
 })
 
 describe('dateConverter nepaliToEnglish', () => {
-
     it('should throw an error on max year range', () => {
         expect(() => {
             dateConverter.nepaliToEnglish(3000, 1, 4)
@@ -179,5 +177,4 @@ describe('dateConverter nepaliToEnglish', () => {
         expect(m).toBe(3)
         expect(d).toBe(13)
     })
-
 })

@@ -2,8 +2,8 @@ import {
     UTC_OFFSET_IN_MS,
     OLD_UTC_OFFSET_IN_MS,
     TIMEZONE_TRANSITION_TIMESTAMP,
-    TIMEZONE_TRANSITION_DATE_REFERENCE
-} from "./constants"
+    TIMEZONE_TRANSITION_DATE_REFERENCE,
+} from './constants'
 
 /**
  * Get the Nepali date and time components (Gregorian calendar) from a given date.
@@ -12,7 +12,9 @@ import {
  * @param date - The input date for which to retrieve the Nepali date and time.
  * @returns An object containing the Nepali date and time components.
  */
-export const getNepalDateAndTime = (date: Date): {
+export const getNepalDateAndTime = (
+    date: Date
+): {
     year: number
     month0: number
     day: number
@@ -27,7 +29,8 @@ export const getNepalDateAndTime = (date: Date): {
     // Handling the timezone switch from GMT+5:30 to GMT+5:45
     // In javascript the switched time is
     // 504901800000: Wed Jan 01 1986 00:15:00 GMT+0545 (Nepal Time) : Adjusted time
-    const utcOffsetInMs = time < TIMEZONE_TRANSITION_TIMESTAMP ? OLD_UTC_OFFSET_IN_MS : UTC_OFFSET_IN_MS
+    const utcOffsetInMs =
+        time < TIMEZONE_TRANSITION_TIMESTAMP ? OLD_UTC_OFFSET_IN_MS : UTC_OFFSET_IN_MS
 
     // Calculate the Nepali reference date by adding the offset to the input date's unix timestamp
     const nepaliRefDate = new Date(time + utcOffsetInMs)
@@ -55,7 +58,6 @@ export const getNepalDateAndTime = (date: Date): {
     }
 }
 
-
 /**
  * Get the Date object from the given Nepali date and time components.
  *
@@ -80,9 +82,10 @@ export const getDate = (
     // Create a new Date object using the given Nepali date and time parameters
     const nepaliRefDate = new Date(year, month, day, hour, minute, second, ms)
 
-    let utcOffsetInMs = nepaliRefDate < TIMEZONE_TRANSITION_DATE_REFERENCE
-        ? OLD_UTC_OFFSET_IN_MS
-        : UTC_OFFSET_IN_MS
+    let utcOffsetInMs =
+        nepaliRefDate < TIMEZONE_TRANSITION_DATE_REFERENCE
+            ? OLD_UTC_OFFSET_IN_MS
+            : UTC_OFFSET_IN_MS
 
     // Getting current timezone offset (in milliseconds)
     const currentOffsetInMS = -1 * nepaliRefDate.getTimezoneOffset() * 60 * 1000
