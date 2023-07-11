@@ -94,11 +94,7 @@ const npMaxYear = (): number => {
  * @returns A boolean indicating whether the year is a leap year.
  */
 const _isLeapYear = (year: number): boolean => {
-    if (year % 400 === 0) return true
-
-    if (year % 100 === 0) return false
-
-    return year % 4 === 0
+    return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0)
 }
 
 /**

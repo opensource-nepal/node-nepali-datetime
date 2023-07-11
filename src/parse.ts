@@ -53,14 +53,22 @@ function parseDate(dateString: string): number[] {
 function parseTime(timeString: string): number[] {
     if (!timeString) return [0, 0, 0, 0]
 
-    const parts: string[] = timeString.split(':', 4)
-    const [hour = 0, minute = 0, second = 0, ms = 0] = parts.map(d => {
+    // fetching milliseconds first
+    const [hmsString, msString = '0'] = timeString.split('.', 2)
+
+    const parts: string[] = hmsString.split(':', 3)
+    const [hour, minute = 0, second = 0] = parts.map(d => {
         const n = parseInt(d, 10)
         if (Number.isNaN(n)) {
             throw new Error('Invalid time')
         }
         return n
     })
+
+    // converting milliseconds into numbers
+    let ms = parseInt(msString, 10)
+    if (Number.isNaN(ms)) ms = 0
+
     return [hour, minute, second, ms]
 }
 
