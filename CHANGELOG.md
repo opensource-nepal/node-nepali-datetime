@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## main
+## v1.0.0
 
 -   Added dateConverter module.
 -   Added time/timezone support in NepaliDate.

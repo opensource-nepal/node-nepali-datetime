@@ -1,2 +1,2 @@
-import NepaliDate from "./NepaliDate";
+import NepaliDate from './NepaliDate';
 export default NepaliDate;

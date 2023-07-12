@@ -5,3 +5,6 @@ cjs
 yarn-error.log
 .log/
 coverage
+
+# jetbrains
+.idea/

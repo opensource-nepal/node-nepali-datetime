@@ -204,6 +204,10 @@ const [npYear, npMonth, npDay] = dateConverter.englishToNepali(2023, 5, 27);
 const [enYear, enMonth, enDay] = dateConverter.nepaliToEnglish(2080, 2, 15);
 ```
 
+## Acknowledgements
+
+This project was inspired by [nepali-date](https://github.com/sharingapples/nepali-date). We would like to express our gratitude to their team for their excellent work and ideas, which served as a motivation for this project.
+
 ## Contribution
 
 We appreciate feedback and contribution to this package. To get started please see our [contribution guide](CONTRIBUTING.md).

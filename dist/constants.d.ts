@@ -1,0 +1,13 @@
+export declare const UTC_OFFSET_IN_MS = 20700000;
+export declare const OLD_UTC_OFFSET_IN_MS = 19800000;
+export declare const TIMEZONE_TRANSITION_TIMESTAMP = 504901800000;
+export declare const TIMEZONE_TRANSITION_DATE_REFERENCE: Date;
+export declare const MONTHS_EN: string[];
+export declare const MONTHS_SHORT_EN: string[];
+export declare const MONTHS_NP: string[];
+export declare const MONTHS_SHORT_NP: string[];
+export declare const NUM_NP: string[];
+export declare const WEEKDAYS_SHORT_EN: string[];
+export declare const WEEKDAYS_LONG_EN: string[];
+export declare const WEEKDAYS_SHORT_NP: string[];
+export declare const WEEKDAYS_LONG_NP: string[];
