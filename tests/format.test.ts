@@ -12,6 +12,12 @@ describe('format', () => {
         expect(formattedDate).toEqual('2080-02-32')
     })
 
+    it('should format NepaliDate for the provided format string with normal text', () => {
+        const formatStr = '"H"ello YYYY-MM-DD Worl"d"!'
+        const formattedDate = format(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('Hello 2080-02-32 World!')
+    })
+
     it('should handle a format string with repeated formats', () => {
         const formatStr = 'YYYY YYYY'
         const formattedDate = format(nepaliDate1, formatStr)
@@ -37,9 +43,11 @@ describe('format', () => {
     })
 
     it('should not format NepaliDate for invalid format size', () => {
-        const formatStr = 'YYYYY-MMMMM-DDD ddddd' // invalid format
+        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS AA aa' // invalid format
         const formattedDate = format(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('YYYYY-MMMMM-DDD ddddd')
+        expect(formattedDate).toEqual(
+            'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS AA aa'
+        )
     })
 
     /* individual format tests (positive cases) */
@@ -182,6 +190,13 @@ describe('format', () => {
         expect(formattedDate).toEqual('4')
     })
 
+    it('should format NepaliDate of 1digit ms for S: millisecond', () => {
+        const formatStr = 'S'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
+        const formattedDate = format(d, formatStr)
+        expect(formattedDate).toEqual('0')
+    })
+
     it('should format NepaliDate for SS: millisecond', () => {
         const formatStr = 'SS'
         const formattedDate = format(nepaliDate3, formatStr)
@@ -192,6 +207,20 @@ describe('format', () => {
         const formatStr = 'SSS'
         const formattedDate = format(nepaliDate3, formatStr)
         expect(formattedDate).toEqual('413')
+    })
+
+    it('should format NepaliDate of 1digit ms for SSS: millisecond', () => {
+        const formatStr = 'SSS'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
+        const formattedDate = format(d, formatStr)
+        expect(formattedDate).toEqual('004')
+    })
+
+    it('should format NepaliDate of 2digit ms for SSS: millisecond', () => {
+        const formatStr = 'SSS'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 41)
+        const formattedDate = format(d, formatStr)
+        expect(formattedDate).toEqual('041')
     })
 
     it('should format NepaliDate for SSSSSSSSS: millisecond', () => {
@@ -236,6 +265,12 @@ describe('formatNepali', () => {
         expect(formattedDate).toEqual('२०८०-०२-३२')
     })
 
+    it('should format NepaliDate for the provided format string with normal text', () => {
+        const formatStr = '"H"ello YYYY-MM-DD Worl"d"!'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('Hello २०८०-०२-३२ World!')
+    })
+
     it('should handle a format string with repeated formats', () => {
         const formatStr = 'YYYY YYYY'
         const formattedDate = formatNepali(nepaliDate1, formatStr)
@@ -261,9 +296,11 @@ describe('formatNepali', () => {
     })
 
     it('should not format NepaliDate for invalid format size', () => {
-        const formatStr = 'YYYYY-MMMMM-DDD ddddd' // invalid format
+        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS A a' // invalid format
         const formattedDate = formatNepali(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('YYYYY-MMMMM-DDD ddddd')
+        expect(formattedDate).toEqual(
+            'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS A a'
+        )
     })
 
     /* individual format tests (positive cases) */
@@ -406,6 +443,13 @@ describe('formatNepali', () => {
         expect(formattedDate).toEqual('४')
     })
 
+    it('should format NepaliDate of 1digit ms for S: millisecond', () => {
+        const formatStr = 'S'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
+        const formattedDate = formatNepali(d, formatStr)
+        expect(formattedDate).toEqual('०')
+    })
+
     it('should format NepaliDate for SS: millisecond', () => {
         const formatStr = 'SS'
         const formattedDate = formatNepali(nepaliDate3, formatStr)
@@ -416,6 +460,20 @@ describe('formatNepali', () => {
         const formatStr = 'SSS'
         const formattedDate = formatNepali(nepaliDate3, formatStr)
         expect(formattedDate).toEqual('४१३')
+    })
+
+    it('should format NepaliDate of 1digit ms for SSS: millisecond', () => {
+        const formatStr = 'SSS'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
+        const formattedDate = formatNepali(d, formatStr)
+        expect(formattedDate).toEqual('००४')
+    })
+
+    it('should format NepaliDate of 2digit ms for SSS: millisecond', () => {
+        const formatStr = 'SSS'
+        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 41)
+        const formattedDate = formatNepali(d, formatStr)
+        expect(formattedDate).toEqual('०४१')
     })
 
     it('should format NepaliDate for SSSSSSSSS: millisecond', () => {

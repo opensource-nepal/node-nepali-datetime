@@ -327,7 +327,10 @@ function millisecondNp(format: string, size: number): Formatter {
 
 function amPmUpperCaseEn(format: string, size: number): Formatter {
     return date => {
-        return date.hour > 12 ? 'PM' : 'AM'
+        if (size === 1) {
+            return date.hour > 12 ? 'PM' : 'AM'
+        }
+        return format.repeat(size)
     }
 }
 
@@ -344,13 +347,16 @@ function amPmNp(format: string, size: number): Formatter {
          * - बेलुका
          * - रात
          */
-        return format
+        return format.repeat(size)
     }
 }
 
 function amPmLowerCaseEn(format: string, size: number): Formatter {
     return date => {
-        return date.hour > 12 ? 'pm' : 'am'
+        if (size === 1) {
+            return date.hour > 12 ? 'pm' : 'am'
+        }
+        return format.repeat(size)
     }
 }
 

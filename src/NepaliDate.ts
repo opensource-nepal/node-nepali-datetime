@@ -146,15 +146,6 @@ class NepaliDate {
     }
 
     /**
-     * Parses a string representation of a Nepali calendar date and sets the NepaliDate object accordingly.
-     *
-     * @param {string} dateString - The string representation of the Nepali calendar date.
-     */
-    parse(dateString: string) {
-        this.set.apply(this, parse(dateString))
-    }
-
-    /**
      * Retrieves the year of the Nepali date in the Nepali calendar.
      *
      * @returns {number} The full numeric value representing the year. Eg. 2080
@@ -419,10 +410,10 @@ class NepaliDate {
         year: number,
         month: number,
         date: number,
-        hour: number = 0,
-        minute: number = 0,
-        second: number = 0,
-        ms: number = 0
+        hour: number,
+        minute: number,
+        second: number,
+        ms: number
     ) {
         validateTime(hour, minute, second, ms)
         const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(
@@ -495,7 +486,9 @@ class NepaliDate {
     }
 }
 
-NepaliDate.minimum = () => new Date(dateConverter.enMinYear(), 0, 1)
-NepaliDate.maximum = () => new Date(dateConverter.enMaxYear(), 11, 31)
+NepaliDate.minimum = () =>
+    NepaliDate.fromEnglishDate(dateConverter.enMinYear(), 0, 1).getDateObject()
+NepaliDate.maximum = () =>
+    NepaliDate.fromEnglishDate(dateConverter.enMaxYear(), 11, 31).getDateObject()
 
 export default NepaliDate

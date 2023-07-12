@@ -2,6 +2,52 @@ import NepaliDate from '../src/NepaliDate'
 import { ValidationError } from '../src/validators'
 
 describe('NepaliDate', () => {
+    it('should throw error if initializes from invalid object', () => {
+        expect(() => {
+            const _ = new NepaliDate({})
+        }).toThrow('Invalid date argument')
+    })
+
+    it('should throw error if initializes from invalid object: boolean', () => {
+        expect(() => {
+            const _ = new NepaliDate(true)
+        }).toThrow('Invalid date argument')
+    })
+
+    it('should throw error if initializes from null', () => {
+        expect(() => {
+            const _ = new NepaliDate(null)
+        }).toThrow('Invalid date argument')
+    })
+
+    it('should throw error if initializes from undefined', () => {
+        expect(() => {
+            const _ = new NepaliDate(undefined)
+        }).toThrow('Invalid date argument')
+    })
+
+    it('should throw error if initializes from invalid date as string', () => {
+        expect(() => {
+            const _ = new NepaliDate('hello')
+        }).toThrow('Invalid date')
+    })
+
+    it('should initialize from full date and time params', () => {
+        const n = new NepaliDate(2080, 2, 26, 21, 2, 23, 689)
+        expect(n.toString()).toBe('2080-03-26 21:02:23.689')
+    })
+
+    it('should initialize from year and month params', () => {
+        const n = new NepaliDate(2080, 2)
+        expect(n.toString()).toBe('2080-03-01 00:00:00')
+    })
+
+    it('should initialize from another NepaliDate object', () => {
+        const n1 = new NepaliDate(2080, 2, 26, 21, 2, 23, 689)
+        const n2 = new NepaliDate(n1)
+        expect(n2.toString()).toBe('2080-03-26 21:02:23.689')
+    })
+
     it('checks for nepali date validity', () => {
         // 373314600000
         // Fri Oct 30 1981 18:30:00 GMT+0000
@@ -38,7 +84,7 @@ describe('NepaliDate', () => {
         expect(n.getSeconds()).toBe(0)
         expect(n.getMilliseconds()).toBe(0)
 
-        const n1 = new NepaliDate('2080-07-15 17:07:1:888')
+        const n1 = new NepaliDate('2080-07-15 17:07:1.888')
         expect(n1.toString()).toBe('2080-07-15 17:07:01.888')
         expect(n1.getHours()).toBe(17)
         expect(n1.getMinutes()).toBe(7)
@@ -57,7 +103,9 @@ describe('NepaliDate', () => {
     })
 
     it('checks month, date setting', () => {
-        const n = new NepaliDate(2074, 11, 3)
+        const n = new NepaliDate(2075, 11, 3)
+        expect(n.toString()).toBe('2075-12-03 00:00:00')
+        n.setYear(2074)
         expect(n.toString()).toBe('2074-12-03 00:00:00')
         n.setMonth(3)
         expect(n.toString()).toBe('2074-04-03 00:00:00')
@@ -83,18 +131,8 @@ describe('NepaliDate', () => {
     it('should be initialized from fromEnglishDate', () => {
         const n = NepaliDate.fromEnglishDate(2019, 2, 11, 3, 29, 38, 689)
 
-        // checking nepali calendar date
+        // checking nepali calendar date time
         expect(n.toString()).toBe('2075-11-27 03:29:38.689')
-        expect(n.getYear()).toBe(2075)
-        expect(n.getMonth()).toBe(10)
-        expect(n.getDate()).toBe(27)
-        expect(n.getDay()).toBe(1)
-
-        // checking nepali time
-        expect(n.getHours()).toBe(3)
-        expect(n.getMinutes()).toBe(29)
-        expect(n.getSeconds()).toBe(38)
-        expect(n.getMilliseconds()).toBe(689)
 
         // checking date object
         expect(n.getTime()).toEqual(1552254278689)
@@ -104,23 +142,31 @@ describe('NepaliDate', () => {
         expect(n.getEnglishYear()).toBe(2019)
         expect(n.getEnglishMonth()).toBe(2)
         expect(n.getEnglishDate()).toBe(11)
+        expect(n.getDay()).toBe(1)
+    })
+
+    it('should be initialized from fromEnglishDate date params only', () => {
+        const n = NepaliDate.fromEnglishDate(2019, 2, 11)
+
+        // checking nepali calendar date time
+        expect(n.toString()).toBe('2075-11-27 00:00:00')
+
+        // checking date object
+        expect(n.getTime()).toEqual(1552241700000)
+        expect(n.getDateObject().toISOString()).toEqual('2019-03-10T18:15:00.000Z')
+
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(2019)
+        expect(n.getEnglishMonth()).toBe(2)
+        expect(n.getEnglishDate()).toBe(11)
+        expect(n.getDay()).toBe(1)
     })
 
     it('should be initialized from fromEnglishDate for +5:30 timezone', () => {
         const n = NepaliDate.fromEnglishDate(1944, 2, 11, 3, 29, 38, 689)
 
-        // checking nepali calendar date
+        // checking nepali calendar date time
         expect(n.toString()).toBe('2000-11-28 03:29:38.689')
-        expect(n.getYear()).toBe(2000)
-        expect(n.getMonth()).toBe(10)
-        expect(n.getDate()).toBe(28)
-        expect(n.getDay()).toBe(6)
-
-        // checking nepali time
-        expect(n.getHours()).toBe(3)
-        expect(n.getMinutes()).toBe(29)
-        expect(n.getSeconds()).toBe(38)
-        expect(n.getMilliseconds()).toBe(689)
 
         // checking date object
         expect(n.getTime()).toEqual(-814500021311)
@@ -130,41 +176,94 @@ describe('NepaliDate', () => {
         expect(n.getEnglishYear()).toBe(1944)
         expect(n.getEnglishMonth()).toBe(2)
         expect(n.getEnglishDate()).toBe(11)
+        expect(n.getDay()).toBe(6)
+    })
+
+    it("should return minimum date 1944 of Nepal's time", () => {
+        expect(NepaliDate.minimum().toISOString()).toEqual('1943-12-31T18:30:00.000Z')
+    })
+
+    it("should return maximum date 2042 Dec last of Nepal's time", () => {
+        expect(NepaliDate.maximum().toISOString()).toEqual('2042-12-30T18:15:00.000Z')
+    })
+})
+
+describe('NepaliDate parsing on initialization', () => {
+    it('should throw error if invalid date format is given', () => {
+        expect(() => {
+            const _ = new NepaliDate('YYYY-MM-DD')
+        }).toThrow('Invalid date')
+    })
+
+    it('should throw error if invalid date format is given', () => {
+        expect(() => {
+            const _ = new NepaliDate('2080-03-26 HH:SS:MM')
+        }).toThrow('Invalid time')
+    })
+
+    it('should parse both date and time', () => {
+        const n = new NepaliDate('2080-03-26 18:15:24')
+        expect(n.toString()).toBe('2080-03-26 18:15:24')
+    })
+
+    it('should parse without time', () => {
+        const n = new NepaliDate('2080-03-26')
+        expect(n.toString()).toBe('2080-03-26 00:00:00')
+    })
+
+    it('should parse without month and date and times', () => {
+        const n = new NepaliDate('2080')
+        expect(n.toString()).toBe('2080-01-01 00:00:00')
+    })
+
+    it('should parse without minute and seconds', () => {
+        const n = new NepaliDate('2080-03-26 14')
+        expect(n.toString()).toBe('2080-03-26 14:00:00')
+    })
+
+    it('should parse both date and time with milliseconds', () => {
+        const n = new NepaliDate('2080-03-26 18:15:24.689')
+        expect(n.toString()).toBe('2080-03-26 18:15:24.689')
+    })
+
+    it('should parse both date and time ignoring invalid milliseconds', () => {
+        const n = new NepaliDate('2080-03-26 18:15:24.hello')
+        expect(n.toString()).toBe('2080-03-26 18:15:24')
     })
 })
 
 describe('NepaliDate with Time feature initialization', () => {
     // Test case for time support
     it('should support hours', () => {
-        const d = new NepaliDate(2080, 1, 12, 1)
-        expect(d.getHours()).toBe(1)
-        expect(d.getMinutes()).toBe(0)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
+        const n = new NepaliDate(2080, 1, 12, 1)
+        expect(n.getHours()).toBe(1)
+        expect(n.getMinutes()).toBe(0)
+        expect(n.getSeconds()).toBe(0)
+        expect(n.getMilliseconds()).toBe(0)
     })
 
     it('should support minutes', () => {
-        const d = new NepaliDate(2080, 1, 12, 1, 2)
-        expect(d.getHours()).toBe(1)
-        expect(d.getMinutes()).toBe(2)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
+        const n = new NepaliDate(2080, 1, 12, 1, 2)
+        expect(n.getHours()).toBe(1)
+        expect(n.getMinutes()).toBe(2)
+        expect(n.getSeconds()).toBe(0)
+        expect(n.getMilliseconds()).toBe(0)
     })
 
     it('should support seconds', () => {
-        const d = new NepaliDate(2080, 1, 12, 1, 2, 3)
-        expect(d.getHours()).toBe(1)
-        expect(d.getMinutes()).toBe(2)
-        expect(d.getSeconds()).toBe(3)
-        expect(d.getMilliseconds()).toBe(0)
+        const n = new NepaliDate(2080, 1, 12, 1, 2, 3)
+        expect(n.getHours()).toBe(1)
+        expect(n.getMinutes()).toBe(2)
+        expect(n.getSeconds()).toBe(3)
+        expect(n.getMilliseconds()).toBe(0)
     })
 
     it('should support milliseconds', () => {
-        const d = new NepaliDate(2080, 1, 12, 1, 2, 3, 4)
-        expect(d.getHours()).toBe(1)
-        expect(d.getMinutes()).toBe(2)
-        expect(d.getSeconds()).toBe(3)
-        expect(d.getMilliseconds()).toBe(4)
+        const n = new NepaliDate(2080, 1, 12, 1, 2, 3, 4)
+        expect(n.getHours()).toBe(1)
+        expect(n.getMinutes()).toBe(2)
+        expect(n.getSeconds()).toBe(3)
+        expect(n.getMilliseconds()).toBe(4)
     })
 
     // Test case for valid time components
@@ -281,49 +380,38 @@ describe('NepaliDate with Time feature initialization', () => {
 
     it('should set the Nepali hours and minutes from a given time when running on a different timezone system', () => {
         const t = 1686501122598 // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
-        const d = new NepaliDate(t)
+        const n = new NepaliDate(t)
 
-        expect(d.getHours()).toBe(22)
-        expect(d.getMinutes()).toBe(17)
+        expect(n.getHours()).toBe(22)
+        expect(n.getMinutes()).toBe(17)
     })
 
     it('should set the unix timestamp from a given nepali params when running on a different timezone system', () => {
-        const d = new NepaliDate(2080, 1, 28, 22, 17, 2, 598)
+        const n = new NepaliDate(2080, 1, 28, 22, 17, 2, 598)
 
-        expect(d.getTime()).toBe(1686501122598) // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
-        expect(d.getHours()).toBe(22)
-        expect(d.getMinutes()).toBe(17)
+        expect(n.getTime()).toBe(1686501122598) // Sun Jun 11 2023 22:17:02 GMT+0545 (Nepal Time)
+        expect(n.getHours()).toBe(22)
+        expect(n.getMinutes()).toBe(17)
     })
 
-    it('should support date and time of past year with GMT+5:30', () => {
+    it('should support date and time params of past year with GMT+5:30', () => {
         // -807708794322
         // Sun May 28 1944 12:26:45 GMT+0000
         // Sun May 28 1944 17:56:45 GMT+0530 (Nepal Time)
-        const d = new NepaliDate(2001, 1, 15, 17, 56, 45, 678)
 
-        // timestamp
-        expect(d.getTime()).toBe(-807708794322)
+        const n = new NepaliDate(2001, 1, 15, 17, 56, 45, 678)
 
-        // dates
-        expect(d.getYear()).toBe(2001)
-        expect(d.getMonth()).toBe(1)
-        expect(d.getDate()).toBe(15)
-        expect(d.getDay()).toBe(0)
+        // checking timestamp
+        expect(n.getTime()).toBe(-807708794322)
 
-        // times
-        expect(d.getHours()).toBe(17)
-        expect(d.getMinutes()).toBe(56)
-        expect(d.getSeconds()).toBe(45)
-        expect(d.getMilliseconds()).toBe(678)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2001-02-15 17:56:45.678')
 
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1944)
-        expect(d.getDateObject().getUTCMonth()).toBe(4)
-        expect(d.getDateObject().getUTCDate()).toBe(28)
-        expect(d.getDateObject().getUTCHours()).toBe(12)
-        expect(d.getDateObject().getUTCMinutes()).toBe(26)
-        expect(d.getDateObject().getUTCSeconds()).toBe(45)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1944)
+        expect(n.getEnglishMonth()).toBe(4)
+        expect(n.getEnglishDate()).toBe(28)
+        expect(n.getDay()).toBe(0)
     })
 
     it('should support timestamp of past year with GMT+5:30', () => {
@@ -331,30 +419,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Sun May 28 1944 12:26:45 GMT+0000
         // Sun May 28 1944 17:56:45 GMT+0530 (Nepal Time)
 
-        const d = new NepaliDate(-807708794322)
+        const n = new NepaliDate(-807708794322)
 
-        // timestamp
-        expect(d.getTime()).toBe(-807708794322)
+        // checking timestamp
+        expect(n.getTime()).toBe(-807708794322)
 
-        // dates
-        expect(d.getYear()).toBe(2001)
-        expect(d.getMonth()).toBe(1)
-        expect(d.getDate()).toBe(15)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2001-02-15 17:56:45.678')
 
-        // times
-        expect(d.getHours()).toBe(17)
-        expect(d.getMinutes()).toBe(56)
-        expect(d.getSeconds()).toBe(45)
-        expect(d.getMilliseconds()).toBe(678)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1944)
-        expect(d.getDateObject().getUTCMonth()).toBe(4)
-        expect(d.getDateObject().getUTCDate()).toBe(28)
-        expect(d.getDateObject().getUTCHours()).toBe(12)
-        expect(d.getDateObject().getUTCMinutes()).toBe(26)
-        expect(d.getDateObject().getUTCSeconds()).toBe(45)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1944)
+        expect(n.getEnglishMonth()).toBe(4)
+        expect(n.getEnglishDate()).toBe(28)
+        expect(n.getDay()).toBe(0)
     })
 
     it('should support date and time of recent year with GMT+5:45', () => {
@@ -362,30 +439,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Mon May 29 2023 12:11:45 GMT+0000
         // Mon May 29 2023 17:56:45 GMT+0545 (Nepal Time)
 
-        const d = new NepaliDate(2080, 1, 15, 17, 56, 45, 678)
+        const n = new NepaliDate(2080, 1, 15, 17, 56, 45, 678)
 
-        // timestamp
-        expect(d.getTime()).toBe(1685362305678)
+        // checking timestamp
+        expect(n.getTime()).toBe(1685362305678)
 
-        // dates
-        expect(d.getYear()).toBe(2080)
-        expect(d.getMonth()).toBe(1)
-        expect(d.getDate()).toBe(15)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2080-02-15 17:56:45.678')
 
-        // times
-        expect(d.getHours()).toBe(17)
-        expect(d.getMinutes()).toBe(56)
-        expect(d.getSeconds()).toBe(45)
-        expect(d.getMilliseconds()).toBe(678)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(2023)
-        expect(d.getDateObject().getUTCMonth()).toBe(4)
-        expect(d.getDateObject().getUTCDate()).toBe(29)
-        expect(d.getDateObject().getUTCHours()).toBe(12)
-        expect(d.getDateObject().getUTCMinutes()).toBe(11)
-        expect(d.getDateObject().getUTCSeconds()).toBe(45)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(2023)
+        expect(n.getEnglishMonth()).toBe(4)
+        expect(n.getEnglishDate()).toBe(29)
+        expect(n.getDay()).toBe(1)
     })
 
     it('should support timestamp of recent year with GMT+5:45', () => {
@@ -393,30 +459,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Mon May 29 2023 12:11:45 GMT+0000
         // Mon May 29 2023 17:56:45 GMT+0545 (Nepal Time)
 
-        const d = new NepaliDate(1685362305678)
+        const n = new NepaliDate(1685362305678)
 
-        // timestamp
-        expect(d.getTime()).toBe(1685362305678)
+        // checking timestamp
+        expect(n.getTime()).toBe(1685362305678)
 
-        // dates
-        expect(d.getYear()).toBe(2080)
-        expect(d.getMonth()).toBe(1)
-        expect(d.getDate()).toBe(15)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2080-02-15 17:56:45.678')
 
-        // times
-        expect(d.getHours()).toBe(17)
-        expect(d.getMinutes()).toBe(56)
-        expect(d.getSeconds()).toBe(45)
-        expect(d.getMilliseconds()).toBe(678)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(2023)
-        expect(d.getDateObject().getUTCMonth()).toBe(4)
-        expect(d.getDateObject().getUTCDate()).toBe(29)
-        expect(d.getDateObject().getUTCHours()).toBe(12)
-        expect(d.getDateObject().getUTCMinutes()).toBe(11)
-        expect(d.getDateObject().getUTCSeconds()).toBe(45)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(678)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(2023)
+        expect(n.getEnglishMonth()).toBe(4)
+        expect(n.getEnglishDate()).toBe(29)
+        expect(n.getDay()).toBe(1)
     })
 
     it('should support date and time of edge of GMT+5:45', () => {
@@ -424,30 +479,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:30:00 GMT+0000
         // Wed Jan 1 1986 00:15:00 GMT+05:45 (Nepal Time)
 
-        const d = new NepaliDate(2042, 8, 17, 0, 0)
+        const n = new NepaliDate(2042, 8, 17, 0, 0)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901800000)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901800000)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(17)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-17 00:15:00')
 
-        // times
-        expect(d.getHours()).toBe(0)
-        expect(d.getMinutes()).toBe(15)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(30)
-        expect(d.getDateObject().getUTCSeconds()).toBe(0)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1986)
+        expect(n.getEnglishMonth()).toBe(0)
+        expect(n.getEnglishDate()).toBe(1)
+        expect(n.getDay()).toBe(3)
     })
 
     it('should support timestamp of edge of GMT+5:45', () => {
@@ -455,30 +499,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:30:00 GMT+0000
         // Wed Jan 1 1986 00:15:00 GMT+05:45 (Nepal Time)
 
-        const d = new NepaliDate(504901800000)
+        const n = new NepaliDate(504901800000)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901800000)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901800000)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(17)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-17 00:15:00')
 
-        // times
-        expect(d.getHours()).toBe(0)
-        expect(d.getMinutes()).toBe(15)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(30)
-        expect(d.getDateObject().getUTCSeconds()).toBe(0)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1986)
+        expect(n.getEnglishMonth()).toBe(0)
+        expect(n.getEnglishDate()).toBe(1)
+        expect(n.getDay()).toBe(3)
     })
 
     it('should support date and time of edge of GMT+5:30', () => {
@@ -486,30 +519,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:29:59.999 GMT+0000
         // Tue Dec 31 1985 23:59:59.999 GMT+05:30 (Nepal Time)
 
-        const d = new NepaliDate(2042, 8, 16, 23, 59, 59, 999)
+        const n = new NepaliDate(2042, 8, 16, 23, 59, 59, 999)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901799999)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901799999)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(16)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-16 23:59:59.999')
 
-        // times
-        expect(d.getHours()).toBe(23)
-        expect(d.getMinutes()).toBe(59)
-        expect(d.getSeconds()).toBe(59)
-        expect(d.getMilliseconds()).toBe(999)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(29)
-        expect(d.getDateObject().getUTCSeconds()).toBe(59)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(999)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1985)
+        expect(n.getEnglishMonth()).toBe(11)
+        expect(n.getEnglishDate()).toBe(31)
+        expect(n.getDay()).toBe(2)
     })
 
     it('should support timestamp of edge of GMT+5:30', () => {
@@ -517,30 +539,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:29:59.999 GMT+0000
         // Tue Dec 31 1985 23:59:59.999 GMT+05:30 (Nepal Time)
 
-        const d = new NepaliDate(504901799999)
+        const n = new NepaliDate(504901799999)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901799999)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901799999)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(16)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-16 23:59:59.999')
 
-        // times
-        expect(d.getHours()).toBe(23)
-        expect(d.getMinutes()).toBe(59)
-        expect(d.getSeconds()).toBe(59)
-        expect(d.getMilliseconds()).toBe(999)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(29)
-        expect(d.getDateObject().getUTCSeconds()).toBe(59)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(999)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1985)
+        expect(n.getEnglishMonth()).toBe(11)
+        expect(n.getEnglishDate()).toBe(31)
+        expect(n.getDay()).toBe(2)
     })
 
     it('should support date and time of edge of GMT+5:45 after 15 minutes', () => {
@@ -548,30 +559,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:31:00 GMT+0000
         // Wed Jan 1 1986 00:16:00 GMT+05:45 (Nepal Time)
 
-        const d = new NepaliDate(2042, 8, 17, 0, 16)
+        const n = new NepaliDate(2042, 8, 17, 0, 16)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901860000)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901860000)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(17)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-17 00:16:00')
 
-        // times
-        expect(d.getHours()).toBe(0)
-        expect(d.getMinutes()).toBe(16)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(31)
-        expect(d.getDateObject().getUTCSeconds()).toBe(0)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1986)
+        expect(n.getEnglishMonth()).toBe(0)
+        expect(n.getEnglishDate()).toBe(1)
+        expect(n.getDay()).toBe(3)
     })
 
     it('should support timestamp of edge of GMT+5:45 after 15 minutes', () => {
@@ -579,30 +579,19 @@ describe('NepaliDate with Time feature initialization', () => {
         // Tue Dec 31 1985 18:31:00 GMT+0000
         // Wed Jan 1 1986 00:16:00 GMT+05:45 (Nepal Time)
 
-        const d = new NepaliDate(504901860000)
+        const n = new NepaliDate(504901860000)
 
-        // timestamp
-        expect(d.getTime()).toBe(504901860000)
+        // checking timestamp
+        expect(n.getTime()).toBe(504901860000)
 
-        // dates
-        expect(d.getYear()).toBe(2042)
-        expect(d.getMonth()).toBe(8)
-        expect(d.getDate()).toBe(17)
+        // checking nepali calendar date
+        expect(n.toString()).toBe('2042-09-17 00:16:00')
 
-        // times
-        expect(d.getHours()).toBe(0)
-        expect(d.getMinutes()).toBe(16)
-        expect(d.getSeconds()).toBe(0)
-        expect(d.getMilliseconds()).toBe(0)
-
-        // english dates and times
-        expect(d.getDateObject().getUTCFullYear()).toBe(1985)
-        expect(d.getDateObject().getUTCMonth()).toBe(11)
-        expect(d.getDateObject().getUTCDate()).toBe(31)
-        expect(d.getDateObject().getUTCHours()).toBe(18)
-        expect(d.getDateObject().getUTCMinutes()).toBe(31)
-        expect(d.getDateObject().getUTCSeconds()).toBe(0)
-        expect(d.getDateObject().getUTCMilliseconds()).toBe(0)
+        // checking english calendar date
+        expect(n.getEnglishYear()).toBe(1986)
+        expect(n.getEnglishMonth()).toBe(0)
+        expect(n.getEnglishDate()).toBe(1)
+        expect(n.getDay()).toBe(3)
     })
 })
 

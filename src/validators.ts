@@ -69,8 +69,8 @@ export const validateMillisecond = (millisecond: number) => {
 export const validateTime = (
     hour: number,
     minute: number,
-    second: number = 0,
-    ms: number = 0
+    second: number,
+    ms: number
 ) => {
     validateHour(hour)
     validateMinute(minute)
