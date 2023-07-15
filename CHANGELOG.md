@@ -4,7 +4,7 @@
 -  Add husky for running pre-commit hook
 -  Run npm test on pre-commit hook
 
-## v1.0.1
+## v1.0.1 - (July 14, 2023)
 
 -   Added dateConverter module.
 -   Added time/timezone support in NepaliDate.
