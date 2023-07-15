@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.2
+-  Add husky for running pre-commit hook
+-  Run npm test on pre-commit hook
+
 ## v1.0.1
 
 -   Added dateConverter module.
