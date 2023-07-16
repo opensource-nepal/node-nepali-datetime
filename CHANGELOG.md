@@ -1,8 +1,10 @@
 # CHANGELOG
 
-## v1.0.2
--  Add husky for running pre-commit hook
--  Run npm test on pre-commit hook
+## main
+
+-   Added husky for running pre-commit hook.
+-   Run npm test on pre-commit hook.
+-   Added formatting on pre-commit hook.
 
 ## v1.0.1 - (July 14, 2023)
 

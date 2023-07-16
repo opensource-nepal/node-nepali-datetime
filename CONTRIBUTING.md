@@ -8,7 +8,7 @@ npm install
 
 ## Codestyle
 
-A [.prettierrc](./.prettierrc) is available to maintain the coding style.
+A [.prettierrc](./.prettierrc) file is available to maintain the coding style. Besides, your code will automatically be formatted by the pre-commit hook.
 
 ## Unit tests
 
