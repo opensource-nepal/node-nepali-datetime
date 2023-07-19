@@ -169,6 +169,25 @@ The date formatting will follow the format codes mentioned below, which are simi
 Any other character is printed as is. If you need to print the
 special characters (YMDymd), enclose them within quotes.
 
+#### List of Full name of month of MMM(Abbreviated month name )
+Below is the mapping of value of MMM, Abbreviation and name of full Month
+
+| Value of MMM | Abbreviation                  | Full Month Name |
+| ------------ | ----------------------------- | --------        |
+| 0            | Bai                           | Baishakh        |
+| 1            | Jes                           | Jestha          |
+| 2            | Asa                           | Aashadha        |
+| 3            | Shr                           | Shrawan         |
+| 4            | Bhd                           | Bhadra          |
+| 5            | Asw                           | Ashwin          |
+| 6            | Kar                           | Kartik          |
+| 7            | Man                           | Mangsir         |
+| 8            | Pou                           | Poush           |
+| 9            | Mag                           | Magh            |
+| 10           | Fal                           | Falgun          |
+| 11           | Cha                           |  Chaitra        |
+
+
 #### Converting to JavaScript Date object
 
 You can get the equivalent JavaScript `Date` object of a `NepaliDate` object using the `getDateObject()` method.
