@@ -1,8 +1,9 @@
 import {
-    UTC_OFFSET_IN_MS,
+    FORMAT_TOKEN_REGEX,
     OLD_UTC_OFFSET_IN_MS,
     TIMEZONE_TRANSITION_TIMESTAMP,
     TIMEZONE_TRANSITION_DATE_REFERENCE,
+    UTC_OFFSET_IN_MS,
 } from './constants'
 
 /**
@@ -95,4 +96,36 @@ export const getDate = (
 
     // Return the date object
     return date
+}
+
+/**
+ * Parses a format string and extracts individual format tokens.
+ *
+ * The format string can contain various tokens, which are represented
+ * by certain characters or character sequences. Tokens can be single
+ * characters, multiple characters, or character sequences enclosed within
+ * square brackets.
+ *
+ * @param {string} format - The format string to be parsed.
+ * @returns {string[]} - An array of parsed tokens.
+ *    Each element in the array represents a single token extracted from the format string.
+ *
+ * @example
+ * const formatString = 'YYYY-MM-DD';
+ * const parsedTokens = parseFormatTokens(formatString);
+ * // Output: ['YYYY', '-', 'MM', '-', 'DD']
+ *
+ * @example
+ * const formatString = "YYYY 'ello DD";
+ * const parsedTokens = parseFormatTokens(formatString);
+ * // Output: ['YYYY', " 'ello ", 'DD']
+ */
+
+export const parseFormatTokens = (format: string): string[] => {
+    const tokens: RegExpMatchArray | null = format.match(FORMAT_TOKEN_REGEX)
+    if (!tokens) return []
+
+    return tokens.map(token => {
+        return token.startsWith('[') && token.endsWith(']') ? token.slice(1, -1) : token
+    })
 }
