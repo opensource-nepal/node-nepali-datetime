@@ -93,3 +93,7 @@ export const WEEKDAYS_LONG_NP = [
     'शुक्रबार',
     'शनिबार',
 ]
+
+// Formatting
+export const FORMAT_TOKEN_REGEX =
+    /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|YYYY|YY|y{2,4}|yo?|a|A|hh?|HH?|mm?|ss?|S{1,3}|x|X|.)/g
