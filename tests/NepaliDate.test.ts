@@ -48,6 +48,11 @@ describe('NepaliDate', () => {
         expect(n2.toString()).toBe('2080-03-26 21:02:23.689')
     })
 
+    it('should initialize from date time string with given format', () => {
+        const n1 = new NepaliDate('2042/08/12 14-05-23.789', 'YYYY/MM/DD HH-mm-ss.SSS')
+        expect(n1.toString()).toBe('2042-08-12 14:05:23.789')
+    })
+
     it('checks for nepali date validity', () => {
         // 373314600000
         // Fri Oct 30 1981 18:30:00 GMT+0000
