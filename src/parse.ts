@@ -205,7 +205,7 @@ export function parseFormat(dateString: string, format: string): number[] {
     const { dateTokens, regex: formatRegex } = tokensToRegex(formatTokens)
     const match = dateString.match(formatRegex)
     if (!match) {
-        throw Error('Unable to parse date string for given format')
+        throw Error('Invalid date format')
     }
 
     const { year, month0, day, hour, minute, second, ms } = getDateParams(
