@@ -152,7 +152,7 @@ The date formatting will follow the format codes mentioned below, which are simi
 | ------------ | ----------------------------- | -------- |
 | YYYY         | 4-digit year                  | 2023     |
 | YY           | 2-digit year                  | 23       |
-| MMMM         | Full month name               | Baishakh |
+| MMMM         | Full month name               | Baisakh  |
 | MMM          | Abbreviated month name        | Bai      |
 | MM           | 2-digit month                 | 01-12    |
 | DD           | 2-digit day of the month      | 01-31    |
@@ -172,7 +172,7 @@ For the list of month names and their abbreviations, you can refer to the table 
 
 | Value of Month | Abbreviation | Full Name |
 | -------------- | ------------ | --------- |
-| 0              | Bai          | Baishakh  |
+| 0              | Bai          | Baisakh   |
 | 1              | Jes          | Jestha    |
 | 2              | Asa          | Asar      |
 | 3              | Shr          | Shrawan   |

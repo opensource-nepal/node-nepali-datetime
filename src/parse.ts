@@ -12,7 +12,8 @@
  * Developers should consider extending the module to support additional date and time formats.
  */
 
-import { parseFormatTokens } from './utils'
+import { MONTHS_EN, MONTHS_SHORT_EN, WEEKDAYS_LONG_EN, WEEKDAYS_SHORT_EN } from './constants'
+import { parseFormatTokens, seqToRE } from './utils'
 
 /**
  * Parses date from the given string.
@@ -110,6 +111,12 @@ const TOKEN_TO_REGEX: { [key: string]: RegExp } = {
     SSS: /(\d\d\d)/,
     A: /(AM|PM)/,
     a: /(am|pm)/,
+    MMMM: seqToRE([...MONTHS_EN]),
+    MMM: seqToRE([...MONTHS_SHORT_EN]),
+    dddd: seqToRE([...WEEKDAYS_LONG_EN]),
+    ddd: seqToRE([...WEEKDAYS_SHORT_EN]),
+    dd: seqToRE([...WEEKDAYS_SHORT_EN]),
+    d: /([0-6])/,
 }
 
 function tokensToRegex(arr: string[]): { dateTokens: string[]; regex: RegExp } {
@@ -137,7 +144,7 @@ function getDateParams(
     dateTokens: string[],
     match: RegExpMatchArray
 ): { [key: string]: number } {
-    let [year, month, day, hour, hour12, minute, second, ms] = [0, 0, 0, 0, 0, 0, 0, 0]
+    let [year, month, day, hour, hour12, minute, second, ms] = [0, 1, 1, 0, 0, 0, 0, 0]
     let isPM = false
     let is12hourFormat = false
 
@@ -154,6 +161,12 @@ function getDateParams(
             case 'MM':
             case 'M':
                 month = matchData
+                break
+            case 'MMMM':
+                month = MONTHS_EN.indexOf(match[i + 1]) + 1
+                break
+            case 'MMM':
+                month = MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
                 break
             case 'DD':
             case 'D':
@@ -205,7 +218,7 @@ export function parseFormat(dateString: string, format: string): number[] {
     const { dateTokens, regex: formatRegex } = tokensToRegex(formatTokens)
     const match = dateString.match(formatRegex)
     if (!match) {
-        throw Error('Invalid date format')
+        throw new Error('Invalid date format')
     }
 
     const { year, month0, day, hour, minute, second, ms } = getDateParams(

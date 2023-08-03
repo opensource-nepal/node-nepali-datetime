@@ -51,4 +51,64 @@ describe('parseFormat', () => {
             parseFormat('2023-08-02 12:34:56 test', 'YYYY-MM-DD HH:mm:ss')
         }).toThrowError(Error)
     })
+
+    it('should parse date string with month in Devanagari format', () => {
+        expect(parseFormat('2080, Shrawan 23', 'YYYY, MMMM DD')).toEqual([
+            2080, 3, 23, 0, 0, 0, 0,
+        ])
+    })
+
+    it('should parse date string with month in Devanagari format with time', () => {
+        expect(
+            parseFormat('2080, Shrawan 23, 10:16:30', 'YYYY, MMMM DD, HH:mm:ss')
+        ).toEqual([2080, 3, 23, 10, 16, 30, 0])
+    })
+
+    it('should throw error with month in Devanagari format and missing literals', () => {
+        expect(() => parseFormat('2080/Shrawan/23', 'YYYY/MMMM/DD HH:mm:ss')).toThrowError(
+            Error
+        )
+    })
+
+    it('should parse date string with month in short Devanagari format', () => {
+        expect(parseFormat('2080, Shr 23', 'YYYY, MMM DD')).toEqual([
+            2080, 3, 23, 0, 0, 0, 0,
+        ])
+    })
+
+    it('should parse date string with month in short Devanagari format with time', () => {
+        expect(
+            parseFormat('2080, Shr 23, 10:16:30', 'YYYY, MMM DD, HH:mm:ss')
+        ).toEqual([2080, 3, 23, 10, 16, 30, 0])
+    })
+
+    it('should throw error with month in short Devanagari format and missing literals', () => {
+        expect(() => parseFormat('2080/Shr/23', 'YYYY/MMM/DD HH:mm:ss')).toThrowError(
+            Error
+        )
+    })
+
+    it('should parse weekday fullname', () => {
+        expect(parseFormat('Wednesday', 'dddd')).toEqual([0, 0, 1, 0, 0, 0, 0])
+    })
+
+    it('should parse weekday short name', () => {
+        expect(parseFormat('Wed', 'ddd')).toEqual([0, 0, 1, 0, 0, 0, 0])
+    })
+
+    it('should parse weekday short 2 letter name', () => {
+        expect(parseFormat('Wed', 'dd')).toEqual([0, 0, 1, 0, 0, 0, 0])
+    })
+
+    it('should parse weekday number', () => {
+        expect(parseFormat('3', 'd')).toEqual([0, 0, 1, 0, 0, 0, 0])
+    })
+
+    it('should throw error on random weekday number', () => {
+        expect(() => parseFormat('7', 'd')).toThrowError(Error)
+    })
+
+    it('should throw error on random weekday name', () => {
+        expect(() => parseFormat('we', 'dd')).toThrowError(Error)
+    })
 })
