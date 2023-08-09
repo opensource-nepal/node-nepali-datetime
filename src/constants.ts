@@ -1,3 +1,6 @@
+export const LOCALE_EN = 'en'
+export const LOCALE_NE = 'ne'
+
 export const UTC_OFFSET_IN_MS = 20700000 // 5 hours 45 minutes in ms
 
 // timezone reference for +5:30
@@ -96,4 +99,4 @@ export const WEEKDAYS_LONG_NP = [
 
 // Formatting
 export const FORMAT_TOKEN_REGEX =
-    /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|YYYY|YY|y{2,4}|yo?|a|A|hh?|HH?|mm?|ss?|S{1,3}|x|X|.)/g
+    /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DD?|ddd?d?|do?|YYYY|YY|y{2,4}|yo?|a|A|hh?|HH?|mm?|ss?|SSS|x|X|.)/g
