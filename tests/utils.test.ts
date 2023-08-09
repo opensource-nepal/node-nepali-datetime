@@ -1,4 +1,4 @@
-import { parseFormatTokens } from '../src/utils'
+import { parseFormatTokens, seqToRE } from '../src/utils'
 
 describe('parseFormatTokens', () => {
     it('should parse format "YYYY"', () => {
@@ -168,5 +168,35 @@ describe('parseFormatTokens', () => {
             'Today is ',
             'dddd',
         ])
+    })
+})
+
+describe('seqToRE', () => {
+    it('runs seqToRE', () => {
+        const myArray = ['a', 'b', 'c']
+        let res = seqToRE(myArray)
+
+        expect(res).toEqual(/(a|b|c)/)
+    })
+
+    it('handles almost duplicate array strings', () => {
+        const myArray = ['abc', 'abcdef', 'abcd', 'abcde']
+        let res = seqToRE(myArray)
+
+        expect(res).toEqual(/(abcdef|abcde|abcd|abc)/)
+    })
+
+    it('handles empty array', () => {
+        const emptyArray: Array<string> = []
+        let res = seqToRE(emptyArray)
+
+        expect(res).toEqual(/(?:)/)
+    })
+
+    it('handles empty string in array', () => {
+        const arrayWithEmptyString = ['']
+        let res = seqToRE(arrayWithEmptyString)
+
+        expect(res).toEqual(/(?:)/)
     })
 })
