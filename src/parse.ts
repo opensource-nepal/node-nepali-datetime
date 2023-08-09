@@ -12,7 +12,12 @@
  * Developers should consider extending the module to support additional date and time formats.
  */
 
-import { MONTHS_EN, MONTHS_SHORT_EN, WEEKDAYS_LONG_EN, WEEKDAYS_SHORT_EN } from './constants'
+import {
+    MONTHS_EN,
+    MONTHS_SHORT_EN,
+    WEEKDAYS_LONG_EN,
+    WEEKDAYS_SHORT_EN,
+} from './constants'
 import { parseFormatTokens, seqToRE } from './utils'
 
 /**
@@ -111,11 +116,11 @@ const TOKEN_TO_REGEX: { [key: string]: RegExp } = {
     SSS: /(\d\d\d)/,
     A: /(AM|PM)/,
     a: /(am|pm)/,
-    MMMM: seqToRE([...MONTHS_EN]),
-    MMM: seqToRE([...MONTHS_SHORT_EN]),
-    dddd: seqToRE([...WEEKDAYS_LONG_EN]),
-    ddd: seqToRE([...WEEKDAYS_SHORT_EN]),
-    dd: seqToRE([...WEEKDAYS_SHORT_EN]),
+    MMMM: seqToRE(MONTHS_EN),
+    MMM: seqToRE(MONTHS_SHORT_EN),
+    dddd: seqToRE(WEEKDAYS_LONG_EN),
+    ddd: seqToRE(WEEKDAYS_SHORT_EN),
+    dd: seqToRE(WEEKDAYS_SHORT_EN),
     d: /([0-6])/,
 }
 

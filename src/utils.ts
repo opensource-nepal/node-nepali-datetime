@@ -130,7 +130,6 @@ export const parseFormatTokens = (format: string): string[] => {
     })
 }
 
-
 /**
  * Converts a list of strings to a regex string.
  * It takes possible matching values to be from longest to shortest.  This
@@ -141,17 +140,21 @@ export const parseFormatTokens = (format: string): string[] => {
  * @param toConvert - An array of string containing all the required regex values
  */
 export const seqToRE = (toConvert: Array<string>): RegExp => {
-    toConvert = toConvert.sort((a, b) => b.length - a.length)
-
-    for (let value of toConvert) {
-        if (value != "") {
-            break
-        } else {
-            return new RegExp("")
-        }
+    // returns /(?:)/ regex for empty array
+    if (toConvert.length === 0) {
+        return new RegExp('')
     }
 
-    const regexString = `(${toConvert.join('|')})`
+    // deepcopy the passed array so as not to change it
+    let toConvertCopy = [...toConvert]
+    toConvertCopy = toConvertCopy.sort((a, b) => b.length - a.length)
+
+    // means that the list only contains empty string(s)
+    if (toConvertCopy[0] === '') {
+        return new RegExp('') // returns /(?:)/
+    }
+
+    const regexString = `(${toConvertCopy.join('|')})`
 
     return new RegExp(regexString)
 }
