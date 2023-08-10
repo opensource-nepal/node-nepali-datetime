@@ -1,4 +1,4 @@
-import { format, formatNepali } from '../src/format'
+import { format, formatNepali, nepaliDateToString } from '../src/format'
 import NepaliDate from '../src/NepaliDate'
 
 describe('format', () => {
@@ -13,7 +13,7 @@ describe('format', () => {
     })
 
     it('should format NepaliDate for the provided format string with normal text', () => {
-        const formatStr = '"H"ello YYYY-MM-DD Worl"d"!'
+        const formatStr = '[Hello] YYYY-MM-DD [World]!'
         const formattedDate = format(nepaliDate1, formatStr)
         expect(formattedDate).toEqual('Hello 2080-02-32 World!')
     })
@@ -42,27 +42,15 @@ describe('format', () => {
         expect(formattedDate).toEqual('2080-2-8')
     })
 
-    it('should not format NepaliDate for invalid format size', () => {
-        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS AA aa' // invalid format
+    it('should not format NepaliDate for extended format size', () => {
+        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSS AA aa'
         const formattedDate = format(nepaliDate1, formatStr)
         expect(formattedDate).toEqual(
-            'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS AA aa'
+            '2080Y-Jestha2-3232 ThursdayThu 077 077:4040:000:000S AMAM amam'
         )
     })
 
     /* individual format tests (positive cases) */
-
-    it('should format NepaliDate for YYYY: 4 digit year', () => {
-        const formatStr = 'YYYY'
-        const formattedDate = format(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('2080')
-    })
-
-    it('should format NepaliDate for Y: 4 digit year', () => {
-        const formatStr = 'Y'
-        const formattedDate = format(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('2080')
-    })
 
     it('should format NepaliDate for YYYY: 4 digit year', () => {
         const formatStr = 'YYYY'
@@ -142,13 +130,19 @@ describe('format', () => {
         expect(formattedDate).toEqual('07')
     })
 
-    it('should format NepaliDate for H:  24-hour', () => {
+    it('should format NepaliDate for H: 24-hour', () => {
         const formatStr = 'H'
         const formattedDate = format(nepaliDate3, formatStr)
         expect(formattedDate).toEqual('16')
     })
 
     it('should format NepaliDate for hh: 12-hour', () => {
+        const formatStr = 'hh'
+        const formattedDate = format(nepaliDate2, formatStr)
+        expect(formattedDate).toEqual('08')
+    })
+
+    it("should format NepaliDate for hh: 12-hour after 12 o'clock", () => {
         const formatStr = 'hh'
         const formattedDate = format(nepaliDate1, formatStr)
         expect(formattedDate).toEqual('07')
@@ -184,25 +178,6 @@ describe('format', () => {
         expect(formattedDate).toEqual('40')
     })
 
-    it('should format NepaliDate for S: millisecond', () => {
-        const formatStr = 'S'
-        const formattedDate = format(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('4')
-    })
-
-    it('should format NepaliDate of 1digit ms for S: millisecond', () => {
-        const formatStr = 'S'
-        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
-        const formattedDate = format(d, formatStr)
-        expect(formattedDate).toEqual('0')
-    })
-
-    it('should format NepaliDate for SS: millisecond', () => {
-        const formatStr = 'SS'
-        const formattedDate = format(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('41')
-    })
-
     it('should format NepaliDate for SSS: millisecond', () => {
         const formatStr = 'SSS'
         const formattedDate = format(nepaliDate3, formatStr)
@@ -221,12 +196,6 @@ describe('format', () => {
         const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 41)
         const formattedDate = format(d, formatStr)
         expect(formattedDate).toEqual('041')
-    })
-
-    it('should format NepaliDate for SSSSSSSSS: millisecond', () => {
-        const formatStr = 'SSSSSSSSS'
-        const formattedDate = format(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('413000000')
     })
 
     it('should format NepaliDate (AM) for A: Uppercase AM/PM indicator (e.g., AM, PM)', () => {
@@ -266,7 +235,7 @@ describe('formatNepali', () => {
     })
 
     it('should format NepaliDate for the provided format string with normal text', () => {
-        const formatStr = '"H"ello YYYY-MM-DD Worl"d"!'
+        const formatStr = '[Hello] YYYY-MM-DD [World!]'
         const formattedDate = formatNepali(nepaliDate1, formatStr)
         expect(formattedDate).toEqual('Hello २०८०-०२-३२ World!')
     })
@@ -295,27 +264,15 @@ describe('formatNepali', () => {
         expect(formattedDate).toEqual('२०८०-२-८')
     })
 
-    it('should not format NepaliDate for invalid format size', () => {
-        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS A a' // invalid format
+    it('should not format NepaliDate for extended format size', () => {
+        const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSS A a'
         const formattedDate = formatNepali(nepaliDate1, formatStr)
         expect(formattedDate).toEqual(
-            'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSSSSSSSS A a'
+            '२०८०Y-जेठ२-३२३२ बिहिबारबिहि ०७७ ०७७:४०४०:०००:०००S A a'
         )
     })
 
     /* individual format tests (positive cases) */
-
-    it('should format NepaliDate for YYYY: 4 digit year', () => {
-        const formatStr = 'YYYY'
-        const formattedDate = formatNepali(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('२०८०')
-    })
-
-    it('should format NepaliDate for Y: 4 digit year', () => {
-        const formatStr = 'Y'
-        const formattedDate = formatNepali(nepaliDate1, formatStr)
-        expect(formattedDate).toEqual('२०८०')
-    })
 
     it('should format NepaliDate for YYYY: 4 digit year', () => {
         const formatStr = 'YYYY'
@@ -407,6 +364,12 @@ describe('formatNepali', () => {
         expect(formattedDate).toEqual('०७')
     })
 
+    it('should format NepaliDate for hh: 12-hour', () => {
+        const formatStr = 'hh'
+        const formattedDate = formatNepali(nepaliDate2, formatStr)
+        expect(formattedDate).toEqual('०८')
+    })
+
     it('should format NepaliDate for h: 12-hour', () => {
         const formatStr = 'h'
         const formattedDate = formatNepali(nepaliDate3, formatStr)
@@ -437,25 +400,6 @@ describe('formatNepali', () => {
         expect(formattedDate).toEqual('४०')
     })
 
-    it('should format NepaliDate for S: millisecond', () => {
-        const formatStr = 'S'
-        const formattedDate = formatNepali(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('४')
-    })
-
-    it('should format NepaliDate of 1digit ms for S: millisecond', () => {
-        const formatStr = 'S'
-        const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 4)
-        const formattedDate = formatNepali(d, formatStr)
-        expect(formattedDate).toEqual('०')
-    })
-
-    it('should format NepaliDate for SS: millisecond', () => {
-        const formatStr = 'SS'
-        const formattedDate = formatNepali(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('४१')
-    })
-
     it('should format NepaliDate for SSS: millisecond', () => {
         const formatStr = 'SSS'
         const formattedDate = formatNepali(nepaliDate3, formatStr)
@@ -475,10 +419,18 @@ describe('formatNepali', () => {
         const formattedDate = formatNepali(d, formatStr)
         expect(formattedDate).toEqual('०४१')
     })
+})
 
-    it('should format NepaliDate for SSSSSSSSS: millisecond', () => {
-        const formatStr = 'SSSSSSSSS'
-        const formattedDate = formatNepali(nepaliDate3, formatStr)
-        expect(formattedDate).toEqual('४१३००००००')
+describe('nepaliDateToString', () => {
+    it('should format NepaliDate in YYYY-MM-DD HH:mm:ss format', () => {
+        const nepaliDate = new NepaliDate(2080, 2, 26, 21, 2, 23)
+        const toString = nepaliDateToString(nepaliDate)
+        expect(toString).toBe('2080-03-26 21:02:23')
+    })
+
+    it('should format NepaliDate in YYYY-MM-DD HH:mm:ss.SSS format', () => {
+        const nepaliDate = new NepaliDate(2080, 2, 26, 21, 2, 23, 689)
+        const toString = nepaliDateToString(nepaliDate)
+        expect(toString).toBe('2080-03-26 21:02:23.689')
     })
 })
