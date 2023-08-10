@@ -23,18 +23,16 @@ console.log(now.toString()) // Outputs: "2080-03-23 15:32:03.643"
 const date1 = new NepaliDate('2079-02-15 23:11')
 console.log(date1.toString()) // Outputs: "2079-02-15 23:11:00"
 
-// Components of a NepaliDate object
-const year = now.getYear()
-const month = now.getMonth()
-const date = now.getDate()
-console.log(`Year: ${year}, Month: ${month}, Date: ${date}`) // Outputs: "Year: 2080, Month: 2, Date: 23"
+// Parse Nepali date string
+const date2 = new NepaliDate('Baisakh 18, 2080', 'MMMM D, YYYY')
+console.log(date1.toString()) // Outputs: "2080-01-18 00:00:00"
 
 // Format a NepaliDate object
 const formattedDate = now.format('YYYY-MM-DD')
 console.log(formattedDate) // Outputs: "2080-03-23"
 
 // Create a NepaliDate object from an English date
-const date2 = NepaliDate.fromEnglishDate(2023, 6, 8)
+const date3 = NepaliDate.fromEnglishDate(2023, 6, 8)
 console.log(englishDate.toString()) // Outputs: "2080-03-23 00:00:00"
 ```
 
