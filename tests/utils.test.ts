@@ -169,4 +169,8 @@ describe('parseFormatTokens', () => {
             'dddd',
         ])
     })
+
+    it("should returns empty doesn't match with FORMAT_TOKEN_REGEX", () => {
+        expect(parseFormatTokens('')).toEqual([])
+    })
 })
