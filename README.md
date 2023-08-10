@@ -146,7 +146,7 @@ const now = new NepaliDate(2079, 5, 3, 16, 14)
 console.log(now.format('YYYY-MM-DD hh:mm A')) // Outputs: 2079-06-03 04:14 PM
 ```
 
-The date formatting will follow the format codes mentioned below, which are similar to the date formats used in moment.js.
+The date formatting will follow the format codes mentioned below, which are similar to the date formats used in day.js.
 
 | Format Token | Description                   | Example  |
 | ------------ | ----------------------------- | -------- |
@@ -166,8 +166,7 @@ The date formatting will follow the format codes mentioned below, which are simi
 | A            | Uppercase AM/PM               | AM or PM |
 | a            | Lowercase am/pm               | am or pm |
 
-Any other character is printed as is. If you need to print the
-special characters (YMDymd), enclose them within quotes.
+Any other character will be printed as it is. If you need to print the special characters (YMDmd), please enclose them within square brackets. Example: `.format("[YMDmd]")`
 
 For the list of month names and their abbreviations, you can refer to the table below.
 

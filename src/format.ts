@@ -1,4 +1,6 @@
 import {
+    LOCALE_EN,
+    LOCALE_NE,
     MONTHS_EN,
     MONTHS_NP,
     MONTHS_SHORT_EN,
@@ -9,35 +11,23 @@ import {
     WEEKDAYS_SHORT_EN,
     WEEKDAYS_SHORT_NP,
 } from './constants'
-
-type Locale = 'en' | 'ne'
+import { parseFormatTokens } from './utils'
 
 interface NepaliDate {
-    year: number
-    month: number
-    day: number
-    hour: number
-    minute: number
-    weekDay: number
     getYear: () => number
     getMonth: () => number
     getDate: () => number
+    getDay: () => number
     getHours: () => number
     getMinutes: () => number
     getSeconds: () => number
     getMilliseconds: () => number
 }
 
+type Locale = typeof LOCALE_EN | typeof LOCALE_NE
+
 interface Formatter {
-    (date: NepaliDate): string
-}
-
-interface FormatterFactory {
-    (format: string, size: number): Formatter
-}
-
-interface FormatterFactoryMap {
-    [key: string]: FormatterFactory
+    (nepaliDate: NepaliDate, locale: Locale): string
 }
 
 /* Helper functions */
@@ -47,295 +37,153 @@ interface FormatterFactoryMap {
  *
  * Output: 1 => 01, 11 => 11
  *
- * @param n - The number to be padded.
+ * @param value - The number to be padded.
  * @returns The padded number as a string.
  */
-function zeroPadding(n: number): string {
-    if (n < 10) {
-        return `0${n}`
-    }
-    return `${n}`
-}
+const zeroPad = (value: number) => value.toString().padStart(2, '0')
 
 /**
  * Pads a number with a leading zero if it is less than 100.
  *
  * Output: 1 => 001, 11 => 011, 111 => 111
  *
- * @param n - The number to be padded.
+ * @param value - The number to be padded.
  * @returns The padded number as a string.
  */
-function millisecondZeroPadding(n: number): string {
-    if (n < 10) {
-        return `00${n}`
-    } else if (n < 100) {
-        return `0${n}`
-    }
-    return `${n}`
+const millisecondZeroPad = (value: number) => value.toString().padStart(3, '0')
+
+/**
+ * Converts English digits to Nepali digits (Devanagari script).
+ *
+ * @param {string} str - English digits in string format.
+ * @returns {string} Nepali digits in string format.
+ */
+const npDigit = (str: string): string => {
+    return str
+        .split('')
+        .map(chr => NUM_NP[chr.charCodeAt(0) - 48])
+        .join('')
 }
 
-function npDigit(str: string): string {
-    let res = ''
-    for (let i = 0; i < str.length; i += 1) {
-        res += NUM_NP[str.charCodeAt(i) - 48]
+/**
+ * Returns a localized number (digit) in string format.
+ * Converts to Nepali digits for Nepali localization.
+ *
+ * @param {string | number} obj - The string or number to be localized.
+ * @param {Locale} locale - The locale specifying the localization (e.g., 'en' or 'ne').
+ * @returns {string} The localized number in string format.
+ */
+const localizedNumberString = (obj: string | number, locale: Locale): string => {
+    const objInString = typeof obj === 'string' ? obj : String(obj)
+    if (locale !== LOCALE_NE) {
+        return objInString
     }
-    return res
+    return npDigit(objInString)
 }
 
-/* Formatters */
+/* FORMATTERS */
 
-function yearEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1 || size === 4) return String(date.year)
-        if (size === 2) {
-            return String(date.year).substring(2)
-        }
-        return format.repeat(size)
-    }
+const halfYear: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getYear(), locale).substring(2)
 }
 
-function yearNp(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1 || size === 4) return npDigit(String(date.year))
-        if (size === 2) {
-            return npDigit(String(date.year).substring(2))
-        }
-        return format.repeat(size)
-    }
+const fullYear: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getYear(), locale)
 }
 
-function monthEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return String(date.month + 1)
-        }
-        if (size === 2) {
-            return zeroPadding(date.month + 1)
-        }
-        if (size === 3) {
-            return MONTHS_SHORT_EN[date.month]
-        }
-        if (size === 4) {
-            return MONTHS_EN[date.month]
-        }
-        return format.repeat(size)
-    }
+const monthNumber: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getMonth() + 1, locale)
 }
 
-function monthNp(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.month + 1))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.month + 1))
-        }
-        if (size === 3) {
-            return MONTHS_SHORT_NP[date.month]
-        }
-        if (size === 4) {
-            return MONTHS_NP[date.month]
-        }
-        return format.repeat(size)
-    }
+const monthTwoDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getMonth() + 1), locale)
 }
 
-function dateEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return String(date.day)
-        }
-        if (size === 2) {
-            return zeroPadding(date.day)
-        }
-        return format.repeat(size)
+const monthAbbrName: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return MONTHS_SHORT_NP[nepaliDate.getMonth()]
     }
+    return MONTHS_SHORT_EN[nepaliDate.getMonth()]
 }
 
-function dateNp(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.day))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.day))
-        }
-        return format.repeat(size)
+const monthFullName: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return MONTHS_NP[nepaliDate.getMonth()]
     }
+    return MONTHS_EN[nepaliDate.getMonth()]
 }
 
-function weekDayEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return String(date.weekDay)
-        }
-        if (size > 1 && size < 4) {
-            // "dd" and "ddd" => "Fri"
-            return WEEKDAYS_SHORT_EN[date.weekDay]
-        }
-        if (size === 4) {
-            return WEEKDAYS_LONG_EN[date.weekDay]
-        }
-
-        return format.repeat(size)
-    }
+const dayNumber: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getDate(), locale)
 }
 
-function weekDayNp(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.weekDay))
-        }
-        if (size > 1 && size < 4) {
-            return WEEKDAYS_SHORT_NP[date.weekDay]
-        }
-        if (size === 4) {
-            return WEEKDAYS_LONG_NP[date.weekDay]
-        }
-
-        return format.repeat(size)
-    }
+const dayTwoDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getDate()), locale)
 }
 
-function hour24En(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return String(date.hour)
-        }
-        if (size === 2) {
-            return zeroPadding(date.hour)
-        }
-        return format.repeat(size)
-    }
+const weekDayNumber: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getDay(), locale)
 }
 
-function hour24Np(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.hour))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.hour))
-        }
-        return format.repeat(size)
+const weekDayShortName: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return WEEKDAYS_SHORT_NP[nepaliDate.getDay()]
     }
+    return WEEKDAYS_SHORT_EN[nepaliDate.getDay()]
 }
 
-function hour12En(format: string, size: number): Formatter {
-    return date => {
-        const hour = date.hour > 12 ? date.hour - 12 : date.hour
-
-        if (size === 1) {
-            return String(hour)
-        }
-        if (size === 2) {
-            return zeroPadding(hour)
-        }
-        return format.repeat(size)
+const weekDayFullName: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return WEEKDAYS_LONG_NP[nepaliDate.getDay()]
     }
+    return WEEKDAYS_LONG_EN[nepaliDate.getDay()]
 }
 
-function hour12Np(format: string, size: number): Formatter {
-    return date => {
-        const hour = date.hour > 12 ? date.hour - 12 : date.hour
-
-        if (size === 1) {
-            return npDigit(String(hour))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(hour))
-        }
-        return format.repeat(size)
-    }
+const hour24Number: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getHours(), locale)
 }
 
-function minuteEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return String(date.minute)
-        }
-        if (size === 2) {
-            return zeroPadding(date.minute)
-        }
-        return format.repeat(size)
-    }
+const hour24TwoDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getHours()), locale)
 }
 
-function minuteNp(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.minute))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.minute))
-        }
-        return format.repeat(size)
-    }
+const hour12Number: Formatter = (nepaliDate, locale) => {
+    const hour24 = nepaliDate.getHours()
+    const hour = hour24 > 12 ? hour24 - 12 : hour24
+    return localizedNumberString(hour, locale)
 }
 
-function secondEn(format: string, size: number): Formatter {
-    return date => {
-        const seconds = date.getSeconds()
-        if (size === 1) {
-            return String(seconds)
-        }
-        if (size === 2) {
-            return zeroPadding(seconds)
-        }
-        return format.repeat(size)
-    }
+const hour12TwoDigit: Formatter = (nepaliDate, locale) => {
+    const hour24 = nepaliDate.getHours()
+    const hour = hour24 > 12 ? hour24 - 12 : hour24
+    return localizedNumberString(zeroPad(hour), locale)
 }
 
-function secondNp(format: string, size: number): Formatter {
-    return date => {
-        const seconds = date.getSeconds()
-        if (size === 1) {
-            return npDigit(String(seconds))
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(seconds))
-        }
-        return format.repeat(size)
-    }
+const minuteNumber: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getMinutes(), locale)
 }
 
-function millisecondEn(format: string, size: number): Formatter {
-    return date => {
-        const ms = date.getMilliseconds()
-        if (size < 4) {
-            return millisecondZeroPadding(ms).substring(0, size)
-        }
-        if (size < 10) {
-            return `${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`
-        }
-        return format.repeat(size)
-    }
+const minuteTwoDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getMinutes()), locale)
 }
 
-function millisecondNp(format: string, size: number): Formatter {
-    return date => {
-        const ms = date.getMilliseconds()
-        if (size < 4) {
-            return npDigit(millisecondZeroPadding(ms).substring(0, size))
-        }
-        if (size < 10) {
-            return npDigit(`${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`)
-        }
-        return format.repeat(size)
-    }
+const secondNumber: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getSeconds(), locale)
 }
 
-function amPmUpperCaseEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return date.hour > 12 ? 'PM' : 'AM'
-        }
-        return format.repeat(size)
-    }
+const secondTwoDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getSeconds()), locale)
 }
 
-function amPmNp(format: string, size: number): Formatter {
-    return date => {
+const millisecondThreeDigit: Formatter = (nepaliDate, locale) => {
+    return localizedNumberString(
+        millisecondZeroPad(nepaliDate.getMilliseconds()),
+        locale
+    )
+}
+
+const amPmUpperCase: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
         /**
          * The output of this method is yet to be decided.
          * Further discussion are needed for this method.
@@ -347,167 +195,105 @@ function amPmNp(format: string, size: number): Formatter {
          * - बेलुका
          * - रात
          */
-        return format.repeat(size)
+        return 'A'
     }
+    return nepaliDate.getHours() > 12 ? 'PM' : 'AM'
 }
 
-function amPmLowerCaseEn(format: string, size: number): Formatter {
-    return date => {
-        if (size === 1) {
-            return date.hour > 12 ? 'pm' : 'am'
-        }
-        return format.repeat(size)
+const amPmLowerCase: Formatter = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return 'a'
     }
+    return nepaliDate.getHours() > 12 ? 'pm' : 'am'
 }
 
-function pass(seq: string): () => string {
-    return () => seq
-}
+/* Formatters mapping and implementations */
 
-/* formatting functions */
-
-/**
- * Map of formatter factory functions for English format.
- */
-const formattersFactoryMapEn: FormatterFactoryMap = {
-    Y: yearEn,
-    M: monthEn,
-    D: dateEn,
-    d: weekDayEn,
-    H: hour24En,
-    h: hour12En,
-    m: minuteEn,
-    s: secondEn,
-    S: millisecondEn,
-    A: amPmUpperCaseEn,
-    a: amPmLowerCaseEn,
-}
-
-/**
- * Map of formatter factory functions for Nepali format.
- */
-const formattersFactoryMapNp: FormatterFactoryMap = {
-    Y: yearNp,
-    M: monthNp,
-    D: dateNp,
-    d: weekDayNp,
-    H: hour24Np,
-    h: hour12Np,
-    m: minuteNp,
-    s: secondNp,
-    S: millisecondNp,
-    A: amPmNp,
-    a: amPmNp,
+const TOKENS_TO_FORMATTER: { [key: string]: Formatter } = {
+    YY: halfYear,
+    YYYY: fullYear,
+    M: monthNumber,
+    MM: monthTwoDigit,
+    MMM: monthAbbrName,
+    MMMM: monthFullName,
+    D: dayNumber,
+    DD: dayTwoDigit,
+    d: weekDayNumber,
+    dd: weekDayShortName,
+    ddd: weekDayShortName,
+    dddd: weekDayFullName,
+    H: hour24Number,
+    HH: hour24TwoDigit,
+    h: hour12Number,
+    hh: hour12TwoDigit,
+    m: minuteNumber,
+    mm: minuteTwoDigit,
+    s: secondNumber,
+    ss: secondTwoDigit,
+    SSS: millisecondThreeDigit,
+    A: amPmUpperCase,
+    a: amPmLowerCase,
 }
 
 /**
- * Get the formatter map based on the locale.
- * @param locale - The locale identifier. Valid values are 'en' for English and 'ne' for Nepali.
- * @returns The formatter map for the specified locale.
+ * Converts a Nepali date object to a formatted string.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string to specify the desired output format.
+ * @param {Locale} locale - The locale specifying the localization (e.g., 'en' or 'ne').
+ * @returns {string} The formatted date in string format.
  */
-function getFormattersFactoryMap(locale: Locale): FormatterFactoryMap {
-    if (locale === 'ne') {
-        return formattersFactoryMapNp
+const formatDate = (nepaliDate: NepaliDate, format: string, locale: Locale): string => {
+    const tokens = parseFormatTokens(format)
+    const formatToken = (token: string) => {
+        if (!(token in TOKENS_TO_FORMATTER)) {
+            return token
+        }
+        return TOKENS_TO_FORMATTER[token](nepaliDate, locale)
     }
-    return formattersFactoryMapEn
+    return tokens.map(formatToken).join('')
 }
 
-function isSpecial(ch: string, locale: Locale) {
-    return ch in getFormattersFactoryMap(locale)
+/**
+ * Returns a string representation (in English) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - The formatted Nepali date string.
+ */
+export const format = (nepaliDate: NepaliDate, format: string): string => {
+    return formatDate(nepaliDate, format, LOCALE_EN)
 }
 
-function getFormatters(formatStr: string, locale: Locale) {
-    let inQuote = false
-    let seq = ''
-    let special = ''
-    let specialSize = 0
-    const formattersFactoryMap = getFormattersFactoryMap(locale)
-
-    const formatters: Formatter[] = []
-
-    for (const ch of formatStr) {
-        if (ch === special) {
-            specialSize += 1
-            // eslint-disable-next-line no-continue
-            continue
-        }
-
-        // Time to process special
-        if (special !== '') {
-            const formatterFactory = formattersFactoryMap[special]
-            const formatter = formatterFactory(special, specialSize)
-            formatters.push(formatter)
-            special = ''
-            specialSize = 0
-        }
-
-        if (ch === '"') {
-            inQuote = !inQuote
-            // eslint-disable-next-line no-continue
-            continue
-        }
-
-        if (!isSpecial(ch, locale) || inQuote) {
-            seq += ch
-        } else {
-            // got a special character
-            if (seq) {
-                formatters.push(pass(seq))
-                seq = ''
-            }
-
-            special = ch
-            specialSize = 1
-        }
-    }
-
-    if (seq) {
-        formatters.push(pass(seq))
-    } else if (special) {
-        const formatterFactory = formattersFactoryMap[special]
-        const formatter = formatterFactory(special, specialSize)
-        formatters.push(formatter)
-    }
-
-    return formatters
-}
-
-export function format(nepaliDate: NepaliDate, formatStr: string): string {
-    return getFormatters(formatStr, 'en')
-        .map(f => f(nepaliDate))
-        .join('')
-}
-
-export function formatNepali(nepaliDate: NepaliDate, formatStr: string): string {
-    return getFormatters(formatStr, 'ne')
-        .map(f => f(nepaliDate))
-        .join('')
+/**
+ * Returns a string representation in the Nepali (Devanagari) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - A string representation of the NepaliDate object in the specified format.
+ */
+export const formatNepali = (nepaliDate: NepaliDate, format: string): string => {
+    return formatDate(nepaliDate, format, LOCALE_NE)
 }
 
 /**
  * Converts a NepaliDate object to a toString() representation.
- * Returns in format YYYY-MM-DD HH:mm:ss[.SSS].
- * This method is light-weight than format/formatNepali method.
+ * Returns in format "YYYY-MM-DD HH:mm:ss[.SSS]".
+ * This method is lightweight compared to the format/formatNepali method.
  *
- * @param nepaliDate - The NepaliDate object to be converted.
- * @returns The formatted string representation of the NepaliDate.
+ * @param {NepaliDate} nepaliDate - The NepaliDate object to be converted.
+ * @returns {string} The formatted string representation of the NepaliDate.
  */
-export function nepaliDateToString(nepaliDate: NepaliDate) {
-    const dateString = `${zeroPadding(nepaliDate.getYear())}-${zeroPadding(
-        nepaliDate.getMonth() + 1
-    )}-${zeroPadding(nepaliDate.getDate())}`
-    const timeString = `${zeroPadding(nepaliDate.getHours())}:${zeroPadding(
-        nepaliDate.getMinutes()
-    )}:${zeroPadding(nepaliDate.getSeconds())}`
+export const nepaliDateToString = (nepaliDate: NepaliDate): string => {
+    const year = zeroPad(nepaliDate.getYear())
+    const month = zeroPad(nepaliDate.getMonth() + 1)
+    const date = zeroPad(nepaliDate.getDate())
+    const hours = zeroPad(nepaliDate.getHours())
+    const minutes = zeroPad(nepaliDate.getMinutes())
+    const seconds = zeroPad(nepaliDate.getSeconds())
+    const milliseconds = nepaliDate.getMilliseconds()
+    const millisecondString =
+        milliseconds === 0 ? '' : `.${millisecondZeroPad(milliseconds)}`
 
-    // millisecond
-    const ms = nepaliDate.getMilliseconds()
-    let millisecondString
-    if (ms === 0) {
-        millisecondString = ''
-    } else {
-        millisecondString = `.${millisecondZeroPadding(ms)}`
-    }
-
-    return `${dateString} ${timeString}${millisecondString}`
+    return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}${millisecondString}`
 }
