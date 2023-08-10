@@ -149,6 +149,7 @@ function getDateParams(
     dateTokens: string[],
     match: RegExpMatchArray
 ): { [key: string]: number } {
+    // month and day are set to 1 in default
     let [year, month, day, hour, hour12, minute, second, ms] = [0, 1, 1, 0, 0, 0, 0, 0]
     let isPM = false
     let is12hourFormat = false

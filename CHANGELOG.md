@@ -6,6 +6,7 @@
 -   Run npm test on pre-commit hook.
 -   Added formatting on pre-commit hook.
 -   Refactored formatting
+-   Added parse feature in a given format
 
 ## v1.0.1 - (July 14, 2023)
 

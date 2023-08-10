@@ -48,9 +48,22 @@ describe('NepaliDate', () => {
         expect(n2.toString()).toBe('2080-03-26 21:02:23.689')
     })
 
-    it('should initialize from date time string with given format', () => {
+    /* date format parsing tests */
+
+    it('should initialize by parsing string with given format', () => {
         const n1 = new NepaliDate('2042/08/12 14-05-23.789', 'YYYY/MM/DD HH-mm-ss.SSS')
         expect(n1.toString()).toBe('2042-08-12 14:05:23.789')
+    })
+
+    it('should initialize by parsing year string with default month, day and time params', () => {
+        const n1 = new NepaliDate('2042', 'YYYY')
+        expect(n1.toString()).toBe('2042-01-01 00:00:00')
+    })
+
+    it('should throw error if year component is missed during parsing', () => {
+        expect(() => {
+            const _ = new NepaliDate('08/12 14-05-23.789', 'MM/DD HH-mm-ss.SSS')
+        }).toThrow('Date out of range')
     })
 
     it('checks for nepali date validity', () => {
