@@ -1,6 +1,6 @@
 import dateConverter from './dateConverter'
 import { format, formatNepali, nepaliDateToString } from './format'
-import parse from './parse'
+import { parse, parseFormat } from './parse'
 import { getDate, getNepalDateAndTime } from './utils'
 import { validateTime } from './validators'
 
@@ -36,6 +36,11 @@ class NepaliDate {
      *     ```
      *     const date1 = new NepaliDate('2079-02-15');
      *     const date2 = new NepaliDate('2079-02-15 14:00');
+     *     ```
+     *
+     *   - String and format: Parses the string in a given format.
+     *     ```
+     *     const date1 = new NepaliDate('Baisakh 1, 2080', 'MMMM D, YYYY');
      *     ```
      *
      *   - Unix timestamp (in milliseconds):
@@ -91,6 +96,13 @@ class NepaliDate {
             } else {
                 throw new Error('Invalid date argument')
             }
+        } else if (
+            args.length === 2 &&
+            typeof args[0] === 'string' &&
+            typeof args[1] === 'string'
+        ) {
+            const [dateTimeString, format] = args
+            this.set.apply(this, parseFormat(dateTimeString, format))
         } else {
             this.set(
                 args[0], // year
