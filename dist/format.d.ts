@@ -1,27 +1,36 @@
 interface NepaliDate {
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    minute: number;
-    weekDay: number;
     getYear: () => number;
     getMonth: () => number;
     getDate: () => number;
+    getDay: () => number;
     getHours: () => number;
     getMinutes: () => number;
     getSeconds: () => number;
     getMilliseconds: () => number;
 }
-export declare function format(nepaliDate: NepaliDate, formatStr: string): string;
-export declare function formatNepali(nepaliDate: NepaliDate, formatStr: string): string;
+/**
+ * Returns a string representation (in English) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - The formatted Nepali date string.
+ */
+export declare const format: (nepaliDate: NepaliDate, format: string) => string;
+/**
+ * Returns a string representation in the Nepali (Devanagari) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - A string representation of the NepaliDate object in the specified format.
+ */
+export declare const formatNepali: (nepaliDate: NepaliDate, format: string) => string;
 /**
  * Converts a NepaliDate object to a toString() representation.
- * Returns in format YYYY-MM-DD HH:mm:ss[.SSS].
- * This method is light-weight than format/formatNepali method.
+ * Returns in format "YYYY-MM-DD HH:mm:ss[.SSS]".
+ * This method is lightweight compared to the format/formatNepali method.
  *
- * @param nepaliDate - The NepaliDate object to be converted.
- * @returns The formatted string representation of the NepaliDate.
+ * @param {NepaliDate} nepaliDate - The NepaliDate object to be converted.
+ * @returns {string} The formatted string representation of the NepaliDate.
  */
-export declare function nepaliDateToString(nepaliDate: NepaliDate): string;
+export declare const nepaliDateToString: (nepaliDate: NepaliDate) => string;
 export {};

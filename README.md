@@ -146,23 +146,30 @@ console.log(now.format('YYYY-MM-DD hh:mm A')) // Outputs: 2079-06-03 04:14 PM
 
 The date formatting will follow the format codes mentioned below, which are similar to the date formats used in day.js.
 
-| Format Token | Description                   | Example  |
-| ------------ | ----------------------------- | -------- |
-| YYYY         | 4-digit year                  | 2023     |
-| YY           | 2-digit year                  | 23       |
-| MMMM         | Full month name               | Baisakh  |
-| MMM          | Abbreviated month name        | Bai      |
-| MM           | 2-digit month                 | 01-12    |
-| DD           | 2-digit day of the month      | 01-31    |
-| dddd         | Full day of the week          | Monday   |
-| ddd          | Abbreviated day of the week   | Mon      |
-| HH           | 2-digit hour (24-hour format) | 00-23    |
-| hh           | 2-digit hour (12-hour format) | 01-12    |
-| mm           | 2-digit minutes               | 00-59    |
-| ss           | 2-digit seconds               | 00-59    |
-| SSS          | 3-digit milliseconds          | 000-999  |
-| A            | Uppercase AM/PM               | AM or PM |
-| a            | Lowercase am/pm               | am or pm |
+| Format Token | Description                       | Example  |
+| ------------ | --------------------------------- | -------- |
+| YYYY         | 4-digit year                      | 2023     |
+| YY           | 2-digit year                      | 23       |
+| MMMM         | Full month name                   | Baisakh  |
+| MMM          | Abbreviated month name            | Bai      |
+| MM           | 2-digit month                     | 01-12    |
+| M            | Month number, beginning at 1      | 1-12     |
+| DD           | 2-digit day of the month          | 01-31    |
+| D            | Day of the month                  | 1-31     |
+| dddd         | Full day of the week              | Monday   |
+| ddd          | Abbreviated day of the week       | Mon      |
+| d            | Day of the week, with Sunday as 0 | 0-6      |
+| HH           | 2-digit hour (24-hour format)     | 00-23    |
+| H            | Hour (24-hour format)             | 0-23     |
+| hh           | 2-digit hour (12-hour format)     | 01-12    |
+| h            | Hour (12-hour format)             | 1-12     |
+| mm           | 2-digit minutes                   | 00-59    |
+| m            | Minutes                           | 0-59     |
+| ss           | 2-digit seconds                   | 00-59    |
+| s            | Seconds                           | 0-59     |
+| SSS          | 3-digit milliseconds              | 000-999  |
+| A            | Uppercase AM/PM                   | AM or PM |
+| a            | Lowercase am/pm                   | am or pm |
 
 Any other character will be printed as it is. If you need to print the special characters (YMDmd), please enclose them within square brackets. Example: `.format("[YMDmd]")`
 
