@@ -1,3 +1,5 @@
+export declare const LOCALE_EN = "en";
+export declare const LOCALE_NE = "ne";
 export declare const UTC_OFFSET_IN_MS = 20700000;
 export declare const OLD_UTC_OFFSET_IN_MS = 19800000;
 export declare const TIMEZONE_TRANSITION_TIMESTAMP = 504901800000;
@@ -11,3 +13,4 @@ export declare const WEEKDAYS_SHORT_EN: string[];
 export declare const WEEKDAYS_LONG_EN: string[];
 export declare const WEEKDAYS_SHORT_NP: string[];
 export declare const WEEKDAYS_LONG_NP: string[];
+export declare const FORMAT_TOKEN_REGEX: RegExp;
