@@ -23,5 +23,5 @@
  * @throws {Error} if date or time string is invalid
  * @returns return array of date information [hour, minute, second, ms].
  */
-declare function parse(dateTimeString: string): number[];
-export default parse;
+export declare function parse(dateTimeString: string): number[];
+export declare function parseFormat(dateString: string, format: string): number[];

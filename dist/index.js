@@ -379,6 +379,8 @@ var dateConverter = {
     nepaliToEnglish,
 };
 
+const LOCALE_EN = 'en';
+const LOCALE_NE = 'ne';
 const UTC_OFFSET_IN_MS = 20700000; // 5 hours 45 minutes in ms
 // timezone reference for +5:30
 const OLD_UTC_OFFSET_IN_MS = 19800000; // 5 hours 40 minutes in ms
@@ -463,518 +465,8 @@ const WEEKDAYS_LONG_NP = [
     'शुक्रबार',
     'शनिबार',
 ];
-
-/* Helper functions */
-/**
- * Pads a number with a leading zero if it is less than 10.
- *
- * Output: 1 => 01, 11 => 11
- *
- * @param n - The number to be padded.
- * @returns The padded number as a string.
- */
-function zeroPadding(n) {
-    if (n < 10) {
-        return `0${n}`;
-    }
-    return `${n}`;
-}
-/**
- * Pads a number with a leading zero if it is less than 100.
- *
- * Output: 1 => 001, 11 => 011, 111 => 111
- *
- * @param n - The number to be padded.
- * @returns The padded number as a string.
- */
-function millisecondZeroPadding(n) {
-    if (n < 10) {
-        return `00${n}`;
-    }
-    else if (n < 100) {
-        return `0${n}`;
-    }
-    return `${n}`;
-}
-function npDigit(str) {
-    let res = '';
-    for (let i = 0; i < str.length; i += 1) {
-        res += NUM_NP[str.charCodeAt(i) - 48];
-    }
-    return res;
-}
-/* Formatters */
-function yearEn(format, size) {
-    return date => {
-        if (size === 1 || size === 4)
-            return String(date.year);
-        if (size === 2) {
-            return String(date.year).substring(2);
-        }
-        return format.repeat(size);
-    };
-}
-function yearNp(format, size) {
-    return date => {
-        if (size === 1 || size === 4)
-            return npDigit(String(date.year));
-        if (size === 2) {
-            return npDigit(String(date.year).substring(2));
-        }
-        return format.repeat(size);
-    };
-}
-function monthEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return String(date.month + 1);
-        }
-        if (size === 2) {
-            return zeroPadding(date.month + 1);
-        }
-        if (size === 3) {
-            return MONTHS_SHORT_EN[date.month];
-        }
-        if (size === 4) {
-            return MONTHS_EN[date.month];
-        }
-        return format.repeat(size);
-    };
-}
-function monthNp(format, size) {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.month + 1));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.month + 1));
-        }
-        if (size === 3) {
-            return MONTHS_SHORT_NP[date.month];
-        }
-        if (size === 4) {
-            return MONTHS_NP[date.month];
-        }
-        return format.repeat(size);
-    };
-}
-function dateEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return String(date.day);
-        }
-        if (size === 2) {
-            return zeroPadding(date.day);
-        }
-        return format.repeat(size);
-    };
-}
-function dateNp(format, size) {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.day));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.day));
-        }
-        return format.repeat(size);
-    };
-}
-function weekDayEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return String(date.weekDay);
-        }
-        if (size > 1 && size < 4) {
-            // "dd" and "ddd" => "Fri"
-            return WEEKDAYS_SHORT_EN[date.weekDay];
-        }
-        if (size === 4) {
-            return WEEKDAYS_LONG_EN[date.weekDay];
-        }
-        return format.repeat(size);
-    };
-}
-function weekDayNp(format, size) {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.weekDay));
-        }
-        if (size > 1 && size < 4) {
-            return WEEKDAYS_SHORT_NP[date.weekDay];
-        }
-        if (size === 4) {
-            return WEEKDAYS_LONG_NP[date.weekDay];
-        }
-        return format.repeat(size);
-    };
-}
-function hour24En(format, size) {
-    return date => {
-        if (size === 1) {
-            return String(date.hour);
-        }
-        if (size === 2) {
-            return zeroPadding(date.hour);
-        }
-        return format.repeat(size);
-    };
-}
-function hour24Np(format, size) {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.hour));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.hour));
-        }
-        return format.repeat(size);
-    };
-}
-function hour12En(format, size) {
-    return date => {
-        const hour = date.hour > 12 ? date.hour - 12 : date.hour;
-        if (size === 1) {
-            return String(hour);
-        }
-        if (size === 2) {
-            return zeroPadding(hour);
-        }
-        return format.repeat(size);
-    };
-}
-function hour12Np(format, size) {
-    return date => {
-        const hour = date.hour > 12 ? date.hour - 12 : date.hour;
-        if (size === 1) {
-            return npDigit(String(hour));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(hour));
-        }
-        return format.repeat(size);
-    };
-}
-function minuteEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return String(date.minute);
-        }
-        if (size === 2) {
-            return zeroPadding(date.minute);
-        }
-        return format.repeat(size);
-    };
-}
-function minuteNp(format, size) {
-    return date => {
-        if (size === 1) {
-            return npDigit(String(date.minute));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(date.minute));
-        }
-        return format.repeat(size);
-    };
-}
-function secondEn(format, size) {
-    return date => {
-        const seconds = date.getSeconds();
-        if (size === 1) {
-            return String(seconds);
-        }
-        if (size === 2) {
-            return zeroPadding(seconds);
-        }
-        return format.repeat(size);
-    };
-}
-function secondNp(format, size) {
-    return date => {
-        const seconds = date.getSeconds();
-        if (size === 1) {
-            return npDigit(String(seconds));
-        }
-        if (size === 2) {
-            return npDigit(zeroPadding(seconds));
-        }
-        return format.repeat(size);
-    };
-}
-function millisecondEn(format, size) {
-    return date => {
-        const ms = date.getMilliseconds();
-        if (size < 4) {
-            return millisecondZeroPadding(ms).substring(0, size);
-        }
-        if (size < 10) {
-            return `${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`;
-        }
-        return format.repeat(size);
-    };
-}
-function millisecondNp(format, size) {
-    return date => {
-        const ms = date.getMilliseconds();
-        if (size < 4) {
-            return npDigit(millisecondZeroPadding(ms).substring(0, size));
-        }
-        if (size < 10) {
-            return npDigit(`${millisecondZeroPadding(ms)}${'0'.repeat(size - 3)}`);
-        }
-        return format.repeat(size);
-    };
-}
-function amPmUpperCaseEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return date.hour > 12 ? 'PM' : 'AM';
-        }
-        return format.repeat(size);
-    };
-}
-function amPmNp(format, size) {
-    return date => {
-        /**
-         * The output of this method is yet to be decided.
-         * Further discussion are needed for this method.
-         *
-         * The most common words used in Nepal are below:
-         * - बिहान
-         * - मध्यान्ह
-         * - दिउसो
-         * - बेलुका
-         * - रात
-         */
-        return format.repeat(size);
-    };
-}
-function amPmLowerCaseEn(format, size) {
-    return date => {
-        if (size === 1) {
-            return date.hour > 12 ? 'pm' : 'am';
-        }
-        return format.repeat(size);
-    };
-}
-function pass(seq) {
-    return () => seq;
-}
-/* formatting functions */
-/**
- * Map of formatter factory functions for English format.
- */
-const formattersFactoryMapEn = {
-    Y: yearEn,
-    M: monthEn,
-    D: dateEn,
-    d: weekDayEn,
-    H: hour24En,
-    h: hour12En,
-    m: minuteEn,
-    s: secondEn,
-    S: millisecondEn,
-    A: amPmUpperCaseEn,
-    a: amPmLowerCaseEn,
-};
-/**
- * Map of formatter factory functions for Nepali format.
- */
-const formattersFactoryMapNp = {
-    Y: yearNp,
-    M: monthNp,
-    D: dateNp,
-    d: weekDayNp,
-    H: hour24Np,
-    h: hour12Np,
-    m: minuteNp,
-    s: secondNp,
-    S: millisecondNp,
-    A: amPmNp,
-    a: amPmNp,
-};
-/**
- * Get the formatter map based on the locale.
- * @param locale - The locale identifier. Valid values are 'en' for English and 'ne' for Nepali.
- * @returns The formatter map for the specified locale.
- */
-function getFormattersFactoryMap(locale) {
-    if (locale === 'ne') {
-        return formattersFactoryMapNp;
-    }
-    return formattersFactoryMapEn;
-}
-function isSpecial(ch, locale) {
-    return ch in getFormattersFactoryMap(locale);
-}
-function getFormatters(formatStr, locale) {
-    let inQuote = false;
-    let seq = '';
-    let special = '';
-    let specialSize = 0;
-    const formattersFactoryMap = getFormattersFactoryMap(locale);
-    const formatters = [];
-    for (const ch of formatStr) {
-        if (ch === special) {
-            specialSize += 1;
-            // eslint-disable-next-line no-continue
-            continue;
-        }
-        // Time to process special
-        if (special !== '') {
-            const formatterFactory = formattersFactoryMap[special];
-            const formatter = formatterFactory(special, specialSize);
-            formatters.push(formatter);
-            special = '';
-            specialSize = 0;
-        }
-        if (ch === '"') {
-            inQuote = !inQuote;
-            // eslint-disable-next-line no-continue
-            continue;
-        }
-        if (!isSpecial(ch, locale) || inQuote) {
-            seq += ch;
-        }
-        else {
-            // got a special character
-            if (seq) {
-                formatters.push(pass(seq));
-                seq = '';
-            }
-            special = ch;
-            specialSize = 1;
-        }
-    }
-    if (seq) {
-        formatters.push(pass(seq));
-    }
-    else if (special) {
-        const formatterFactory = formattersFactoryMap[special];
-        const formatter = formatterFactory(special, specialSize);
-        formatters.push(formatter);
-    }
-    return formatters;
-}
-function format(nepaliDate, formatStr) {
-    return getFormatters(formatStr, 'en')
-        .map(f => f(nepaliDate))
-        .join('');
-}
-function formatNepali(nepaliDate, formatStr) {
-    return getFormatters(formatStr, 'ne')
-        .map(f => f(nepaliDate))
-        .join('');
-}
-/**
- * Converts a NepaliDate object to a toString() representation.
- * Returns in format YYYY-MM-DD HH:mm:ss[.SSS].
- * This method is light-weight than format/formatNepali method.
- *
- * @param nepaliDate - The NepaliDate object to be converted.
- * @returns The formatted string representation of the NepaliDate.
- */
-function nepaliDateToString(nepaliDate) {
-    const dateString = `${zeroPadding(nepaliDate.getYear())}-${zeroPadding(nepaliDate.getMonth() + 1)}-${zeroPadding(nepaliDate.getDate())}`;
-    const timeString = `${zeroPadding(nepaliDate.getHours())}:${zeroPadding(nepaliDate.getMinutes())}:${zeroPadding(nepaliDate.getSeconds())}`;
-    // millisecond
-    const ms = nepaliDate.getMilliseconds();
-    let millisecondString;
-    if (ms === 0) {
-        millisecondString = '';
-    }
-    else {
-        millisecondString = `.${millisecondZeroPadding(ms)}`;
-    }
-    return `${dateString} ${timeString}${millisecondString}`;
-}
-
-/**
- * parse.ts
- *
- * This module provides methods for parsing dates and times from strings.
- *
- * Functions:
- *
- * parse(dateTimeString)
- * - Parses date and time from the given string.
- *
- * Further extension is needed in this module as there are limited formats supported for parsing.
- * Developers should consider extending the module to support additional date and time formats.
- */
-/**
- * Parses date from the given string.
- *
- * Supported formats are:
- * YYYY-MM-DD,
- * YYYY.MM.DD,
- * YYYY/MM/DD
- *
- * @param dateString date string to be parsed.
- * @throws {Error} if date string is invalid
- * @returns return array of date information [year, month0, day].
- */
-function parseDate(dateString) {
-    // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
-    const parts = dateString.split(/[-./]/, 3);
-    const [year, month = 1, day = 1] = parts.map(d => {
-        const n = parseInt(d, 10);
-        if (Number.isNaN(n)) {
-            throw new Error('Invalid date');
-        }
-        return n;
-    });
-    return [year, month - 1, day];
-}
-/**
- * Parses time from the given string.
- *
- * Supported formats are:
- * HH:mm,
- * HH:mm:ss,
- * HH:mm:ss:SSS
- *
- * @param timeString time string to be parsed.
- * @throws {Error} if time string is invalid
- * @returns return array of date information [hour, minute, second, ms].
- */
-function parseTime(timeString) {
-    if (!timeString)
-        return [0, 0, 0, 0];
-    // fetching milliseconds first
-    const [hmsString, msString = '0'] = timeString.split('.', 2);
-    const parts = hmsString.split(':', 3);
-    const [hour, minute = 0, second = 0] = parts.map(d => {
-        const n = parseInt(d, 10);
-        if (Number.isNaN(n)) {
-            throw new Error('Invalid time');
-        }
-        return n;
-    });
-    // converting milliseconds into numbers
-    let ms = parseInt(msString, 10);
-    if (Number.isNaN(ms))
-        ms = 0;
-    return [hour, minute, second, ms];
-}
-/**
- * Parses date and time from the given string.
- *
- * Supported formats are:
- * YYYY-MM-DD HH[:mm][:ss][:SSS],
- * YYYY.MM.DD HH[:mm][:ss][:SSS],
- * YYYY/MM/DD HH[:mm][:ss][:SSS]
- *
- * @param dateTimeString time string to be parsed.
- * @throws {Error} if date or time string is invalid
- * @returns return array of date information [hour, minute, second, ms].
- */
-function parse(dateTimeString) {
-    const [dateString, timeString] = dateTimeString.split(' ', 2);
-    const [year, month0, day] = parseDate(dateString);
-    const [hour, minute, second, ms] = parseTime(timeString);
-    return [year, month0, day, hour, minute, second, ms];
-}
+// Formatting
+const FORMAT_TOKEN_REGEX = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DD?|ddd?d?|do?|YYYY|YY|y{2,4}|yo?|a|A|hh?|HH?|mm?|ss?|SSS|x|X|.)/g;
 
 /**
  * Get the Nepali date and time components (Gregorian calendar) from a given date.
@@ -1037,6 +529,495 @@ const getDate = (year, month, day, hour, minute, second, ms) => {
     // Return the date object
     return date;
 };
+/**
+ * Parses a format string and extracts individual format tokens.
+ *
+ * The format string can contain various tokens, which are represented
+ * by certain characters or character sequences. Tokens can be single
+ * characters, multiple characters, or character sequences enclosed within
+ * square brackets.
+ *
+ * @param {string} format - The format string to be parsed.
+ * @returns {string[]} - An array of parsed tokens.
+ *    Each element in the array represents a single token extracted from the format string.
+ *
+ * @example
+ * const formatString = 'YYYY-MM-DD';
+ * const parsedTokens = parseFormatTokens(formatString);
+ * // Output: ['YYYY', '-', 'MM', '-', 'DD']
+ *
+ * @example
+ * const formatString = "YYYY 'ello DD";
+ * const parsedTokens = parseFormatTokens(formatString);
+ * // Output: ['YYYY', " 'ello ", 'DD']
+ */
+const parseFormatTokens = (format) => {
+    const tokens = format.match(FORMAT_TOKEN_REGEX);
+    if (!tokens)
+        return [];
+    return tokens.map(token => {
+        return token.startsWith('[') && token.endsWith(']') ? token.slice(1, -1) : token;
+    });
+};
+/**
+ * Converts a list of strings to a regex string.
+ * It takes possible matching values to be from longest to shortest.  This
+ * prevents the possibility of a match occurring for a value that also
+ * a substring of a larger value that should have matched (e.g., 'abc'
+ * matching when 'abcdef' should have been the match).
+ *
+ * @param toConvert - An array of string containing all the required regex values
+ */
+const seqToRE = (toConvert) => {
+    // returns /(?:)/ regex for empty array
+    if (toConvert.length === 0) {
+        return new RegExp('');
+    }
+    // deepcopy the passed array so as not to change it
+    let toConvertCopy = [...toConvert];
+    toConvertCopy = toConvertCopy.sort((a, b) => b.length - a.length);
+    // means that the list only contains empty string(s)
+    if (toConvertCopy[0] === '') {
+        return new RegExp(''); // returns /(?:)/
+    }
+    const regexString = `(${toConvertCopy.join('|')})`;
+    return new RegExp(regexString);
+};
+
+/* Helper functions */
+/**
+ * Pads a number with a leading zero if it is less than 10.
+ *
+ * Output: 1 => 01, 11 => 11
+ *
+ * @param value - The number to be padded.
+ * @returns The padded number as a string.
+ */
+const zeroPad = (value) => value.toString().padStart(2, '0');
+/**
+ * Pads a number with a leading zero if it is less than 100.
+ *
+ * Output: 1 => 001, 11 => 011, 111 => 111
+ *
+ * @param value - The number to be padded.
+ * @returns The padded number as a string.
+ */
+const millisecondZeroPad = (value) => value.toString().padStart(3, '0');
+/**
+ * Converts English digits to Nepali digits (Devanagari script).
+ *
+ * @param {string} str - English digits in string format.
+ * @returns {string} Nepali digits in string format.
+ */
+const npDigit = (str) => {
+    return str
+        .split('')
+        .map(chr => NUM_NP[chr.charCodeAt(0) - 48])
+        .join('');
+};
+/**
+ * Returns a localized number (digit) in string format.
+ * Converts to Nepali digits for Nepali localization.
+ *
+ * @param {string | number} obj - The string or number to be localized.
+ * @param {Locale} locale - The locale specifying the localization (e.g., 'en' or 'ne').
+ * @returns {string} The localized number in string format.
+ */
+const localizedNumberString = (obj, locale) => {
+    const objInString = typeof obj === 'string' ? obj : String(obj);
+    if (locale !== LOCALE_NE) {
+        return objInString;
+    }
+    return npDigit(objInString);
+};
+/* FORMATTERS */
+const halfYear = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getYear(), locale).substring(2);
+};
+const fullYear = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getYear(), locale);
+};
+const monthNumber = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getMonth() + 1, locale);
+};
+const monthTwoDigit = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getMonth() + 1), locale);
+};
+const monthAbbrName = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return MONTHS_SHORT_NP[nepaliDate.getMonth()];
+    }
+    return MONTHS_SHORT_EN[nepaliDate.getMonth()];
+};
+const monthFullName = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return MONTHS_NP[nepaliDate.getMonth()];
+    }
+    return MONTHS_EN[nepaliDate.getMonth()];
+};
+const dayNumber = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getDate(), locale);
+};
+const dayTwoDigit = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getDate()), locale);
+};
+const weekDayNumber = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getDay(), locale);
+};
+const weekDayShortName = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return WEEKDAYS_SHORT_NP[nepaliDate.getDay()];
+    }
+    return WEEKDAYS_SHORT_EN[nepaliDate.getDay()];
+};
+const weekDayFullName = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return WEEKDAYS_LONG_NP[nepaliDate.getDay()];
+    }
+    return WEEKDAYS_LONG_EN[nepaliDate.getDay()];
+};
+const hour24Number = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getHours(), locale);
+};
+const hour24TwoDigit = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getHours()), locale);
+};
+const hour12Number = (nepaliDate, locale) => {
+    const hour24 = nepaliDate.getHours();
+    const hour = hour24 > 12 ? hour24 - 12 : hour24;
+    return localizedNumberString(hour, locale);
+};
+const hour12TwoDigit = (nepaliDate, locale) => {
+    const hour24 = nepaliDate.getHours();
+    const hour = hour24 > 12 ? hour24 - 12 : hour24;
+    return localizedNumberString(zeroPad(hour), locale);
+};
+const minuteNumber = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getMinutes(), locale);
+};
+const minuteTwoDigit = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getMinutes()), locale);
+};
+const secondNumber = (nepaliDate, locale) => {
+    return localizedNumberString(nepaliDate.getSeconds(), locale);
+};
+const secondTwoDigit = (nepaliDate, locale) => {
+    return localizedNumberString(zeroPad(nepaliDate.getSeconds()), locale);
+};
+const millisecondThreeDigit = (nepaliDate, locale) => {
+    return localizedNumberString(millisecondZeroPad(nepaliDate.getMilliseconds()), locale);
+};
+const amPmUpperCase = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        /**
+         * The output of this method is yet to be decided.
+         * Further discussion are needed for this method.
+         *
+         * The most common words used in Nepal are below:
+         * - बिहान
+         * - मध्यान्ह
+         * - दिउसो
+         * - बेलुका
+         * - रात
+         */
+        return 'A';
+    }
+    return nepaliDate.getHours() > 12 ? 'PM' : 'AM';
+};
+const amPmLowerCase = (nepaliDate, locale) => {
+    if (locale === LOCALE_NE) {
+        return 'a';
+    }
+    return nepaliDate.getHours() > 12 ? 'pm' : 'am';
+};
+/* Formatters mapping and implementations */
+const TOKENS_TO_FORMATTER = {
+    YY: halfYear,
+    YYYY: fullYear,
+    M: monthNumber,
+    MM: monthTwoDigit,
+    MMM: monthAbbrName,
+    MMMM: monthFullName,
+    D: dayNumber,
+    DD: dayTwoDigit,
+    d: weekDayNumber,
+    dd: weekDayShortName,
+    ddd: weekDayShortName,
+    dddd: weekDayFullName,
+    H: hour24Number,
+    HH: hour24TwoDigit,
+    h: hour12Number,
+    hh: hour12TwoDigit,
+    m: minuteNumber,
+    mm: minuteTwoDigit,
+    s: secondNumber,
+    ss: secondTwoDigit,
+    SSS: millisecondThreeDigit,
+    A: amPmUpperCase,
+    a: amPmLowerCase,
+};
+/**
+ * Converts a Nepali date object to a formatted string.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string to specify the desired output format.
+ * @param {Locale} locale - The locale specifying the localization (e.g., 'en' or 'ne').
+ * @returns {string} The formatted date in string format.
+ */
+const formatDate = (nepaliDate, format, locale) => {
+    const tokens = parseFormatTokens(format);
+    const formatToken = (token) => {
+        if (!(token in TOKENS_TO_FORMATTER)) {
+            return token;
+        }
+        return TOKENS_TO_FORMATTER[token](nepaliDate, locale);
+    };
+    return tokens.map(formatToken).join('');
+};
+/**
+ * Returns a string representation (in English) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - The formatted Nepali date string.
+ */
+const format = (nepaliDate, format) => {
+    return formatDate(nepaliDate, format, LOCALE_EN);
+};
+/**
+ * Returns a string representation in the Nepali (Devanagari) of the NepaliDate object in the specified format.
+ *
+ * @param {NepaliDate} nepaliDate - The Nepali date object to be formatted.
+ * @param {string} format - The format string for the desired output.
+ * @returns {string} - A string representation of the NepaliDate object in the specified format.
+ */
+const formatNepali = (nepaliDate, format) => {
+    return formatDate(nepaliDate, format, LOCALE_NE);
+};
+/**
+ * Converts a NepaliDate object to a toString() representation.
+ * Returns in format "YYYY-MM-DD HH:mm:ss[.SSS]".
+ * This method is lightweight compared to the format/formatNepali method.
+ *
+ * @param {NepaliDate} nepaliDate - The NepaliDate object to be converted.
+ * @returns {string} The formatted string representation of the NepaliDate.
+ */
+const nepaliDateToString = (nepaliDate) => {
+    const year = zeroPad(nepaliDate.getYear());
+    const month = zeroPad(nepaliDate.getMonth() + 1);
+    const date = zeroPad(nepaliDate.getDate());
+    const hours = zeroPad(nepaliDate.getHours());
+    const minutes = zeroPad(nepaliDate.getMinutes());
+    const seconds = zeroPad(nepaliDate.getSeconds());
+    const milliseconds = nepaliDate.getMilliseconds();
+    const millisecondString = milliseconds === 0 ? '' : `.${millisecondZeroPad(milliseconds)}`;
+    return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}${millisecondString}`;
+};
+
+/**
+ * parse.ts
+ *
+ * This module provides methods for parsing dates and times from strings.
+ *
+ * Functions:
+ *
+ * parse(dateTimeString)
+ * - Parses date and time from the given string.
+ *
+ * Further extension is needed in this module as there are limited formats supported for parsing.
+ * Developers should consider extending the module to support additional date and time formats.
+ */
+/**
+ * Parses date from the given string.
+ *
+ * Supported formats are:
+ * YYYY-MM-DD,
+ * YYYY.MM.DD,
+ * YYYY/MM/DD
+ *
+ * @param dateString date string to be parsed.
+ * @throws {Error} if date string is invalid
+ * @returns return array of date information [year, month0, day].
+ */
+function parseDateString(dateString) {
+    // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
+    const parts = dateString.split(/[-./]/, 3);
+    const [year, month = 1, day = 1] = parts.map(d => {
+        const n = parseInt(d, 10);
+        if (Number.isNaN(n)) {
+            throw new Error('Invalid date');
+        }
+        return n;
+    });
+    return [year, month - 1, day];
+}
+/**
+ * Parses time from the given string.
+ *
+ * Supported formats are:
+ * HH:mm,
+ * HH:mm:ss,
+ * HH:mm:ss:SSS
+ *
+ * @param timeString time string to be parsed.
+ * @throws {Error} if time string is invalid
+ * @returns return array of date information [hour, minute, second, ms].
+ */
+function parseTimeString(timeString) {
+    if (!timeString)
+        return [0, 0, 0, 0];
+    // fetching milliseconds first
+    const [hmsString, msString = '0'] = timeString.split('.', 2);
+    const parts = hmsString.split(':', 3);
+    const [hour, minute = 0, second = 0] = parts.map(d => {
+        const n = parseInt(d, 10);
+        if (Number.isNaN(n)) {
+            throw new Error('Invalid time');
+        }
+        return n;
+    });
+    // converting milliseconds into numbers
+    let ms = parseInt(msString, 10);
+    if (Number.isNaN(ms))
+        ms = 0;
+    return [hour, minute, second, ms];
+}
+/**
+ * Parses date and time from the given string.
+ *
+ * Supported formats are:
+ * YYYY-MM-DD HH[:mm][:ss][:SSS],
+ * YYYY.MM.DD HH[:mm][:ss][:SSS],
+ * YYYY/MM/DD HH[:mm][:ss][:SSS]
+ *
+ * @param dateTimeString time string to be parsed.
+ * @throws {Error} if date or time string is invalid
+ * @returns return array of date information [hour, minute, second, ms].
+ */
+function parse(dateTimeString) {
+    const [dateString, timeString] = dateTimeString.split(' ', 2);
+    const [year, month0, day] = parseDateString(dateString);
+    const [hour, minute, second, ms] = parseTimeString(timeString);
+    return [year, month0, day, hour, minute, second, ms];
+}
+/* parse v2 */
+const TOKEN_TO_REGEX = {
+    YY: /(\d\d)/,
+    YYYY: /(\d\d\d\d)/,
+    M: /(1[0-2]|0[1-9]|[1-9])/,
+    MM: /(1[0-2]|0[1-9]|[1-9])/,
+    D: /(3[0-2]|[1-2]\d|0[1-9]|[1-9]| [1-9])/,
+    DD: /(3[0-2]|[1-2]\d|0[1-9]|[1-9]| [1-9])/,
+    H: /(2[0-3]|[0-1]\d|\d)/,
+    HH: /(2[0-3]|[0-1]\d|\d)/,
+    hh: /(1[0-2]|0[1-9]|[1-9])/,
+    mm: /([0-5]\d|\d)/,
+    ss: /([0-5]\d|\d)/,
+    SSS: /(\d\d\d)/,
+    A: /(AM|PM)/,
+    a: /(am|pm)/,
+    MMMM: seqToRE(MONTHS_EN),
+    MMM: seqToRE(MONTHS_SHORT_EN),
+    dddd: seqToRE(WEEKDAYS_LONG_EN),
+    ddd: seqToRE(WEEKDAYS_SHORT_EN),
+    dd: seqToRE(WEEKDAYS_SHORT_EN),
+    d: /([0-6])/,
+};
+function tokensToRegex(arr) {
+    const dateTokens = [];
+    const regexParts = [];
+    for (const token of arr) {
+        if (token in TOKEN_TO_REGEX) {
+            dateTokens.push(token);
+            regexParts.push(TOKEN_TO_REGEX[token].source);
+        }
+        else {
+            regexParts.push(token.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+        }
+    }
+    const regexString = regexParts.join('');
+    return {
+        dateTokens,
+        regex: new RegExp(`^${regexString}$`),
+    };
+}
+function getDateParams(dateTokens, match) {
+    // month and day are set to 1 in default
+    let [year, month, day, hour, hour12, minute, second, ms] = [0, 1, 1, 0, 0, 0, 0, 0];
+    let isPM = false;
+    let is12hourFormat = false;
+    for (let i = 0; i < dateTokens.length; i++) {
+        const token = dateTokens[i];
+        const matchData = parseInt(match[i + 1]);
+        switch (token) {
+            case 'YYYY':
+                year = matchData;
+                break;
+            case 'YY':
+                year = 2000 + parseInt(match[i]);
+                break;
+            case 'MM':
+            case 'M':
+                month = matchData;
+                break;
+            case 'MMMM':
+                month = MONTHS_EN.indexOf(match[i + 1]) + 1;
+                break;
+            case 'MMM':
+                month = MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1;
+                break;
+            case 'DD':
+            case 'D':
+                day = matchData;
+                break;
+            case 'HH':
+            case 'H':
+                hour = matchData;
+                break;
+            case 'hh':
+            case 'h':
+                hour12 = matchData;
+                is12hourFormat = true;
+                break;
+            case 'mm':
+            case 'm':
+                minute = matchData;
+                break;
+            case 'ss':
+            case 's':
+                second = matchData;
+                break;
+            case 'SSS':
+                ms = matchData;
+                break;
+            case 'A':
+            case 'a':
+                isPM = match[i + 1].toLowerCase() === 'pm';
+        }
+    }
+    if (is12hourFormat) {
+        hour = hour12 + (isPM ? 12 : 0);
+    }
+    return {
+        year,
+        month0: month - 1,
+        day,
+        hour,
+        minute,
+        second,
+        ms,
+    };
+}
+function parseFormat(dateString, format) {
+    const formatTokens = parseFormatTokens(format);
+    const { dateTokens, regex: formatRegex } = tokensToRegex(formatTokens);
+    const match = dateString.match(formatRegex);
+    if (!match) {
+        throw new Error('Invalid date format');
+    }
+    const { year, month0, day, hour, minute, second, ms } = getDateParams(dateTokens, match);
+    return [year, month0, day, hour, minute, second, ms];
+}
 
 /**
  * validators.ts
@@ -1140,6 +1121,11 @@ class NepaliDate {
      *     const date2 = new NepaliDate('2079-02-15 14:00');
      *     ```
      *
+     *   - String and format: Parses the string in a given format.
+     *     ```
+     *     const date1 = new NepaliDate('Baisakh 1, 2080', 'MMMM D, YYYY');
+     *     ```
+     *
      *   - Unix timestamp (in milliseconds):
      *     ```
      *     const date2 = new NepaliDate(1654210800000);
@@ -1199,6 +1185,12 @@ class NepaliDate {
             else {
                 throw new Error('Invalid date argument');
             }
+        }
+        else if (args.length === 2 &&
+            typeof args[0] === 'string' &&
+            typeof args[1] === 'string') {
+            const [dateTimeString, format] = args;
+            this.set.apply(this, parseFormat(dateTimeString, format));
         }
         else {
             this.set(args[0], // year

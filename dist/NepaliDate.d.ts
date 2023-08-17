@@ -31,6 +31,11 @@ declare class NepaliDate {
      *     const date2 = new NepaliDate('2079-02-15 14:00');
      *     ```
      *
+     *   - String and format: Parses the string in a given format.
+     *     ```
+     *     const date1 = new NepaliDate('Baisakh 1, 2080', 'MMMM D, YYYY');
+     *     ```
+     *
      *   - Unix timestamp (in milliseconds):
      *     ```
      *     const date2 = new NepaliDate(1654210800000);
