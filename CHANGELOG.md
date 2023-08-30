@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 1.1.0
+## main
+
+-   Updated NepaliDate members to private.
+
+## 1.1.0 - (August 17, 2023)
 
 -   Added husky for running pre-commit hook.
 -   Run npm test on pre-commit hook.

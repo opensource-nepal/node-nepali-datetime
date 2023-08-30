@@ -8,16 +8,16 @@ import { validateTime } from './validators'
  * Represents a Nepali calendar date.
  */
 class NepaliDate {
-    timestamp: Date
-    year: number
-    yearEn: number
-    month: number
-    monthEn: number
-    day: number
-    dayEn: number
-    hour: number
-    minute: number
-    weekDay: number
+    private timestamp: Date
+    private year: number
+    private yearEn: number
+    private month: number
+    private monthEn: number
+    private day: number
+    private dayEn: number
+    private hour: number
+    private minute: number
+    private weekDay: number
     static minimum: () => Date
     static maximum: () => Date
 
@@ -121,7 +121,7 @@ class NepaliDate {
      * Handles all the operations and variables while setting the English date.
      *
      * @param date The English date to set.
-     * @param computeNepaliDate Flag indicating whether to compute the Nepali date. Default is `false`.
+     * @param computeNepaliDate Flag indicating whether to compute the Nepali date. Default is `true`.
      * @returns void
      */
     private _setDateObject(date: Date, computeNepaliDate: boolean = true) {
@@ -440,6 +440,16 @@ class NepaliDate {
             getDate(yearEn, month0EN, dayEn, hour, minute, second, ms),
             false
         )
+    }
+
+    /**
+     * Sets the Date object on the current NepaliDate object.
+     *
+     * @param date The Date object to set.
+     * @returns void
+     */
+    setDateObject(date: Date) {
+        this._setDateObject(date, true) // forcing to compute nepali date
     }
 
     /**
