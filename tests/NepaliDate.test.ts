@@ -4,25 +4,25 @@ import { ValidationError } from '../src/validators'
 describe('NepaliDate', () => {
     it('should throw error if initializes from invalid object', () => {
         expect(() => {
-            const _ = new NepaliDate({})
+            const _ = new NepaliDate({} as string)
         }).toThrow('Invalid date argument')
     })
 
     it('should throw error if initializes from invalid object: boolean', () => {
         expect(() => {
-            const _ = new NepaliDate(true)
+            const _ = new NepaliDate(true as unknown as number)
         }).toThrow('Invalid date argument')
     })
 
     it('should throw error if initializes from null', () => {
         expect(() => {
-            const _ = new NepaliDate(null)
+            const _ = new NepaliDate(null as unknown as string)
         }).toThrow('Invalid date argument')
     })
 
     it('should throw error if initializes from undefined', () => {
         expect(() => {
-            const _ = new NepaliDate(undefined)
+            const _ = new NepaliDate(undefined as unknown as number)
         }).toThrow('Invalid date argument')
     })
 

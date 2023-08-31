@@ -22,50 +22,89 @@ class NepaliDate {
     static maximum: () => Date
 
     /**
-     * Creates a new NepaliDate object.
-     *
-     * @param args - The arguments to create the NepaliDate object.
-     *
-     * Examples Parameters:
-     *   - No parameters: Creates a NepaliDate object for the current date and time.
-     *     ```
-     *     const now = new NepaliDate();
-     *     ```
-     *
-     *   - Nepali date time string: Parses the string as a Nepali calendar date.
-     *     ```
-     *     const date1 = new NepaliDate('2079-02-15');
-     *     const date2 = new NepaliDate('2079-02-15 14:00');
-     *     ```
-     *
-     *   - String and format: Parses the string in a given format.
-     *     ```
-     *     const date1 = new NepaliDate('Baisakh 1, 2080', 'MMMM D, YYYY');
-     *     ```
-     *
-     *   - Unix timestamp (in milliseconds):
-     *     ```
-     *     const date2 = new NepaliDate(1654210800000);
-     *     ```
-     *
-     *   - Date object: Converts the JavaScript Date object to a NepaliDate object.
-     *     ```
-     *     const jsDate = new Date();
-     *     const date3 = new NepaliDate(jsDate);
-     *     ```
-     *
-     *   - NepaliDate object: Creates a new NepaliDate object with the same values.
-     *     ```
-     *     const date4 = new NepaliDate(date3);
-     *     ```
-     *
-     *   - Nepali calendar date and time parameters: Specifies the components of a Nepali calendar date.
-     *     ```
-     *     const date5 = new NepaliDate(2079, 2, 15, 10, 30);
-     *     ```
-     *
-     * @throws {Error} If an invalid date argument is provided.
+     * Creates NepaliDate instance from current date
+     * @example new Date()
      */
+    constructor()
+
+    /**
+     * Create NepaliDate instance from provided english date
+     *
+     * @param {Date} date
+     *
+     * @example
+     * const nepaliDate = new NepaliDate( new Date('2020-01-01') )
+     *
+     */
+    constructor(date: Date)
+
+    /**
+     * Create NepaliDate instance from using a provided english date
+     * @param {NepaliDate} date: nepali date value provided as a value.
+     * @example
+     * const nepaliDateOld = new NepaliDate('2080-01-01')
+     * const nepaliDate = new NepaliDate( nepaliDateOld )
+     *
+     */
+    constructor(date: NepaliDate)
+
+    /**
+     * Create NepaliDate instance by parsing a provided string value
+     * @param {string} value: string date time.
+     * @example
+     * const nepaliDate = new NepaliDate('2080-01-01')
+     *
+     */
+    constructor(value: string)
+
+    /**
+     * Create NepaliDate instance by parsing a provided numeric value
+     * @param {number} value: numeric value
+     * @example
+     * const n = new NepaliDate(new Date(373314600000))
+     *
+     */
+    constructor(value: number)
+
+    /**
+     * Create NepaliDate instance by parsing a provided time string with format provided
+     * @param dateString: string date time
+     * @param format: string format of the date provided
+     * @example
+     * const n1 = new NepaliDate('2042/08/12 14-05-23.789', 'YYYY/MM/DD HH-mm-ss.SSS')
+     *
+     */
+    constructor(dateString: string, format: string)
+
+    /**
+     * Creates a new instance of the Date class.
+     *
+     * @constructor
+     * @param {number} year - The year.
+     * @param {number} month - The month (0-11, where 0 is January and 11 is December).
+     * @param {number=} day - The day of the month (1-31).
+     * @param {number=} hour - The hour of the day (0-23).
+     * @param {number=} minute - The minute (0-59).
+     * @param {number=} second - The second (0-59).
+     * @param {number=} ms - The milliseconds (0-999).
+     *
+     * @example
+     * const [year, month, day] = [2080, 1, 12]
+     * const hour = 12
+     * const minute = 30
+     * const second = 45
+     * const ms = 500
+     * const nd = new NepaliDate(year, month, day, hour, minute, second, ms)
+     */
+    constructor(
+        year: number,
+        month: number,
+        day?: number,
+        hour?: number,
+        minute?: number,
+        second?: number,
+        ms?: number
+    )
     constructor(...args: any[]) {
         if (args.length === 0) {
             this._setDateObject(new Date())
