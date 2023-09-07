@@ -42,7 +42,7 @@
         "clean": "rimraf dist",
         "test": "jest",
         "coverage": "jest --coverage",
-        "prepare": "husky install",
+        "prepare": "husky install && npm run build",
         "lint": "prettier --check .",
         "format": "prettier --write ."
     },
