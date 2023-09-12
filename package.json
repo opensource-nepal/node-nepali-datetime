@@ -8,11 +8,13 @@
     "exports": {
         ".": {
             "require": "./dist/index.js",
-            "import": "./dist/index.mjs"
+            "import": "./dist/index.mjs",
+            "types": "./dist/index.d.ts"
         },
         "./dateConverter": {
             "require": "./dist/dateConverter.js",
-            "import": "./dist/dateConverter.mjs"
+            "import": "./dist/dateConverter.mjs",
+            "types": "./dist/dateConverter/index.d.ts"
         }
     },
     "files": [
