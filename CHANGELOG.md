@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## main
+## 1.1.1
 
 -   Updated NepaliDate members to private.
+-   Fixed type resolve issue. (#59, #60)
 
 ## 1.1.0 - (August 17, 2023)
 
