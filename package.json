@@ -8,11 +8,13 @@
     "exports": {
         ".": {
             "require": "./dist/index.js",
-            "import": "./dist/index.mjs"
+            "import": "./dist/index.mjs",
+            "types": "./dist/index.d.ts"
         },
         "./dateConverter": {
             "require": "./dist/dateConverter.js",
-            "import": "./dist/dateConverter.mjs"
+            "import": "./dist/dateConverter.mjs",
+            "types": "./dist/dateConverter/index.d.ts"
         }
     },
     "files": [
@@ -56,6 +58,8 @@
     "author": "OpenSource Nepal",
     "license": "GPL-3.0",
     "devDependencies": {
+        "@commitlint/cli": "^17.7.1",
+        "@commitlint/config-conventional": "^17.7.0",
         "@rollup/plugin-commonjs": "^25.0.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
         "@rollup/plugin-typescript": "^11.1.1",
