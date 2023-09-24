@@ -22,79 +22,87 @@ class NepaliDate {
     static maximum: () => Date
 
     /**
-     * Creates NepaliDate instance from current date
-     * @example new Date()
+     * Creates a NepaliDate instance for the current date and time.
+     *
+     * @example
+     * const now = new NepaliDate()
      */
     constructor()
 
     /**
-     * Create NepaliDate instance from provided english date
+     * Creates a NepaliDate instance from a provided Javascript Date object.
      *
-     * @param {Date} date
+     * @param {Date} date - The Javascript Date object.
      *
      * @example
-     * const nepaliDate = new NepaliDate( new Date('2020-01-01') )
-     *
+     * const jsDate = new Date("2020-01-01")
+     * const nepaliDate = new NepaliDate(jsDate)
      */
     constructor(date: Date)
 
     /**
-     * Create NepaliDate instance from using a provided english date
-     * @param {NepaliDate} date: nepali date value provided as a value.
+     * Creates a new NepaliDate instance from another NepaliDate object.
+     *
+     * @param {NepaliDate} date - The NepaliDate object.
      * @example
      * const nepaliDateOld = new NepaliDate('2080-01-01')
-     * const nepaliDate = new NepaliDate( nepaliDateOld )
-     *
+     * const nepaliDate = new NepaliDate(nepaliDateOld)
      */
     constructor(date: NepaliDate)
 
     /**
-     * Create NepaliDate instance by parsing a provided string value
-     * @param {string} value: string date time.
+     * Creates a NepaliDate instance by parsing a provided date-time string.
+     *
+     * @param {string} value - The date-time string.
      * @example
      * const nepaliDate = new NepaliDate('2080-01-01')
-     *
      */
     constructor(value: string)
 
     /**
-     * Create NepaliDate instance by parsing a provided numeric value
-     * @param {number} value: numeric value
-     * @example
-     * const n = new NepaliDate(new Date(373314600000))
+     * Creates a NepaliDate instance from a provided Unix timestamp.
      *
+     * @param {number} value - The Unix timestamp.
+     * @example
+     * const timestamp = 1695569762 // Unix timestamp in milliseconds
+     * const nepaliDate = new NepaliDate(timestamp)
      */
     constructor(value: number)
 
     /**
-     * Create NepaliDate instance by parsing a provided time string with format provided
-     * @param dateString: string date time
-     * @param format: string format of the date provided
-     * @example
-     * const n1 = new NepaliDate('2042/08/12 14-05-23.789', 'YYYY/MM/DD HH-mm-ss.SSS')
+     * Creates a NepaliDate instance by parsing a provided date-time string
+     * with the given format.
      *
+     * @param dateString - The date-time string to parse.
+     * @param format - The format of the provided date-time string.
+     * @example
+     * const dateTimeString = '2080/08/12 14-05-23.789'
+     * const format = 'YYYY/MM/DD HH-mm-ss.SSS'
+     * const nepaliDate = new NepaliDate(dateTimeString, format)
      */
     constructor(dateString: string, format: string)
 
     /**
-     * Creates a new instance of the Date class.
+     * Creates a NepaliDate instance from a provided Nepali calendar date components.
      *
      * @constructor
-     * @param {number} year - The year.
-     * @param {number} month - The month (0-11, where 0 is January and 11 is December).
-     * @param {number=} day - The day of the month (1-31).
-     * @param {number=} hour - The hour of the day (0-23).
-     * @param {number=} minute - The minute (0-59).
-     * @param {number=} second - The second (0-59).
-     * @param {number=} ms - The milliseconds (0-999).
+     * @param {number} year - The year (e.g., 2080).
+     * @param {number} month - The month (0-11, where 0 is Baisakh and 11 is Chaitra).
+     * @param {number} [day=1] - The day of the month (1-31).
+     * @param {number} [hour=0] - The hour of the day (0-23).
+     * @param {number} [minute=0] - The minute (0-59).
+     * @param {number} [second=0] - The second (0-59).
+     * @param {number} [ms=0] - The milliseconds (0-999).
      *
      * @example
-     * const [year, month, day] = [2080, 1, 12]
+     * const year = 2080
+     * const month = 1 // Jestha
+     * const day = 12
      * const hour = 12
      * const minute = 30
      * const second = 45
      * const ms = 500
-     * const nd = new NepaliDate(year, month, day, hour, minute, second, ms)
+     * const nepaliDate = new NepaliDate(year, month, day, hour, minute, second, ms)
      */
     constructor(
         year: number,
@@ -261,7 +269,7 @@ class NepaliDate {
     /**
      * Retrieves the month of the Nepali date in the Nepali calendar.
      *
-     * @returns {number} The numeric value representing the month. 0 for Baishakh and 11 for Chaitra.
+     * @returns {number} The numeric value representing the month. 0 for Baisakh and 11 for Chaitra.
      */
     getMonth(): number {
         return this.month
