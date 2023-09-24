@@ -24,7 +24,6 @@ Before submitting your Pull Request, please do the following steps:
 
 1. Add any changes you want.
 1. Add tests for the new changes.
-1. Update the `CHANGELOG.md` file if necessary.
 1. Edit documentation (`README.md`) if you have changed something significant.
 1. Commit your changes using [semantic commit message](https://seesparkbox.com/foundry/semantic_commit_messages).  
    Examples: `"fix: Fixed foobar bug"`, `"feat(accounts): Added foobar feature on accounts"`.

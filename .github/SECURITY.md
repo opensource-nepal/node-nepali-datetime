@@ -6,11 +6,10 @@ The 'node-nepali-datetime' project is committed to maintaining the security and 
 
 We provide security updates and support for the latest stable release of the 'node-nepali-datetime' package. It is important to keep your software up to date to ensure you have the latest security patches.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.1.x   | :white_check_mark: |
-| 1.0.x   | :white_check_mark: |
-| 0.1.0   | :x:                |
+| Version         | Supported          |
+| --------------- | ------------------ |
+| 1.0.0 and above | :white_check_mark: |
+| 0.1.0           | :x:                |
 
 ## Reporting a Vulnerability
 
