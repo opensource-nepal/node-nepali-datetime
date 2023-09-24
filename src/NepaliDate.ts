@@ -107,53 +107,97 @@ class NepaliDate {
     )
     constructor(...args: any[]) {
         if (args.length === 0) {
-            this._setDateObject(new Date())
-        } else if (args.length === 1) {
-            const e = args[0]
-            if (typeof e === 'object') {
-                if (e instanceof Date) {
-                    this._setDateObject(e)
-                } else if (e instanceof NepaliDate) {
-                    this.timestamp = e.timestamp
-                    this.year = e.year
-                    this.yearEn = e.yearEn
-                    this.month = e.month
-                    this.monthEn = e.monthEn
-                    this.day = e.day
-                    this.dayEn = e.dayEn
-                    this.hour = e.hour
-                    this.minute = e.minute
-                    this.weekDay = e.weekDay
-                } else {
-                    throw new Error('Invalid date argument')
-                }
-            } else if (typeof e === 'number') {
-                this._setDateObject(new Date(e))
-            } else if (typeof e === 'string') {
-                // Try to parse the date
-                this.set.apply(this, parse(e))
-            } else {
-                throw new Error('Invalid date argument')
-            }
+            this.initFromCurrentDate()
+        } else if (args.length === 1 && args[0] instanceof Date) {
+            this.initFromEnglishDate(args[0])
+        } else if (args.length === 1 && args[0] instanceof NepaliDate) {
+            this.initFromNepaliDate(args[0])
+        } else if (args.length === 1 && typeof args[0] === 'string') {
+            this.parseFromString(args[0])
+        } else if (args.length === 1 && typeof args[0] === 'number') {
+            this.initFromTimestamp(args[0])
         } else if (
             args.length === 2 &&
             typeof args[0] === 'string' &&
             typeof args[1] === 'string'
         ) {
-            const [dateTimeString, format] = args
-            this.set.apply(this, parseFormat(dateTimeString, format))
+            this.parseFromStringWithFormat(args[0], args[1])
+        } else if (
+            args.length >= 2 &&
+            args.length <= 8 &&
+            args.every(arg => typeof arg === 'number')
+        ) {
+            this.initFromComponents(args)
         } else {
-            this.set(
-                args[0], // year
-                args[1], // month
-                args[2] ?? 1, // day
-                args[3] ?? 0, // hour
-                args[4] ?? 0, // minute
-                args[5] ?? 0, // second
-                args[6] ?? 0 // ms
-            )
+            throw new Error('Invalid date argument')
         }
     }
+
+    /* Object initialization */
+
+    private initFromCurrentDate() {
+        this._setDateObject(new Date())
+    }
+
+    private initFromEnglishDate(date: Date) {
+        this._setDateObject(date)
+    }
+
+    private initFromNepaliDate(date: NepaliDate) {
+        this.set(
+            date.year,
+            date.month,
+            date.day,
+            date.hour,
+            date.minute,
+            date.getSeconds(),
+            date.getMilliseconds()
+        )
+    }
+
+    private parseFromString(value: string) {
+        const parsedResult = parse(value)
+        this.set(
+            parsedResult[0], // Year
+            parsedResult[1], // Month
+            parsedResult[2], // Date
+            parsedResult[3], // Hour
+            parsedResult[4], // Minute
+            parsedResult[5], // Second
+            parsedResult[6] // Millisecond
+        )
+    }
+
+    private initFromTimestamp(value: number) {
+        this._setDateObject(new Date(value))
+    }
+
+    private parseFromStringWithFormat(dateString: string, format: string) {
+        const parsedResult = parseFormat(dateString, format)
+        this.set(
+            parsedResult[0], // Year
+            parsedResult[1], // Month
+            parsedResult[2], // Date
+            parsedResult[3], // Hour
+            parsedResult[4], // Minute
+            parsedResult[5], // Second
+            parsedResult[6] // Millisecond
+        )
+    }
+
+    private initFromComponents(args: number[]) {
+        this.set(
+            args[0], // year
+            args[1], // month
+            args[2] ?? 1, // day
+            args[3] ?? 0, // hour
+            args[4] ?? 0, // minute
+            args[5] ?? 0, // second
+            args[6] ?? 0 // ms
+        )
+    }
+
+    /* Object methods */
 
     /**
      * Sets the English date and optionally computes the corresponding Nepali date.
