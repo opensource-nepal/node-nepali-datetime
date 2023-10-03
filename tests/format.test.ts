@@ -221,6 +221,20 @@ describe('format', () => {
         const formattedDate = format(nepaliDate3, formatStr)
         expect(formattedDate).toEqual('pm')
     })
+
+    it('should format NepaliDate (AM) for midnight', () => {
+        const nepaliDate = new NepaliDate(2079, 5, 3)
+        const formatStr = 'A'
+        const formattedDate = format(nepaliDate, formatStr)
+        expect(formattedDate).toEqual('AM')
+    })
+
+    it('should format NepaliDate (PM) for noon', () => {
+        const nepaliDate = new NepaliDate(2079, 5, 3, 12)
+        const formatStr = 'A'
+        const formattedDate = format(nepaliDate, formatStr)
+        expect(formattedDate).toEqual('PM')
+    })
 })
 
 describe('formatNepali', () => {
