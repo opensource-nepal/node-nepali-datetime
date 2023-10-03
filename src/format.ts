@@ -197,14 +197,14 @@ const amPmUpperCase: Formatter = (nepaliDate, locale) => {
          */
         return 'A'
     }
-    return nepaliDate.getHours() > 12 ? 'PM' : 'AM'
+    return nepaliDate.getHours() >= 12 ? 'PM' : 'AM'
 }
 
 const amPmLowerCase: Formatter = (nepaliDate, locale) => {
     if (locale === LOCALE_NE) {
         return 'a'
     }
-    return nepaliDate.getHours() > 12 ? 'pm' : 'am'
+    return nepaliDate.getHours() >= 12 ? 'pm' : 'am'
 }
 
 /* Formatters mapping and implementations */
