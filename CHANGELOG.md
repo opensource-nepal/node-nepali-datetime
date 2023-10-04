@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.1.2](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.1.1...v1.1.2) (2023-10-03)
+
+
+### Bug Fixes
+
+* fixed AM/PM formatting issue of noon ([57091bc](https://github.com/opensource-nepal/node-nepali-datetime/commit/57091bc817f275e07627a0388382f7402f44baff))
+
 ## 1.1.1
 
 -   Updated NepaliDate members to private.

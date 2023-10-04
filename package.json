@@ -1,6 +1,6 @@
 {
     "name": "nepali-datetime",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "A Node project designed to support native JavaScript-like features for Nepali dates. It includes features such as 'NepaliDate' for Nepali date support and 'dateConverter' for date conversions.",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
