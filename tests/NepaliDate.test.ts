@@ -146,6 +146,21 @@ describe('NepaliDate', () => {
         expect(n.getMilliseconds()).toBe(789)
     })
 
+    it('should set date object using setDateObject', () => {
+        const d = new Date(373314600000)
+        const n = new NepaliDate()
+        n.setDateObject(d)
+        expect(n.toString()).toBe('2038-07-15 00:00:00')
+        expect(n.getYear()).toBe(2038)
+        expect(n.getEnglishYear()).toBe(1981)
+        expect(n.getMonth()).toBe(6)
+        expect(n.getEnglishMonth()).toBe(9)
+        expect(n.getDate()).toBe(15)
+        expect(n.getEnglishDate()).toBe(31)
+        expect(n.getDateObject().getUTCDate()).toEqual(30)
+        expect(n.getDay()).toBe(6)
+    })
+
     it('should be initialized from fromEnglishDate', () => {
         const n = NepaliDate.fromEnglishDate(2019, 2, 11, 3, 29, 38, 689)
 
