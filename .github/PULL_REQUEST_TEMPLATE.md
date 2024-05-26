@@ -19,8 +19,6 @@ Please mark the appropriate option below to describe the type of change your pul
 
 ## Checklist
 
--   [ ] I have used [semantic commit messages](https://seesparkbox.com/foundry/semantic_commit_messages).
-        Examples: `"fix: Fixed foobar bug"`, `"feat(accounts): Added foobar feature"`.
 -   [ ] I have added/updated the necessary documentation on `README.md`.
 -   [ ] I have added appropriate test cases (if applicable) to ensure the changes are functioning correctly.
 -   [ ] My pull request has a clear title and description.
