@@ -20,6 +20,11 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - name: Conventional Commitlint
+              uses: opensource-nepal/commitlint@v1
+              with:
+                  verbose: true
+
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v4
               with:
