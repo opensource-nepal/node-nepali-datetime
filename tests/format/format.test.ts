@@ -1,5 +1,5 @@
-import { format, formatNepali, nepaliDateToString } from '../src/format'
-import NepaliDate from '../src/NepaliDate'
+import { format, formatNepali, nepaliDateToString } from '../../src/format'
+import NepaliDate from '../../src/NepaliDate'
 
 describe('format', () => {
     const nepaliDate1 = new NepaliDate(2080, 1, 32, 7, 40)
@@ -282,7 +282,7 @@ describe('formatNepali', () => {
         const formatStr = 'YYYYY-MMMMM-DDD dddddd HHH hhh:mmm:sss:SSSS A a'
         const formattedDate = formatNepali(nepaliDate1, formatStr)
         expect(formattedDate).toEqual(
-            '२०८०Y-जेठ२-३२३२ बिहिबारबिहि ०७७ ०७७:४०४०:०००:०००S A a'
+            '२०८०Y-जेठ२-३२३२ बिहिबारबिहि ०७७ ०७७:४०४०:०००:०००S एम एम'
         )
     })
 
@@ -432,6 +432,30 @@ describe('formatNepali', () => {
         const d = new NepaliDate(2080, 2, 26, 1, 2, 3, 41)
         const formattedDate = formatNepali(d, formatStr)
         expect(formattedDate).toEqual('०४१')
+    })
+
+    it('should format NepaliDate (AM) for A', () => {
+        const formatStr = 'A'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('एम')
+    })
+
+    it('should format NepaliDate (PM) for A', () => {
+        const formatStr = 'A'
+        const formattedDate = formatNepali(nepaliDate3, formatStr)
+        expect(formattedDate).toEqual('पिम')
+    })
+
+    it('should format NepaliDate (AM) for a', () => {
+        const formatStr = 'a'
+        const formattedDate = formatNepali(nepaliDate1, formatStr)
+        expect(formattedDate).toEqual('एम')
+    })
+
+    it('should format NepaliDate (PM) for a', () => {
+        const formatStr = 'a'
+        const formattedDate = formatNepali(nepaliDate3, formatStr)
+        expect(formattedDate).toEqual('पिम')
     })
 })
 

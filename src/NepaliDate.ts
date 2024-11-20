@@ -1,5 +1,12 @@
 import dateConverter from './dateConverter'
-import { format, formatNepali, nepaliDateToString } from './format'
+import {
+    format,
+    formatEnglishDate,
+    formatEnglishDateInNepali,
+    formatNepali,
+    nepaliDateToString,
+} from './format'
+
 import { parse, parseFormat } from './parse'
 import { getDate, getNepalDateAndTime } from './utils'
 import { validateTime } from './validators'
@@ -556,7 +563,7 @@ class NepaliDate {
     /**
      * Returns a string representation in the Nepali (Devanagari) of the NepaliDate object in the specified format.
      * @param formatStr The format string for the desired output.
-     * @returns {string} A string representation of the NepaliDate object in the specified format.
+     * @returns {string} The formatted Date string in Nepali (Devanagari).
      */
     formatNepali(formatStr: string): string {
         return formatNepali(this, formatStr)
@@ -569,6 +576,25 @@ class NepaliDate {
      */
     toString(): string {
         return nepaliDateToString(this)
+    }
+
+    /**
+     * Returns a string representation (in English) of the English Date in the specified format.
+     *
+     * @param {string} formatStr - The format string specifying the desired format.
+     * @returns {string} The formatted Date string.
+     */
+    formatEnglishDate(formatStr: string): string {
+        return formatEnglishDate(this, formatStr)
+    }
+
+    /**
+     * Returns a string representation in the Nepali (Devanagari) of the English Date in the specified format.
+     * @param formatStr The format string for the desired output.
+     * @returns {string} The formatted Date string in Nepali (Devanagari).
+     */
+    formatEnglishDateInNepali(formatStr: string): string {
+        return formatEnglishDateInNepali(this, formatStr)
     }
 
     /* Static methods */

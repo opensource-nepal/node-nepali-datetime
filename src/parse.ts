@@ -13,8 +13,8 @@
  */
 
 import {
-    MONTHS_EN,
-    MONTHS_SHORT_EN,
+    NEPALI_MONTHS_EN,
+    NEPALI_MONTHS_SHORT_EN,
     WEEKDAYS_LONG_EN,
     WEEKDAYS_SHORT_EN,
 } from './constants'
@@ -116,8 +116,8 @@ const TOKEN_TO_REGEX: { [key: string]: RegExp } = {
     SSS: /(\d\d\d)/,
     A: /(AM|PM)/,
     a: /(am|pm)/,
-    MMMM: seqToRE(MONTHS_EN),
-    MMM: seqToRE(MONTHS_SHORT_EN),
+    MMMM: seqToRE(NEPALI_MONTHS_EN),
+    MMM: seqToRE(NEPALI_MONTHS_SHORT_EN),
     dddd: seqToRE(WEEKDAYS_LONG_EN),
     ddd: seqToRE(WEEKDAYS_SHORT_EN),
     dd: seqToRE(WEEKDAYS_SHORT_EN),
@@ -169,10 +169,10 @@ function getDateParams(
                 month = matchData
                 break
             case 'MMMM':
-                month = MONTHS_EN.indexOf(match[i + 1]) + 1
+                month = NEPALI_MONTHS_EN.indexOf(match[i + 1]) + 1
                 break
             case 'MMM':
-                month = MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
+                month = NEPALI_MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
                 break
             case 'DD':
             case 'D':
