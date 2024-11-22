@@ -135,13 +135,17 @@ You can set individual components of a `NepaliDate` object using the following m
 #### Formatting the Nepali date
 
 You can format a `NepaliDate` object as a string using the `format()` and `formatNepali()` methods.
+Additionally, you can convert the corresponding English date to a string using the `formatEnglishDate()` and `formatEnglishDateInNepali()` methods.
 
 -   `format(formatStr)`: Returns a string representation (in English) of the `NepaliDate` object in the specified format.
--   `formatNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari) script of the `NepaliDate` object in the specified format.
+-   `formatNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the `NepaliDate` object in the specified format.
+-   `formatEnglishDate(formatStr)`: Returns a string representation (in English) of the English Date in the specified format.
+-   `formatEnglishDateInNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the English Date in the specified format.
 
 ```javascript
 const now = new NepaliDate(2079, 5, 3, 16, 14)
 console.log(now.format('YYYY-MM-DD hh:mm A')) // Outputs: 2079-06-03 04:14 PM
+console.log(now.formatEnglishDate('YYYY-MM-DD hh:mm A')) // Outputs: 2022-08-19 04:14 PM
 ```
 
 The date formatting will follow the format codes mentioned below, which are similar to the date formats used in day.js.

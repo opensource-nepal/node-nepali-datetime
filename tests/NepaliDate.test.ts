@@ -120,6 +120,16 @@ describe('NepaliDate', () => {
         expect(n.format('[YYY] YYYY')).toBe('YYY 2038')
     })
 
+    it('checks format English Date', () => {
+        const n = new NepaliDate('2038-07-16')
+        expect(n.formatEnglishDate('YYYY-MM-DD')).toBe('1981-11-01')
+        expect(n.formatEnglishDate('YY-M-D')).toBe('81-11-1')
+        expect(n.formatEnglishDate('[YYY] YYYY')).toBe('YYY 1981')
+        expect(n.formatEnglishDateInNepali('YYYY/MM/DD')).toBe('१९८१/११/०१')
+        expect(n.formatEnglishDateInNepali('YY-M-D')).toBe('८१-११-१')
+        expect(n.formatEnglishDateInNepali('YYYY-MMMM-ddd')).toBe('१९८१-नोभेम्बर-आइत')
+    })
+
     it('checks month, date setting', () => {
         const n = new NepaliDate(2075, 11, 3)
         expect(n.toString()).toBe('2075-12-03 00:00:00')
