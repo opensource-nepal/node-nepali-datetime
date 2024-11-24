@@ -1,4 +1,4 @@
-import { parseFormat } from '../src/parse'
+import { parseFormat } from '../../src/parse'
 
 describe('parseFormat', () => {
     it('should parse date string in valid format correctly', () => {

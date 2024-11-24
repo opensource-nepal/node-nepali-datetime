@@ -7,7 +7,7 @@ import {
     nepaliDateToString,
 } from './format'
 
-import { parse, parseFormat } from './parse'
+import { parse, parseFormat, parseEnglishDateFormat } from './parse'
 import { getDate, getNepalDateAndTime } from './utils'
 import { validateTime } from './validators'
 
@@ -622,6 +622,25 @@ class NepaliDate {
     ): NepaliDate {
         const englishDate = getDate(year, month0, date, hour, minute, second, ms)
         return new NepaliDate(englishDate)
+    }
+
+    /**
+     * Creates a NepaliDate instance by parsing a provided English Date and Time string
+     * with the given format.
+     *
+     * @param dateString - The English Date and time string.
+     * @param format - The format of the provided date-time string.
+     * @example
+     * const dateTimeString = '2024/11/23 14-05-23.789'
+     * const format = 'YYYY/MM/DD HH-mm-ss.SSS'
+     * const nepaliDate = NepaliDate.parseEnglishDate(dateTimeString, format)
+     */
+    static parseEnglishDate(dateString: string, format: string): NepaliDate {
+        const [year, month0, day, hour, minute, second, ms] = parseEnglishDateFormat(
+            dateString,
+            format
+        )
+        return NepaliDate.fromEnglishDate(year, month0, day, hour, minute, second, ms)
     }
 }
 
