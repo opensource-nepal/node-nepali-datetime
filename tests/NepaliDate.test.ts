@@ -66,6 +66,28 @@ describe('NepaliDate', () => {
         }).toThrow('Date out of range')
     })
 
+    it('should initialize by parsing English Date string with given format', () => {
+        const n1 = NepaliDate.parseEnglishDate(
+            '2024 August 13 14-05-23.789',
+            'YYYY MMMM DD HH-mm-ss.SSS'
+        )
+        expect(n1.toString()).toBe('2081-04-29 14:05:23.789')
+    })
+
+    it("should initialize by parsing English Date's year string with default month, day and time params", () => {
+        const n1 = NepaliDate.parseEnglishDate('2024', 'YYYY')
+        expect(n1.toString()).toBe('2080-09-16 00:00:00')
+    })
+
+    it("should throw error if English Date's year component is missed during parsing", () => {
+        expect(() => {
+            const _ = NepaliDate.parseEnglishDate(
+                '08/13 14-05-23.789',
+                'MM/DD HH-mm-ss.SSS'
+            )
+        }).toThrow('Date out of range')
+    })
+
     it('checks for nepali date validity', () => {
         // 373314600000
         // Fri Oct 30 1981 18:30:00 GMT+0000
