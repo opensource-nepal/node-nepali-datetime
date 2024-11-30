@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [1.3.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.2.1...v1.3.0) (2024-11-30)
+
+
+### Features
+
+* add method `formatEnglishDate` and `formatEnglishDateInNepali` ([#94](https://github.com/opensource-nepal/node-nepali-datetime/issues/94)) ([6cf9d14](https://github.com/opensource-nepal/node-nepali-datetime/commit/6cf9d142e5193e246b546f8599411efbf4e2a014))
+* add method `parseEnglishDate` for English date parsing ([#95](https://github.com/opensource-nepal/node-nepali-datetime/issues/95)) ([aeabb8d](https://github.com/opensource-nepal/node-nepali-datetime/commit/aeabb8dde4903114b19010cfee25b0a61a4fc227))
+* **ci:** add prettier check on ci ([a728ed4](https://github.com/opensource-nepal/node-nepali-datetime/commit/a728ed48477139eb3417e0e52ead16c23be8e9ff))
+
 ## [1.2.1](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.2.0...v1.2.1) (2024-03-06)
 
 
