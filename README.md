@@ -17,23 +17,23 @@ import NepaliDate from 'nepali-datetime'
 
 // Create a NepaliDate object for the current date and time
 const now = new NepaliDate()
-console.log(now.toString()) // Outputs: "2080-03-23 15:32:03.643"
+console.log(now.toString()) // 2080-03-23 15:32:03.643
 
 // Create a NepaliDate object from a Nepali date string
 const date1 = new NepaliDate('2079-02-15 23:11')
-console.log(date1.toString()) // Outputs: "2079-02-15 23:11:00"
+console.log(date1.toString()) // 2079-02-15 23:11:00
 
 // Parse Nepali date string
 const date2 = new NepaliDate('Baisakh 18, 2080', 'MMMM D, YYYY')
-console.log(date1.toString()) // Outputs: "2080-01-18 00:00:00"
+console.log(date2.toString()) // 2080-01-18 00:00:00
 
 // Format a NepaliDate object
 const formattedDate = now.format('YYYY-MM-DD')
-console.log(formattedDate) // Outputs: "2080-03-23"
+console.log(formattedDate) // 2080-03-23
 
-// Create a NepaliDate object from an English date
-const date3 = NepaliDate.fromEnglishDate(2023, 6, 8)
-console.log(englishDate.toString()) // Outputs: "2080-03-23 00:00:00"
+// Create a NepaliDate object from an English date string
+const date3 = NepaliDate.parseEnglishDate('2023-07-08', 'YYYY-MM-DD')
+console.log(date3.toString()) // 2080-03-23 00:00:00
 ```
 
 ## Installation
@@ -143,9 +143,9 @@ Additionally, you can convert the corresponding English date to a string using t
 -   `formatEnglishDateInNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the English Date in the specified format.
 
 ```javascript
-const now = new NepaliDate(2079, 5, 3, 16, 14)
-console.log(now.format('YYYY-MM-DD hh:mm A')) // Outputs: 2079-06-03 04:14 PM
-console.log(now.formatEnglishDate('YYYY-MM-DD hh:mm A')) // Outputs: 2022-08-19 04:14 PM
+const date = new NepaliDate(2079, 5, 3, 16, 14)
+console.log(date.format('YYYY-MM-DD hh:mm A')) // 2079-06-03 04:14 PM
+console.log(date.formatEnglishDate('YYYY-MM-DD hh:mm A')) // 2022-09-19 04:14 PM
 ```
 
 The date formatting will follow the format codes mentioned below, which are similar to the date formats used in day.js.
@@ -205,19 +205,24 @@ console.log(now.getDateObject()) // Date 2022-09-18T18:15:00.000Z
 
 #### Creating a NepaliDate object from an English date
 
-You can create a `NepaliDate` object from an English calendar date using the `fromEnglishDate` method.
+You can create a `NepaliDate` object from an English calendar date using the `parseEnglishDate` or `fromEnglishDate` method.
 
 ```javascript
-const date = NepaliDate.fromEnglishDate(2023, 6, 8)
-console.log(date.toString()) // Outputs: "2080-03-23 00:00:00"
+const date1 = NepaliDate.parseEnglishDate('2023-07-08', 'YYYY-MM-DD')
+console.log(date1.toString()) // 2080-03-23 00:00:00
+
+const date2 = NepaliDate.fromEnglishDate(2023, 6, 8, 10, 15)
+console.log(date2.toString()) // 2080-03-23 10:15:00
 ```
 
 ### dateConverter
 
-The `dateConverter` module provides functions for converting dates between the Nepali and English calendars.
+The `dateConverter` module provides core functions for converting dates between the Nepali and English calendars.
 
--   `englishToNepali(year, month, day)`: Converts an English calendar date to a Nepali calendar date. Returns an array `[yearNp, monthNp, dayNp]` representing the Nepali date.
--   `nepaliToEnglish(year, month, day)`: Converts a Nepali calendar date to an English calendar date. Returns an array `[yearEn, monthEn, dayEn]` representing the English date.
+-   `englishToNepali(year, month, day)`: Converts an English calendar date to a Nepali calendar date. Returns an array `[npYear, npMonth, npDay]` representing the Nepali date.
+-   `nepaliToEnglish(year, month, day)`: Converts a Nepali calendar date to an English calendar date. Returns an array `[enYear, enYear, enDay]` representing the English date.
+
+> Note: Use 0 as the value for the months Baisakh and January (Javascript Logic 🤷).
 
 ```javascript
 import dateConverter from 'nepali-datetime/dateConverter'
@@ -227,6 +232,26 @@ const [npYear, npMonth, npDay] = dateConverter.englishToNepali(2023, 5, 27)
 
 // nepali to english date conversion
 const [enYear, enMonth, enDay] = dateConverter.nepaliToEnglish(2080, 2, 15)
+```
+
+#### Quick Date conversion using NepaliDate
+
+The `NepaliDate` class can also be used for direct string-to-string date conversions, eliminating the need for custom parsing or formatting logic.
+
+**English Date to Nepali Date**
+
+```javascript
+const enDate = '2024-11-25'
+const npDate = NepaliDate.parseEnglishDate(enDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
+// 2081-08-10
+```
+
+**Nepali Date to English Date**
+
+```javascript
+const npDate = '2081-08-10'
+const enDate = new NepaliDate(npDate).formatEnglishDate('YYYY-MM-DD')
+// 2024-11-25
 ```
 
 ## Acknowledgements

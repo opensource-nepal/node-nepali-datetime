@@ -1,105 +1,10 @@
-/**
- * parse.ts
- *
- * This module provides methods for parsing dates and times from strings.
- *
- * Functions:
- *
- * parse(dateTimeString)
- * - Parses date and time from the given string.
- *
- * Further extension is needed in this module as there are limited formats supported for parsing.
- * Developers should consider extending the module to support additional date and time formats.
- */
-
 import {
-    NEPALI_MONTHS_EN,
-    NEPALI_MONTHS_SHORT_EN,
+    ENGLISH_MONTHS_EN,
+    ENGLISH_MONTHS_SHORT_EN,
     WEEKDAYS_LONG_EN,
     WEEKDAYS_SHORT_EN,
-} from './constants'
-import { parseFormatTokens, seqToRE } from './utils'
-
-/**
- * Parses date from the given string.
- *
- * Supported formats are:
- * YYYY-MM-DD,
- * YYYY.MM.DD,
- * YYYY/MM/DD
- *
- * @param dateString date string to be parsed.
- * @throws {Error} if date string is invalid
- * @returns return array of date information [year, month0, day].
- */
-function parseDateString(dateString: string): number[] {
-    // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
-    const parts: string[] = dateString.split(/[-./]/, 3)
-    const [year, month = 1, day = 1] = parts.map(d => {
-        const n = parseInt(d, 10)
-        if (Number.isNaN(n)) {
-            throw new Error('Invalid date')
-        }
-        return n
-    })
-
-    return [year, month - 1, day]
-}
-
-/**
- * Parses time from the given string.
- *
- * Supported formats are:
- * HH:mm,
- * HH:mm:ss,
- * HH:mm:ss:SSS
- *
- * @param timeString time string to be parsed.
- * @throws {Error} if time string is invalid
- * @returns return array of date information [hour, minute, second, ms].
- */
-function parseTimeString(timeString: string): number[] {
-    if (!timeString) return [0, 0, 0, 0]
-
-    // fetching milliseconds first
-    const [hmsString, msString = '0'] = timeString.split('.', 2)
-
-    const parts: string[] = hmsString.split(':', 3)
-    const [hour, minute = 0, second = 0] = parts.map(d => {
-        const n = parseInt(d, 10)
-        if (Number.isNaN(n)) {
-            throw new Error('Invalid time')
-        }
-        return n
-    })
-
-    // converting milliseconds into numbers
-    let ms = parseInt(msString, 10)
-    if (Number.isNaN(ms)) ms = 0
-
-    return [hour, minute, second, ms]
-}
-
-/**
- * Parses date and time from the given string.
- *
- * Supported formats are:
- * YYYY-MM-DD HH[:mm][:ss][:SSS],
- * YYYY.MM.DD HH[:mm][:ss][:SSS],
- * YYYY/MM/DD HH[:mm][:ss][:SSS]
- *
- * @param dateTimeString time string to be parsed.
- * @throws {Error} if date or time string is invalid
- * @returns return array of date information [hour, minute, second, ms].
- */
-export function parse(dateTimeString: string): number[] {
-    const [dateString, timeString] = dateTimeString.split(' ', 2)
-    const [year, month0, day] = parseDateString(dateString)
-    const [hour, minute, second, ms] = parseTimeString(timeString)
-    return [year, month0, day, hour, minute, second, ms]
-}
-
-/* parse v2 */
+} from '../constants'
+import { parseFormatTokens, seqToRE } from '../utils'
 
 const TOKEN_TO_REGEX: { [key: string]: RegExp } = {
     YY: /(\d\d)/,
@@ -116,8 +21,8 @@ const TOKEN_TO_REGEX: { [key: string]: RegExp } = {
     SSS: /(\d\d\d)/,
     A: /(AM|PM)/,
     a: /(am|pm)/,
-    MMMM: seqToRE(NEPALI_MONTHS_EN),
-    MMM: seqToRE(NEPALI_MONTHS_SHORT_EN),
+    MMMM: seqToRE(ENGLISH_MONTHS_EN),
+    MMM: seqToRE(ENGLISH_MONTHS_SHORT_EN),
     dddd: seqToRE(WEEKDAYS_LONG_EN),
     ddd: seqToRE(WEEKDAYS_SHORT_EN),
     dd: seqToRE(WEEKDAYS_SHORT_EN),
@@ -169,10 +74,10 @@ function getDateParams(
                 month = matchData
                 break
             case 'MMMM':
-                month = NEPALI_MONTHS_EN.indexOf(match[i + 1]) + 1
+                month = ENGLISH_MONTHS_EN.indexOf(match[i + 1]) + 1
                 break
             case 'MMM':
-                month = NEPALI_MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
+                month = ENGLISH_MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
                 break
             case 'DD':
             case 'D':
@@ -200,7 +105,7 @@ function getDateParams(
                 break
             case 'A':
             case 'a':
-                isPM = (match[i + 1] as string).toLowerCase() === 'pm'
+                isPM = match[i + 1].toLowerCase() === 'pm'
         }
     }
 
@@ -219,10 +124,10 @@ function getDateParams(
     }
 }
 
-export function parseFormat(dateString: string, format: string): number[] {
+export function parseEnglishDateFormat(dateString: string, format: string): number[] {
     const formatTokens = parseFormatTokens(format)
     const { dateTokens, regex: formatRegex } = tokensToRegex(formatTokens)
-    const match = dateString.match(formatRegex)
+    const match = RegExp(formatRegex).exec(dateString)
     if (!match) {
         throw new Error('Invalid date format')
     }
