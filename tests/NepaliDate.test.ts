@@ -1,3 +1,4 @@
+import dateConverter from '../src/dateConverter'
 import NepaliDate from '../src/NepaliDate'
 import { ValidationError } from '../src/validators'
 
@@ -739,5 +740,50 @@ describe('NepaliDate with Time feature: set methods', () => {
             nepaliDate.setTime(timestamp)
             expect(nepaliDate.getTime()).toBe(timestamp)
         })
+    })
+})
+
+describe('NepaliDate.getDaysOfMonth', () => {
+    it('should return the correct number of days for a valid year and month', () => {
+        const days = NepaliDate.getDaysOfMonth(2081, 8)
+        expect(days).toBe(29)
+    })
+
+    it('should return the correct number of days for a year 2000 and month 0', () => {
+        const days = NepaliDate.getDaysOfMonth(2000, 0)
+        expect(days).toBe(30)
+    })
+
+    it('should return the correct number of days for a year 2099 and month 11', () => {
+        const days = NepaliDate.getDaysOfMonth(2099, 11)
+        expect(days).toBe(30)
+    })
+
+    it('should throw an error if the year is below the valid range', () => {
+        const invalidYear = dateConverter.npMinYear() - 1
+        expect(() => NepaliDate.getDaysOfMonth(invalidYear, 0)).toThrow(
+            'Year out of range'
+        )
+    })
+
+    it('should throw an error if the year is above the valid range', () => {
+        const invalidYear = dateConverter.npMaxYear() + 1
+        expect(() => NepaliDate.getDaysOfMonth(invalidYear, 0)).toThrow(
+            'Year out of range'
+        )
+    })
+
+    it('should throw an error if the month is below 0', () => {
+        const validYear = dateConverter.npMinYear()
+        expect(() => NepaliDate.getDaysOfMonth(validYear, -1)).toThrow(
+            'Month out of range'
+        )
+    })
+
+    it('should throw an error if the month is greater than 11', () => {
+        const validYear = dateConverter.npMinYear()
+        expect(() => NepaliDate.getDaysOfMonth(validYear, 12)).toThrow(
+            'Month out of range'
+        )
     })
 })

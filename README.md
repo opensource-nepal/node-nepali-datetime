@@ -215,6 +215,10 @@ const date2 = NepaliDate.fromEnglishDate(2023, 6, 8, 10, 15)
 console.log(date2.toString()) // 2080-03-23 10:15:00
 ```
 
+#### Others
+
+-   `NepaliDate.getDaysOfMonth(year, month)`: Returns the number of days in a specific month of a given year.
+
 ### dateConverter
 
 The `dateConverter` module provides core functions for converting dates between the Nepali and English calendars.
