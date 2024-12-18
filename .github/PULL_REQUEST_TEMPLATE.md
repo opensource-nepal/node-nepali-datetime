@@ -10,18 +10,18 @@
 
 Please mark the appropriate option below to describe the type of change your pull request introduces:
 
--   [ ] Bug fix
--   [ ] New feature
--   [ ] Enhancement
--   [ ] Documentation update
--   [ ] Refactor
--   [ ] Other (please specify)
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Enhancement
+- [ ] Documentation update
+- [ ] Refactor
+- [ ] Other (please specify)
 
 ## Checklist
 
--   [ ] I have added/updated the necessary documentation on `README.md`.
--   [ ] I have added appropriate test cases (if applicable) to ensure the changes are functioning correctly.
--   [ ] My pull request has a clear title and description.
+- [ ] I have added/updated the necessary documentation on `README.md`.
+- [ ] I have added appropriate test cases (if applicable) to ensure the changes are functioning correctly.
+- [ ] My pull request has a clear title and description.
 
 ## Additional Notes
 

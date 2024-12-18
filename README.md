@@ -60,7 +60,7 @@ The `NepaliDate` class represents a Nepali calendar date. It provides various me
 
 You can create a `NepaliDate` object in several ways:
 
--   Without any parameters: Creates a `NepaliDate` object for the current date and time.
+- Without any parameters: Creates a `NepaliDate` object for the current date and time.
 
     ```javascript
     import NepaliDate from 'nepali-datetime'
@@ -68,33 +68,33 @@ You can create a `NepaliDate` object in several ways:
     const now = new NepaliDate()
     ```
 
--   Using a Nepali date string: Parses the string as a Nepali calendar date.
+- Using a Nepali date string: Parses the string as a Nepali calendar date.
 
     ```javascript
     const date1 = new NepaliDate('2079-02-15')
     const date2 = new NepaliDate('2079-02-15 14:00')
     ```
 
--   Using a Unix timestamp (in milliseconds):
+- Using a Unix timestamp (in milliseconds):
 
     ```javascript
     const date2 = new NepaliDate(1654210800000)
     ```
 
--   Using a JavaScript `Date` object: Converts the JavaScript `Date` object to a `NepaliDate` object.
+- Using a JavaScript `Date` object: Converts the JavaScript `Date` object to a `NepaliDate` object.
 
     ```javascript
     const jsDate = new Date()
     const date3 = new NepaliDate(jsDate)
     ```
 
--   Using an existing `NepaliDate` object: Creates a new `NepaliDate` object with the same values.
+- Using an existing `NepaliDate` object: Creates a new `NepaliDate` object with the same values.
 
     ```javascript
     const date4 = new NepaliDate(date3)
     ```
 
--   Using Nepali calendar date and time parameters: Specifies the components of a Nepali calendar date.
+- Using Nepali calendar date and time parameters: Specifies the components of a Nepali calendar date.
 
     ```javascript
     const date5 = new NepaliDate(year, month, date, hour, minute, second, ms)
@@ -105,42 +105,42 @@ You can create a `NepaliDate` object in several ways:
 
 You can retrieve various components of a `NepaliDate` object using the following methods:
 
--   `getDateObject()`: Retrieves the Javascript Date object equivalent to the NepaliDate.
--   `getTime()`: Retrieves the Unix timestamp (in milliseconds) of the Nepali date.
--   `getYear()`: Retrieves the year of the Nepali date in the Nepali calendar.
--   `getEnglishYear()`: Retrieves the year of the Nepali date in the English calendar.
--   `getMonth()`: Retrieves the month of the Nepali date in the Nepali calendar.
--   `getEnglishMonth()`: Retrieves the month of the Nepali date in the English calendar.
--   `getDate()`: Retrieves the day of the month of the Nepali date in the Nepali calendar.
--   `getEnglishDate()`: Retrieves the day of the month of the Nepali date in the English calendar.
--   `getDay()`: Retrieves the day of the week represented by a numeric value.
--   `getHours()`: Retrieves the hour value of the Nepali date.
--   `getMinutes()`: Retrieves the minute value of the Nepali date.
--   `getSeconds()`: Retrieves the second value of the Nepali date.
--   `getMilliseconds()`: Retrieves the millisecond value of the Nepali date.
+- `getDateObject()`: Retrieves the Javascript Date object equivalent to the NepaliDate.
+- `getTime()`: Retrieves the Unix timestamp (in milliseconds) of the Nepali date.
+- `getYear()`: Retrieves the year of the Nepali date in the Nepali calendar.
+- `getEnglishYear()`: Retrieves the year of the Nepali date in the English calendar.
+- `getMonth()`: Retrieves the month of the Nepali date in the Nepali calendar.
+- `getEnglishMonth()`: Retrieves the month of the Nepali date in the English calendar.
+- `getDate()`: Retrieves the day of the month of the Nepali date in the Nepali calendar.
+- `getEnglishDate()`: Retrieves the day of the month of the Nepali date in the English calendar.
+- `getDay()`: Retrieves the day of the week represented by a numeric value.
+- `getHours()`: Retrieves the hour value of the Nepali date.
+- `getMinutes()`: Retrieves the minute value of the Nepali date.
+- `getSeconds()`: Retrieves the second value of the Nepali date.
+- `getMilliseconds()`: Retrieves the millisecond value of the Nepali date.
 
 #### Setting the Nepali date components
 
 You can set individual components of a `NepaliDate` object using the following methods:
 
--   `setYear(year)`: Sets the year of the Nepali date.
--   `setMonth(month)`: Sets the month of the Nepali date.
--   `setDate(day)`: Sets the day of the month of the Nepali date.
--   `setHours(hour)`: Sets the hour of the Nepali date.
--   `setMinutes(minute)`: Sets the minute of the Nepali date.
--   `setSeconds(second)`: Sets the second of the Nepali date.
--   `setMilliseconds(ms)`: Sets the millisecond of the Nepali date.
--   `setTime(time)`: Sets the Nepali date and time values using a Unix timestamp.
+- `setYear(year)`: Sets the year of the Nepali date.
+- `setMonth(month)`: Sets the month of the Nepali date.
+- `setDate(day)`: Sets the day of the month of the Nepali date.
+- `setHours(hour)`: Sets the hour of the Nepali date.
+- `setMinutes(minute)`: Sets the minute of the Nepali date.
+- `setSeconds(second)`: Sets the second of the Nepali date.
+- `setMilliseconds(ms)`: Sets the millisecond of the Nepali date.
+- `setTime(time)`: Sets the Nepali date and time values using a Unix timestamp.
 
 #### Formatting the Nepali date
 
 You can format a `NepaliDate` object as a string using the `format()` and `formatNepali()` methods.
 Additionally, you can convert the corresponding English date to a string using the `formatEnglishDate()` and `formatEnglishDateInNepali()` methods.
 
--   `format(formatStr)`: Returns a string representation (in English) of the `NepaliDate` object in the specified format.
--   `formatNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the `NepaliDate` object in the specified format.
--   `formatEnglishDate(formatStr)`: Returns a string representation (in English) of the English Date in the specified format.
--   `formatEnglishDateInNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the English Date in the specified format.
+- `format(formatStr)`: Returns a string representation (in English) of the `NepaliDate` object in the specified format.
+- `formatNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the `NepaliDate` object in the specified format.
+- `formatEnglishDate(formatStr)`: Returns a string representation (in English) of the English Date in the specified format.
+- `formatEnglishDateInNepali(formatStr)`: Returns a string representation in the Nepali (Devanagari script) of the English Date in the specified format.
 
 ```javascript
 const date = new NepaliDate(2079, 5, 3, 16, 14)
@@ -217,14 +217,14 @@ console.log(date2.toString()) // 2080-03-23 10:15:00
 
 #### Others
 
--   `NepaliDate.getDaysOfMonth(year, month)`: Returns the number of days in a specific month of a given year.
+- `NepaliDate.getDaysOfMonth(year, month)`: Returns the number of days in a specific month of a given year.
 
 ### dateConverter
 
 The `dateConverter` module provides core functions for converting dates between the Nepali and English calendars.
 
--   `englishToNepali(year, month, day)`: Converts an English calendar date to a Nepali calendar date. Returns an array `[npYear, npMonth, npDay]` representing the Nepali date.
--   `nepaliToEnglish(year, month, day)`: Converts a Nepali calendar date to an English calendar date. Returns an array `[enYear, enYear, enDay]` representing the English date.
+- `englishToNepali(year, month, day)`: Converts an English calendar date to a Nepali calendar date. Returns an array `[npYear, npMonth, npDay]` representing the Nepali date.
+- `nepaliToEnglish(year, month, day)`: Converts a Nepali calendar date to an English calendar date. Returns an array `[enYear, enYear, enDay]` representing the English date.
 
 > Note: Use 0 as the value for the months Baisakh and January (Javascript Logic 🤷).
 
