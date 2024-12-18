@@ -1,4 +1,5 @@
 import dateConverter from './dateConverter'
+import { NP_MONTHS_DATA } from './dateConverter/constants'
 import {
     format,
     formatEnglishDate,
@@ -641,6 +642,26 @@ class NepaliDate {
             format
         )
         return NepaliDate.fromEnglishDate(year, month0, day, hour, minute, second, ms)
+    }
+
+    /**
+     * Returns the number of days in a specific month of a given year.
+     *
+     * @param year - The year to fetch the month from.
+     * @param month - The month to get the number of days for.
+     * @returns The number of days in the specified month.
+     * @throws {Error} If the year or month is out of range.
+     */
+    static getDaysOfMonth(year: number, month: number): number {
+        if (year < dateConverter.npMinYear() || year > dateConverter.npMaxYear()) {
+            throw new Error('Year out of range')
+        }
+
+        if (month < 0 || month > 11) {
+            throw new Error('Month out of range')
+        }
+
+        return NP_MONTHS_DATA[year - dateConverter.npMinYear()][0][month]
     }
 }
 
