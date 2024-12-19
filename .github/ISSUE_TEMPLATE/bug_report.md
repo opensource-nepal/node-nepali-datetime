@@ -17,16 +17,16 @@ Please provide a clear and concise description of your expected outcome.
 
 **Environment**
 
--   npm/node version:
--   Package version:
--   Operating system:
--   Any other relevant information about your environment.
+- npm/node version:
+- Package version:
+- Operating system:
+- Any other relevant information about your environment.
 
 **Additional context**
 Please provide any additional context or information that may be helpful in understanding and resolving the issue. This can include:
 
--   Error stack trace
--   Error messages
--   Log files
--   Screenshots
--   Any other relevant details related to the issue.
+- Error stack trace
+- Error messages
+- Log files
+- Screenshots
+- Any other relevant details related to the issue.
