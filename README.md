@@ -218,6 +218,10 @@ console.log(date2.toString()) // 2080-03-23 10:15:00
 #### Others
 
 - `NepaliDate.getDaysOfMonth(year, month)`: Returns the number of days in a specific month of a given year.
+- `NepaliDate.minSupportedDate()`: Returns the minimum supported JS Date object.
+- `NepaliDate.maxSupportedDate()`: Returns the maximum supported JS Date object.
+- `NepaliDate.minSupportedNepaliDate()`: Returns the minimum supported Nepali object.
+- `NepaliDate.maxSupportedNepaliDate()`: Returns the maximum supported Nepali object.
 
 ### dateConverter
 

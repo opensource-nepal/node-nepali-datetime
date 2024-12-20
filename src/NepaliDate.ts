@@ -26,8 +26,6 @@ class NepaliDate {
     private hour: number
     private minute: number
     private weekDay: number
-    static minimum: () => Date
-    static maximum: () => Date
 
     /**
      * Creates a NepaliDate instance for the current date and time.
@@ -663,11 +661,65 @@ class NepaliDate {
 
         return NP_MONTHS_DATA[year - dateConverter.npMinYear()][0][month]
     }
-}
 
-NepaliDate.minimum = () =>
-    NepaliDate.fromEnglishDate(dateConverter.enMinYear(), 0, 1).getDateObject()
-NepaliDate.maximum = () =>
-    NepaliDate.fromEnglishDate(dateConverter.enMaxYear(), 11, 31).getDateObject()
+    /**
+     * Returns the minimum supported JS Date object.
+     *
+     * @returns {Date} The minimum supported JS Date object.
+     */
+    static minSupportedDate(): Date {
+        return NepaliDate.fromEnglishDate(
+            dateConverter.enMinYear(),
+            0,
+            1
+        ).getDateObject()
+    }
+
+    /**
+     * Returns the maximum supported JS Date object.
+     *
+     * @returns {Date} The maximum supported JS Date object.
+     */
+    static maxSupportedDate(): Date {
+        return NepaliDate.fromEnglishDate(
+            dateConverter.enMaxYear(),
+            11,
+            31
+        ).getDateObject()
+    }
+
+    /**
+     * Returns the minimum supported NepaliDate object.
+     *
+     * @returns {Date} The minimum supported NepaliDate object.
+     */
+    static minSupportedNepaliDate(): NepaliDate {
+        return new NepaliDate(dateConverter.npMinYear(), 0, 1)
+    }
+
+    /**
+     * Returns the maximum supported NepaliDate object.
+     *
+     * @returns {Date} The maximum supported NepaliDate object.
+     */
+    static maxSupportedNepaliDate(): NepaliDate {
+        const npMaxYear = dateConverter.npMaxYear()
+        return new NepaliDate(npMaxYear, 11, this.getDaysOfMonth(npMaxYear, 11))
+    }
+
+    static minimum(): Date {
+        console.warn(
+            '`NepaliDate.minimum()` is deprecated and will be removed in a future version. Please use `NepaliDate.minSupportedDate()` instead.'
+        )
+        return this.minSupportedDate()
+    }
+
+    static maximum(): Date {
+        console.warn(
+            '`NepaliDate.maximum()` is deprecated and will be removed in a future version. Please use `NepaliDate.maxSupportedDate()` instead.'
+        )
+        return this.maxSupportedDate()
+    }
+}
 
 export default NepaliDate
