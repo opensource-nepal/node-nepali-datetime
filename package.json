@@ -45,7 +45,8 @@
         "coverage": "jest --coverage",
         "prepare": "husky && npm run build",
         "lint": "prettier --check .",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "example": "ts-node example.ts"
     },
     "lint-staged": {
         "*": "prettier --ignore-unknown --write"
@@ -66,6 +67,7 @@
         "lint-staged": "^15.2.11",
         "prettier": "^3.4.2",
         "ts-jest": "^29.2.5",
+        "ts-node": "^10.9.2",
         "tslib": "^2.8.1",
         "typescript": "^5.7.2",
         "unbuild": "^3.0.1"
