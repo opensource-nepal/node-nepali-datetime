@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [1.4.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.3.0...v1.4.0) (2024-12-25)
+
+
+### Features
+
+* add static method `getDaysOfMonth` on NepaliDate ([#96](https://github.com/opensource-nepal/node-nepali-datetime/issues/96)) ([c85edfa](https://github.com/opensource-nepal/node-nepali-datetime/commit/c85edfa4d40f93061674f6143f6343b23a653bc0))
+* add static methods for min and max supported dates ([#102](https://github.com/opensource-nepal/node-nepali-datetime/issues/102)) ([6b13079](https://github.com/opensource-nepal/node-nepali-datetime/commit/6b130794cbaad396e7e4a648163a346de0f6cdbb))
+* add support for node 22 and remove 16 ([#101](https://github.com/opensource-nepal/node-nepali-datetime/issues/101)) ([3254f8d](https://github.com/opensource-nepal/node-nepali-datetime/commit/3254f8de6b384c4078117949feb51b3c2a93900d))
+
+
+### Bug Fixes
+
+* update nepali months data ([#103](https://github.com/opensource-nepal/node-nepali-datetime/issues/103)) ([b19d135](https://github.com/opensource-nepal/node-nepali-datetime/commit/b19d135f0a7a610a2858e230924b4420cc70f1f9))
+
 ## [1.3.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.2.1...v1.3.0) (2024-11-30)
 
 
