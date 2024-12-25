@@ -244,14 +244,6 @@ describe('NepaliDate', () => {
         expect(n.getEnglishDate()).toBe(11)
         expect(n.getDay()).toBe(6)
     })
-
-    it("should return minimum date 1944 of Nepal's time", () => {
-        expect(NepaliDate.minimum().toISOString()).toEqual('1943-12-31T18:30:00.000Z')
-    })
-
-    it("should return maximum date 2042 Dec last of Nepal's time", () => {
-        expect(NepaliDate.maximum().toISOString()).toEqual('2042-12-30T18:15:00.000Z')
-    })
 })
 
 describe('NepaliDate parsing on initialization', () => {
@@ -785,5 +777,62 @@ describe('NepaliDate.getDaysOfMonth', () => {
         expect(() => NepaliDate.getDaysOfMonth(validYear, 12)).toThrow(
             'Month out of range'
         )
+    })
+})
+
+describe('NepaliDate min max supported dates', () => {
+    it('minSupportedDate should return the minimum English Date converted to Nepali Date', () => {
+        const result = NepaliDate.minSupportedDate()
+
+        expect(result).toBeInstanceOf(Date)
+        expect(result.toISOString()).toEqual('1943-12-31T18:30:00.000Z') // comparing UTC time
+    })
+
+    it('maxSupportedDate should return the maximum English Date converted to Nepali Date', () => {
+        const result = NepaliDate.maxSupportedDate()
+
+        expect(result).toBeInstanceOf(Date)
+        expect(result.toISOString()).toEqual('2042-12-30T18:15:00.000Z') // comparing UTC time
+    })
+
+    it('minSupportedNepaliDate should return the minimum NepaliDate object', () => {
+        const expectedYear = dateConverter.npMinYear()
+        const result = NepaliDate.minSupportedNepaliDate()
+
+        expect(result).toBeInstanceOf(NepaliDate)
+        expect(result.getYear()).toBe(expectedYear)
+        expect(result.getMonth()).toBe(0)
+        expect(result.getDate()).toBe(1)
+    })
+
+    it('maxSupportedNepaliDate should return the maximum NepaliDate object', () => {
+        const expectedYear = dateConverter.npMaxYear()
+        const expectedMonth = 11
+        const expectedDays = NepaliDate.getDaysOfMonth(expectedYear, expectedMonth)
+
+        const result = NepaliDate.maxSupportedNepaliDate()
+
+        expect(result).toBeInstanceOf(NepaliDate)
+        expect(result.getYear()).toBe(expectedYear)
+        expect(result.getMonth()).toBe(expectedMonth)
+        expect(result.getDate()).toBe(expectedDays)
+    })
+
+    it("should return minimum date 1944 of Nepal's time", () => {
+        const originalWarn = console.warn
+        console.warn = () => {} // hide deprecation warning
+        expect(NepaliDate.minimum().toISOString()).toEqual(
+            NepaliDate.minSupportedDate().toISOString()
+        )
+        console.warn = originalWarn
+    })
+
+    it("should return maximum date 2042 Dec last of Nepal's time", () => {
+        const originalWarn = console.warn
+        console.warn = () => {} // hide deprecation warning
+        expect(NepaliDate.maximum().toISOString()).toEqual(
+            NepaliDate.maxSupportedDate().toISOString()
+        )
+        console.warn = originalWarn
     })
 })
