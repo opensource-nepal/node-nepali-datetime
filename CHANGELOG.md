@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.4.1](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.4.0...v1.4.1) (2025-04-08)
+
+
+### Bug Fixes
+
+* update months data for year 2082 ([4dfd5d1](https://github.com/opensource-nepal/node-nepali-datetime/commit/4dfd5d12931e54e1cd60aaa21f236caa32f67c9d))
+* update months data for year 2082 ([c927ade](https://github.com/opensource-nepal/node-nepali-datetime/commit/c927ade22dbadc1a4ec638863ce8893db2c8cb2b))
+
 ## [1.4.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.3.0...v1.4.0) (2024-12-25)
 
 
