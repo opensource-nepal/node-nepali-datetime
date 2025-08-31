@@ -8,7 +8,12 @@ import {
     nepaliDateToString,
 } from './format'
 
-import { parse, parseFormat, parseEnglishDateFormat } from './parse'
+import {
+    simpleParse,
+    parseFormat,
+    parseEnglishDateFormat,
+    parseNepaliFormat,
+} from './parse'
 import { getDate, getNepalDateAndTime } from './utils'
 import { validateTime } from './validators'
 
@@ -170,7 +175,7 @@ class NepaliDate {
     }
 
     private parseFromString(value: string) {
-        const parsedResult = parse(value)
+        const parsedResult = simpleParse(value)
         this.set(
             parsedResult[0], // Year
             parsedResult[1], // Month
@@ -250,7 +255,7 @@ class NepaliDate {
      *
      * @returns {Date} The equivalent JavaScript Date object.
      */
-    getDateObject() {
+    getDateObject(): Date {
         return this.timestamp
     }
 
@@ -624,8 +629,27 @@ class NepaliDate {
     }
 
     /**
-     * Creates a NepaliDate instance by parsing a provided English Date and Time string
-     * with the given format.
+     * Parses a Nepali date-time string in Devanagari form according to the
+     * specified format and returns a `NepaliDate` instance.
+     *
+     * @param dateStringNe - The Nepali Date and time string in Devanagari.
+     * @param format - The format of the provided date-time string.
+     * @example
+     * const dateStringNe = '२०८०/०८/१२ १४-०५-२३.७८९'
+     * const format = 'YYYY/MM/DD HH-mm-ss.SSS'
+     * const nepaliDate = NepaliDate.parseNepaliFormat(dateStringNe, format)
+     */
+    static parseNepaliFormat(dateStringNe: string, format: string): NepaliDate {
+        const [year, month0, day, hour, minute, second, ms] = parseNepaliFormat(
+            dateStringNe,
+            format
+        )
+        return new NepaliDate(year, month0, day, hour, minute, second, ms)
+    }
+
+    /**
+     * Parses an English date-time string according to the specified format
+     * and returns a `NepaliDate` instance.
      *
      * @param dateString - The English Date and time string.
      * @param format - The format of the provided date-time string.

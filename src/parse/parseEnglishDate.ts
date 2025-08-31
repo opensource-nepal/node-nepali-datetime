@@ -1,3 +1,7 @@
+/**
+ * This module provides methods for parsing English Date strings.
+ */
+
 import {
     ENGLISH_MONTHS_EN,
     ENGLISH_MONTHS_SHORT_EN,
