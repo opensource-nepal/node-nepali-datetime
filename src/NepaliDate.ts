@@ -7,6 +7,7 @@ import {
     formatNepali,
     nepaliDateToString,
 } from './format'
+import NepalTimezoneDate from './NepalTimezoneDate'
 
 import { parse, parseFormat, parseEnglishDateFormat } from './parse'
 import { getDate, getNepalDateAndTime } from './utils'
@@ -119,6 +120,17 @@ class NepaliDate {
         second?: number,
         ms?: number
     )
+
+    /**
+     * Creates a NepaliDate instance from a NepalTimezoneDate object.
+     *
+     * @param {NepalTimezoneDate} date - The NepalTimezoneDate object.
+     * @example
+     * const npTzDate = new NepalTimezoneDate('2024-12-28T15:00:35Z')
+     * const nepaliDate = new NepaliDate(npTzDate)
+     */
+    constructor(date: NepalTimezoneDate)
+
     constructor(...args: any[]) {
         if (args.length === 0) {
             this.initFromCurrentDate()
@@ -130,6 +142,8 @@ class NepaliDate {
             this.parseFromString(args[0])
         } else if (args.length === 1 && typeof args[0] === 'number') {
             this.initFromTimestamp(args[0])
+        } else if (args.length === 1 && args[0] instanceof NepalTimezoneDate) {
+            this._setDateObject(args[0].toDate())
         } else if (
             args.length === 2 &&
             typeof args[0] === 'string' &&
