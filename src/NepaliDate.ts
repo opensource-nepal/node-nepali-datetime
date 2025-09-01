@@ -7,9 +7,9 @@ import {
     formatNepali,
     nepaliDateToString,
 } from './format'
+import NepalTimezoneDate from './NepalTimezoneDate'
 
 import { parse, parseFormat, parseEnglishDateFormat } from './parse'
-import { getDate, getNepalDateAndTime } from './utils'
 import { validateTime } from './validators'
 
 /**
@@ -119,6 +119,17 @@ class NepaliDate {
         second?: number,
         ms?: number
     )
+
+    /**
+     * Creates a NepaliDate instance from a NepalTimezoneDate object.
+     *
+     * @param {NepalTimezoneDate} date - The NepalTimezoneDate object.
+     * @example
+     * const npTzDate = new NepalTimezoneDate('2024-12-28T15:00:35Z')
+     * const nepaliDate = new NepaliDate(npTzDate)
+     */
+    constructor(date: NepalTimezoneDate)
+
     constructor(...args: any[]) {
         if (args.length === 0) {
             this.initFromCurrentDate()
@@ -130,6 +141,8 @@ class NepaliDate {
             this.parseFromString(args[0])
         } else if (args.length === 1 && typeof args[0] === 'number') {
             this.initFromTimestamp(args[0])
+        } else if (args.length === 1 && args[0] instanceof NepalTimezoneDate) {
+            this._setDateObject(args[0].toDate())
         } else if (
             args.length === 2 &&
             typeof args[0] === 'string' &&
@@ -222,22 +235,22 @@ class NepaliDate {
      * @returns void
      */
     private _setDateObject(date: Date, computeNepaliDate: boolean = true) {
+        const npTzDate = new NepalTimezoneDate(date)
         this.timestamp = date
 
         // getting Nepal's hour, minute, and weekDay
-        const { year, month0, day, hour, minute, weekDay } = getNepalDateAndTime(date)
-        this.yearEn = year
-        this.monthEn = month0
-        this.dayEn = day
-        this.hour = hour
-        this.minute = minute
-        this.weekDay = weekDay
+        this.yearEn = npTzDate.getYear()
+        this.monthEn = npTzDate.getMonth()
+        this.dayEn = npTzDate.getDate()
+        this.hour = npTzDate.getHours()
+        this.minute = npTzDate.getMinutes()
+        this.weekDay = npTzDate.getDay()
 
         if (computeNepaliDate) {
             const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(
-                year,
-                month0,
-                day
+                this.yearEn,
+                this.monthEn,
+                this.dayEn
             )
             this.year = yearNp
             this.month = month0Np
@@ -534,7 +547,15 @@ class NepaliDate {
         this.month = month
         this.day = date
         this._setDateObject(
-            getDate(yearEn, month0EN, dayEn, hour, minute, second, ms),
+            NepalTimezoneDate['getDate'](
+                yearEn,
+                month0EN,
+                dayEn,
+                hour,
+                minute,
+                second,
+                ms
+            ),
             false
         )
     }
@@ -619,7 +640,15 @@ class NepaliDate {
         second: number = 0,
         ms: number = 0
     ): NepaliDate {
-        const englishDate = getDate(year, month0, date, hour, minute, second, ms)
+        const englishDate = NepalTimezoneDate['getDate'](
+            year,
+            month0,
+            date,
+            hour,
+            minute,
+            second,
+            ms
+        )
         return new NepaliDate(englishDate)
     }
 

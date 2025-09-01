@@ -223,6 +223,69 @@ console.log(date2.toString()) // 2080-03-23 10:15:00
 - `NepaliDate.minSupportedNepaliDate()`: Returns the minimum supported Nepali object.
 - `NepaliDate.maxSupportedNepaliDate()`: Returns the maximum supported Nepali object.
 
+### NepalTimezoneDate
+
+The `NepalTimezoneDate` class provides Gregorian date/time values in Nepal's timezone (Asia/Kathmandu, UTC+05:45).  
+It works like JavaScript's `Date`, but always returns values as they would appear in Nepal, regardless of your system's timezone.  
+It does **not** convert to the Nepali calendar.
+
+#### Creating a NepalTimezoneDate object
+
+You can create a `NepalTimezoneDate` object in several ways:
+
+```javascript
+import { NepalTimezoneDate } from 'nepali-datetime'
+
+// Current date/time in Nepal timezone
+const nowNepal = new NepalTimezoneDate()
+
+// From a UTC date string
+const dateNepal = new NepalTimezoneDate('2024-12-28T15:00:35Z')
+
+// From a JS Date object
+const jsDate = new Date('2024-12-28T15:00:35Z')
+const nepalDate = new NepalTimezoneDate(jsDate)
+
+// From Nepal time components (year, month [0-based], date, hour, minute, second, ms)
+const npTzDate = new NepalTimezoneDate(2024, 11, 28, 20, 45, 35)
+```
+
+#### Getting Nepal timezone date components
+
+```javascript
+npTzDate.getYear() // 2024
+npTzDate.getMonth() // 11 (December, 0-based)
+npTzDate.getDate() // 28
+npTzDate.getHours() // 20
+npTzDate.getMinutes() // 45
+npTzDate.toString() // "2024-12-28 20:45:35 GMT+0545"
+npTzDate.toDate() // JS Date object in UTC
+```
+
+#### Converting NepalTimezoneDate to NepaliDate
+
+You can convert a `NepalTimezoneDate` object (Gregorian date in Nepal timezone) to a `NepaliDate` object:
+
+```javascript
+const npTzDate = new NepalTimezoneDate('2024-12-28T15:00:35Z')
+const nepaliDate = new NepaliDate(npTzDate)
+console.log(nepaliDate.toString()) // e.g. 2081-09-12 20:45:35
+```
+
+#### Comparing with JS Date
+
+```javascript
+const systemDate = new Date('2024-12-28T15:00:35Z')
+const nepalDate = new NepalTimezoneDate('2024-12-28T15:00:35Z')
+
+// System Date (depends on your computer's timezone)
+console.log(systemDate.getHours()) // e.g. 10 (US), 16 (EU), 20 (Nepal)
+
+// NepalTimezoneDate (always Nepal time)
+console.log(nepalDate.getHours()) // 20
+console.log(nepalDate.toString()) // "2024-12-28 20:45:35 GMT+0545"
+```
+
 ### dateConverter
 
 The `dateConverter` module provides core functions for converting dates between the Nepali and English calendars.
