@@ -67,6 +67,14 @@ describe('NepaliDate', () => {
         }).toThrow('Date out of range')
     })
 
+    it('should initialize by parsing Nepali Date string in Devanagari with given format', () => {
+        const n1 = NepaliDate.parseNepaliFormat(
+            '२०८०/०८/१२ १४-०५-२३.७८९',
+            'YYYY/MM/DD HH-mm-ss.SSS'
+        )
+        expect(n1.toString()).toBe('2080-08-12 14:05:23.789')
+    })
+
     it('should initialize by parsing English Date string with given format', () => {
         const n1 = NepaliDate.parseEnglishDate(
             '2024 August 13 14-05-23.789',
