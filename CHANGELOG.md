@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.5.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.4.1...v1.5.0) (2025-09-03)
+
+
+### Features
+
+* add parseNepaliFormat method on NepaliDate ([#111](https://github.com/opensource-nepal/node-nepali-datetime/issues/111)) ([ff4a05b](https://github.com/opensource-nepal/node-nepali-datetime/commit/ff4a05b6e2ce09d8ffa31a56a64b4fce54a2618b))
+
 ## [1.4.1](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.4.0...v1.4.1) (2025-04-08)
 
 
