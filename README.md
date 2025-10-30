@@ -194,6 +194,14 @@ For the list of month names and their abbreviations, you can refer to the table 
 | 10             | Fal          | Falgun    |
 | 11             | Cha          | Chaitra   |
 
+#### Parsing Dates
+
+You can parse a date-time string into a `NepaliDate` object using the following methods:
+
+- `new NepaliDate(dateString, formatStr)`: Parses an Nepali date-time string according to the specified format.
+- `NepaliDate.parseNepaliFormat(dateStringNe, formatStr)`: Parses a Nepali date-time string in Devanagari form according to the specified format.
+- `NepaliDate.parseEnglishDate(dateString, formatStr)`: Parses an English date-time string according to the specified format.
+
 #### Converting to JavaScript Date object
 
 You can get the equivalent JavaScript `Date` object of a `NepaliDate` object using the `getDateObject()` method.

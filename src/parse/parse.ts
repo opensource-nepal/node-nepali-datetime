@@ -1,15 +1,5 @@
 /**
- * parse.ts
- *
- * This module provides methods for parsing dates and times from strings.
- *
- * Functions:
- *
- * parse(dateTimeString)
- * - Parses date and time from the given string.
- *
- * Further extension is needed in this module as there are limited formats supported for parsing.
- * Developers should consider extending the module to support additional date and time formats.
+ * This module provides features for parsing Nepali Date strings (in English).
  */
 
 import {
@@ -92,7 +82,7 @@ function parseTimeString(timeString: string): number[] {
  * @throws {Error} if date or time string is invalid
  * @returns return array of date information [hour, minute, second, ms].
  */
-export function parse(dateTimeString: string): number[] {
+export function simpleParse(dateTimeString: string): number[] {
     const [dateString, timeString] = dateTimeString.split(' ', 2)
     const [year, month0, day] = parseDateString(dateString)
     const [hour, minute, second, ms] = parseTimeString(timeString)
