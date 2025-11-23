@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.6.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.5.0...v1.6.0) (2025-11-23)
+
+
+### Features
+
+* add NepalTimezoneDate class and integrate with NepaliDate ([#112](https://github.com/opensource-nepal/node-nepali-datetime/issues/112)) ([5e4dcff](https://github.com/opensource-nepal/node-nepali-datetime/commit/5e4dcff81918b33ea872da600634ce4c76b823e3))
+
 ## [1.5.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.4.1...v1.5.0) (2025-09-03)
 
 
