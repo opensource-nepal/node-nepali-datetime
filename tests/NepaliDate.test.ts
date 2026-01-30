@@ -355,7 +355,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+        }).toThrow(new ValidationError('Hour should be in the range 0-23'))
     })
 
     it('should throw a ValidationError for invalid negative hour', () => {
@@ -367,7 +367,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+        }).toThrow(new ValidationError('Hour should be in the range 0-23'))
     })
 
     it('should throw a ValidationError for invalid minute', () => {
@@ -379,7 +379,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+        }).toThrow(new ValidationError('Minute should be in the range 0-59'))
     })
 
     it('should throw a ValidationError for invalid negative minute', () => {
@@ -391,7 +391,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+        }).toThrow(new ValidationError('Minute should be in the range 0-59'))
     })
 
     it('should throw a ValidationError for invalid second', () => {
@@ -403,7 +403,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+        }).toThrow(new ValidationError('Second should be in the range 0-59'))
     })
 
     it('should throw a ValidationError for invalid negative second', () => {
@@ -415,7 +415,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+        }).toThrow(new ValidationError('Second should be in the range 0-59'))
     })
 
     it('should throw a ValidationError for invalid millisecond', () => {
@@ -427,7 +427,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
+        }).toThrow(new ValidationError('Millisecond should be in the range 0-999'))
     })
 
     it('should throw a ValidationError for invalid negative millisecond', () => {
@@ -439,7 +439,7 @@ describe('NepaliDate with Time feature initialization', () => {
 
         expect(() => {
             const _ = new NepaliDate(year, month, day, hour, minute, second, ms)
-        }).toThrowError(new ValidationError('Millisecond should be in the range 0-999'))
+        }).toThrow(new ValidationError('Millisecond should be in the range 0-999'))
     })
 
     // timezone support
@@ -680,7 +680,7 @@ describe('NepaliDate with Time feature: set methods', () => {
             const invalidHour = 24
             expect(() => {
                 nepaliDate.setHours(invalidHour)
-            }).toThrowError(new ValidationError('Hour should be in the range 0-23'))
+            }).toThrow(new ValidationError('Hour should be in the range 0-23'))
         })
     })
 
@@ -696,7 +696,7 @@ describe('NepaliDate with Time feature: set methods', () => {
             const invalidMinute = 60
             expect(() => {
                 nepaliDate.setMinutes(invalidMinute)
-            }).toThrowError(new ValidationError('Minute should be in the range 0-59'))
+            }).toThrow(new ValidationError('Minute should be in the range 0-59'))
         })
     })
 
@@ -712,7 +712,7 @@ describe('NepaliDate with Time feature: set methods', () => {
             const invalidSecond = 60
             expect(() => {
                 nepaliDate.setSeconds(invalidSecond)
-            }).toThrowError(new ValidationError('Second should be in the range 0-59'))
+            }).toThrow(new ValidationError('Second should be in the range 0-59'))
         })
     })
 
@@ -728,9 +728,7 @@ describe('NepaliDate with Time feature: set methods', () => {
             const invalidMillisecond = 1000
             expect(() => {
                 nepaliDate.setMilliseconds(invalidMillisecond)
-            }).toThrowError(
-                new ValidationError('Millisecond should be in the range 0-999')
-            )
+            }).toThrow(new ValidationError('Millisecond should be in the range 0-999'))
         })
     })
 

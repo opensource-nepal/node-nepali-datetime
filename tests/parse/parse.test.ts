@@ -49,13 +49,13 @@ describe('parseFormat', () => {
     it('should throw error for invalid format, missing time components', () => {
         expect(() => {
             parseFormat('2080-08-02', 'YYYY-MM-DD HH:mm:ss')
-        }).toThrowError(Error)
+        }).toThrow(Error)
     })
 
     it('should throw error for invalid format, without static text', () => {
         expect(() => {
             parseFormat('2080-08-02 12:34:56 test', 'YYYY-MM-DD HH:mm:ss')
-        }).toThrowError(Error)
+        }).toThrow(Error)
     })
 
     it('should parse date string with month in Devanagari format', () => {
@@ -71,9 +71,9 @@ describe('parseFormat', () => {
     })
 
     it('should throw error with month in Devanagari format and missing literals', () => {
-        expect(() =>
-            parseFormat('2080/Shrawan/23', 'YYYY/MMMM/DD HH:mm:ss')
-        ).toThrowError(Error)
+        expect(() => parseFormat('2080/Shrawan/23', 'YYYY/MMMM/DD HH:mm:ss')).toThrow(
+            Error
+        )
     })
 
     it('should parse date string with month in short Devanagari format', () => {
@@ -89,9 +89,7 @@ describe('parseFormat', () => {
     })
 
     it('should throw error with month in short Devanagari format and missing literals', () => {
-        expect(() => parseFormat('2080/Shr/23', 'YYYY/MMM/DD HH:mm:ss')).toThrowError(
-            Error
-        )
+        expect(() => parseFormat('2080/Shr/23', 'YYYY/MMM/DD HH:mm:ss')).toThrow(Error)
     })
 
     it('should parse weekday fullname', () => {
@@ -111,11 +109,11 @@ describe('parseFormat', () => {
     })
 
     it('should throw error on random weekday number', () => {
-        expect(() => parseFormat('7', 'd')).toThrowError(Error)
+        expect(() => parseFormat('7', 'd')).toThrow(Error)
     })
 
     it('should throw error on random weekday name', () => {
-        expect(() => parseFormat('we', 'dd')).toThrowError(Error)
+        expect(() => parseFormat('we', 'dd')).toThrow(Error)
     })
 
     it('should parse nothing', () => {

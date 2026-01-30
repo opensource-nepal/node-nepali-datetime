@@ -41,7 +41,7 @@ export const parseFormatTokens = (format: string): string[] => {
  *
  * @param toConvert - An array of string containing all the required regex values
  */
-export const seqToRE = (toConvert: Array<string>): RegExp => {
+export const seqToRE = (toConvert: readonly string[]): RegExp => {
     // returns /(?:)/ regex for empty array
     if (toConvert.length === 0) {
         return new RegExp('')
