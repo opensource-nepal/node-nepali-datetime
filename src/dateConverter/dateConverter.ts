@@ -102,7 +102,7 @@ const _isLeapYear = (year: number): boolean => {
  * @param year - The year for which to retrieve the months.
  * @returns An array containing the number of days in each month of the year.
  */
-const _getEnMonths = (year: number): number[] => {
+const _getEnMonths = (year: number): readonly number[] => {
     return _isLeapYear(year) ? EN_LEAP_YEAR_MONTHS : EN_MONTHS
 }
 
@@ -308,7 +308,7 @@ const nepaliToEnglish = (
 
     // MONTH
     // Incrementing month until the difference remains less than next english month (mostly 31)
-    const month_days: number[] = _getEnMonths(en_year)
+    const month_days: readonly number[] = _getEnMonths(en_year)
     let i = 0
     while (difference >= month_days[i]) {
         difference -= month_days[i]

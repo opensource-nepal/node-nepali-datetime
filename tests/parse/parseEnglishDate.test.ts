@@ -49,13 +49,13 @@ describe('parseEnglishDateFormat', () => {
     it('should throw error for invalid format, missing time components', () => {
         expect(() => {
             parseEnglishDateFormat('2024-08-02', 'YYYY-MM-DD HH:mm:ss')
-        }).toThrowError(Error)
+        }).toThrow(Error)
     })
 
     it('should throw error for invalid format, without static text', () => {
         expect(() => {
             parseEnglishDateFormat('2024-08-02 12:34:56 test', 'YYYY-MM-DD HH:mm:ss')
-        }).toThrowError(Error)
+        }).toThrow(Error)
     })
 
     it('should parse date string with full month text', () => {
@@ -76,7 +76,7 @@ describe('parseEnglishDateFormat', () => {
     it('should throw error with full month text and missing literals', () => {
         expect(() =>
             parseEnglishDateFormat('2024/August/23', 'YYYY/MMMM/DD HH:mm:ss')
-        ).toThrowError(Error)
+        ).toThrow(Error)
     })
 
     it('should parse date string with short month text', () => {
@@ -94,7 +94,7 @@ describe('parseEnglishDateFormat', () => {
     it('should throw error with short month text and missing literals', () => {
         expect(() =>
             parseEnglishDateFormat('2024/Aug/23', 'YYYY/MMM/DD HH:mm:ss')
-        ).toThrowError(Error)
+        ).toThrow(Error)
     })
 
     it('should parse weekday fullname', () => {
@@ -116,11 +116,11 @@ describe('parseEnglishDateFormat', () => {
     })
 
     it('should throw error on random weekday number', () => {
-        expect(() => parseEnglishDateFormat('7', 'd')).toThrowError(Error)
+        expect(() => parseEnglishDateFormat('7', 'd')).toThrow(Error)
     })
 
     it('should throw error on random weekday name', () => {
-        expect(() => parseEnglishDateFormat('we', 'dd')).toThrowError(Error)
+        expect(() => parseEnglishDateFormat('we', 'dd')).toThrow(Error)
     })
 
     it('should parse nothing', () => {

@@ -16,7 +16,6 @@ We provide security updates and support for the latest stable release of the 'no
 If you discover a security vulnerability within the project, we encourage you to report it the maintainers immediately. Promptly reporting security issues helps us protect our users and take appropriate actions to address the vulnerability. To report a security vulnerability, please follow these steps:
 
 1. Email at aj3sshh@gmail.com or sugatbajracharya49@gmail.com with a detailed description of the vulnerability. Please include the following information:
-
     - Description of the vulnerability, including steps to reproduce if applicable
     - Version of the node-nepali-datetime package affected
     - Any potential mitigations or workarounds

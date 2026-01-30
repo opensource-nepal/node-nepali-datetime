@@ -31,7 +31,6 @@ To set up the project on your local machine, follow these steps:
     ```
 
 4. **Verify your setup**:
-
     - Run the example script to test the library:
 
         ```bash
@@ -72,7 +71,6 @@ We welcome and appreciate pull requests from the community. To contribute:
 2. **Write tests** for your changes if applicable.
 3. **Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)** for commit messages.  
    Examples:
-
     - `feat: add JSON parser`
     - `fix(parser): resolve parsing issue`
 
@@ -83,12 +81,10 @@ We welcome and appreciate pull requests from the community. To contribute:
     ```
 
 5. **Create a Pull Request**:
-
     - Open a pull request from your branch to the `main` branch of the original repository.
     - Provide a clear and concise description of the changes, along with relevant context.
 
 6. **Review & Feedback**:
-
     - Participate in the code review process and address any feedback promptly.
 
 ## License
