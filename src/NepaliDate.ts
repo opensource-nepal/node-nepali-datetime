@@ -252,13 +252,13 @@ class NepaliDate {
         this.weekDay = npTzDate.getDay()
 
         if (computeNepaliDate) {
-            const [yearNp, month0Np, dayNp] = dateConverter.englishToNepali(
+            const [yearNp, monthNp, dayNp] = dateConverter.englishToNepali(
                 this.yearEn,
                 this.monthEn,
                 this.dayEn
             )
             this.year = yearNp
-            this.month = month0Np
+            this.month = monthNp
             this.day = dayNp
         }
     }
@@ -543,7 +543,7 @@ class NepaliDate {
         ms: number
     ) {
         validateTime(hour, minute, second, ms)
-        const [yearEn, month0EN, dayEn] = dateConverter.nepaliToEnglish(
+        const [yearEn, monthEn, dayEn] = dateConverter.nepaliToEnglish(
             year,
             month,
             date
@@ -554,7 +554,7 @@ class NepaliDate {
         this._setDateObject(
             NepalTimezoneDate['getDate'](
                 yearEn,
-                month0EN,
+                monthEn,
                 dayEn,
                 hour,
                 minute,
@@ -628,7 +628,7 @@ class NepaliDate {
      * Creates a new instance of NepaliDate from an English calendar parameters.
      *
      * @param year - The year in English calendar format.
-     * @param month0 - The month (0-11) in English calendar format.
+     * @param month - The month (0-11) in English calendar format.
      * @param date - The day of the month in English calendar format.
      * @param hour - The hour (0-23) in English calendar format. Default is 0.
      * @param minute - The minute (0-59) in English calendar format. Default is 0.
@@ -638,7 +638,7 @@ class NepaliDate {
      */
     static fromEnglishDate(
         year: number,
-        month0: number,
+        month: number,
         date: number,
         hour: number = 0,
         minute: number = 0,
@@ -647,7 +647,7 @@ class NepaliDate {
     ): NepaliDate {
         const englishDate = NepalTimezoneDate['getDate'](
             year,
-            month0,
+            month,
             date,
             hour,
             minute,
@@ -669,11 +669,11 @@ class NepaliDate {
      * const nepaliDate = NepaliDate.parseNepaliFormat(dateStringNe, format)
      */
     static parseNepaliFormat(dateStringNe: string, format: string): NepaliDate {
-        const [year, month0, day, hour, minute, second, ms] = parseNepaliFormat(
+        const [year, month, day, hour, minute, second, ms] = parseNepaliFormat(
             dateStringNe,
             format
         )
-        return new NepaliDate(year, month0, day, hour, minute, second, ms)
+        return new NepaliDate(year, month, day, hour, minute, second, ms)
     }
 
     /**
@@ -688,11 +688,11 @@ class NepaliDate {
      * const nepaliDate = NepaliDate.parseEnglishDate(dateTimeString, format)
      */
     static parseEnglishDate(dateString: string, format: string): NepaliDate {
-        const [year, month0, day, hour, minute, second, ms] = parseEnglishDateFormat(
+        const [year, month, day, hour, minute, second, ms] = parseEnglishDateFormat(
             dateString,
             format
         )
-        return NepaliDate.fromEnglishDate(year, month0, day, hour, minute, second, ms)
+        return NepaliDate.fromEnglishDate(year, month, day, hour, minute, second, ms)
     }
 
     /**

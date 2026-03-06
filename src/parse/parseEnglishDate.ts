@@ -119,7 +119,7 @@ function getDateParams(
 
     return {
         year,
-        month0: month - 1,
+        month: month - 1,
         day,
         hour,
         minute,
@@ -136,9 +136,9 @@ export function parseEnglishDateFormat(dateString: string, format: string): numb
         throw new Error('Invalid date format')
     }
 
-    const { year, month0, day, hour, minute, second, ms } = getDateParams(
+    const { year, month, day, hour, minute, second, ms } = getDateParams(
         dateTokens,
         match
     )
-    return [year, month0, day, hour, minute, second, ms]
+    return [year, month, day, hour, minute, second, ms]
 }

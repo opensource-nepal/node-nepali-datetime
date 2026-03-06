@@ -20,7 +20,7 @@ import { parseFormatTokens, seqToRE } from '../utils'
  *
  * @param dateString date string to be parsed.
  * @throws {Error} if date string is invalid
- * @returns return array of date information [year, month0, day].
+ * @returns return array of date information [year, month, day].
  */
 function parseDateString(dateString: string): number[] {
     // Expected date formats are yyyy-mm-dd, yyyy.mm.dd yyyy/mm/dd
@@ -84,9 +84,9 @@ function parseTimeString(timeString: string): number[] {
  */
 export function simpleParse(dateTimeString: string): number[] {
     const [dateString, timeString] = dateTimeString.split(' ', 2)
-    const [year, month0, day] = parseDateString(dateString)
+    const [year, month, day] = parseDateString(dateString)
     const [hour, minute, second, ms] = parseTimeString(timeString)
-    return [year, month0, day, hour, minute, second, ms]
+    return [year, month, day, hour, minute, second, ms]
 }
 
 /* parse v2 */
@@ -200,7 +200,7 @@ function getDateParams(
 
     return {
         year,
-        month0: month - 1,
+        month: month - 1,
         day,
         hour,
         minute,
@@ -217,9 +217,9 @@ export function parseFormat(dateString: string, format: string): number[] {
         throw new Error('Invalid date format')
     }
 
-    const { year, month0, day, hour, minute, second, ms } = getDateParams(
+    const { year, month, day, hour, minute, second, ms } = getDateParams(
         dateTokens,
         match
     )
-    return [year, month0, day, hour, minute, second, ms]
+    return [year, month, day, hour, minute, second, ms]
 }
