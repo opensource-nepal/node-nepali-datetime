@@ -59,7 +59,9 @@ function getDateParams(
     match: RegExpMatchArray
 ): { [key: string]: number } {
     // month and day are set to 1 in default
-    let [year, month, day, hour, hour12, minute, second, ms] = [0, 1, 1, 0, 0, 0, 0, 0]
+    let [year, month1Indexed, day, hour, hour12, minute, second, ms] = [
+        0, 1, 1, 0, 0, 0, 0, 0,
+    ]
     let isPM = false
     let is12hourFormat = false
 
@@ -75,13 +77,13 @@ function getDateParams(
                 break
             case 'MM':
             case 'M':
-                month = matchData
+                month1Indexed = matchData
                 break
             case 'MMMM':
-                month = ENGLISH_MONTHS_EN.indexOf(match[i + 1]) + 1
+                month1Indexed = ENGLISH_MONTHS_EN.indexOf(match[i + 1]) + 1
                 break
             case 'MMM':
-                month = ENGLISH_MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
+                month1Indexed = ENGLISH_MONTHS_SHORT_EN.indexOf(match[i + 1]) + 1
                 break
             case 'DD':
             case 'D':
@@ -119,7 +121,7 @@ function getDateParams(
 
     return {
         year,
-        month0: month - 1,
+        month: month1Indexed - 1,
         day,
         hour,
         minute,
@@ -136,9 +138,9 @@ export function parseEnglishDateFormat(dateString: string, format: string): numb
         throw new Error('Invalid date format')
     }
 
-    const { year, month0, day, hour, minute, second, ms } = getDateParams(
+    const { year, month, day, hour, minute, second, ms } = getDateParams(
         dateTokens,
         match
     )
-    return [year, month0, day, hour, minute, second, ms]
+    return [year, month, day, hour, minute, second, ms]
 }

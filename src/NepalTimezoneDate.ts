@@ -26,7 +26,7 @@ class NepalTimezoneDate {
     private _date: Date
     private _nepalTimezoneSafeDate: {
         year: number
-        month0: number
+        month: number
         day: number
         hour: number
         minute: number
@@ -58,7 +58,7 @@ class NepalTimezoneDate {
 
         // Extract the Nepali date and time components
         const npYear = nepaliRefDate.getUTCFullYear()
-        const npMonth0 = nepaliRefDate.getUTCMonth()
+        const npMonth = nepaliRefDate.getUTCMonth()
         const npDay = nepaliRefDate.getUTCDate()
         const npHour = nepaliRefDate.getUTCHours()
         const npMinutes = nepaliRefDate.getUTCMinutes()
@@ -69,7 +69,7 @@ class NepalTimezoneDate {
         // Return the Nepali date and time components as an object
         return {
             year: npYear,
-            month0: npMonth0,
+            month: npMonth,
             day: npDay,
             hour: npHour,
             minute: npMinutes,
@@ -83,7 +83,7 @@ class NepalTimezoneDate {
      * Get the Date object from the given Nepali date and time components.
      *
      * @param year - The year component of the Nepali date.
-     * @param month0 - The month component of the Nepali date (1-12).
+     * @param month - The month component of the Nepali date (0-11).
      * @param date - The day component of the Nepali date.
      * @param hour - The hour component of the Nepali time.
      * @param minute - The minute component of the Nepali time.
@@ -173,7 +173,7 @@ class NepalTimezoneDate {
      * @returns {number} The numeric value representing the month
      */
     getMonth(): number {
-        return this._nepalTimezoneSafeDate.month0
+        return this._nepalTimezoneSafeDate.month
     }
 
     /**
@@ -239,7 +239,7 @@ class NepalTimezoneDate {
     toString(): string {
         const np = this._nepalTimezoneSafeDate
         return (
-            `${np.year}-${String(np.month0 + 1).padStart(2, '0')}-${String(np.day).padStart(2, '0')} ` +
+            `${np.year}-${String(np.month + 1).padStart(2, '0')}-${String(np.day).padStart(2, '0')} ` +
             `${String(np.hour).padStart(2, '0')}:${String(np.minute).padStart(2, '0')}:${String(np.second).padStart(2, '0')} GMT+0545`
         )
     }
