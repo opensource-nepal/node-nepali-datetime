@@ -2,10 +2,12 @@ name: 'Release Please'
 
 on:
     push:
-        branches:
-            - main
+        branches: ['main']
 
 permissions:
+    # This job has the highest privileges, so always pin actions to a specific commit hash.
+    # Ensure the referenced commit hash is verified and free from known vulnerabilities.
+    id-token: write # Required for OIDC (npm release)
     contents: write
     pull-requests: write
 
@@ -13,20 +15,20 @@ jobs:
     release-please:
         runs-on: ubuntu-latest
         steps:
-            - uses: googleapis/release-please-action@v4
+            - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
               id: release
               with:
                   # NOTE: GITHUB_TOKEN doesn't run checks on Release PR
                   token: ${{ secrets.GITHUB_TOKEN }}
 
             # The logic below handles the npm publication:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               # these if statements ensure that a publication only occurs when
               # a new release is created:
               if: ${{ steps.release.outputs.release_created }}
 
             - name: Setup node
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6
               with:
                   node-version: 22
                   registry-url: 'https://registry.npmjs.org'
@@ -42,6 +44,4 @@ jobs:
 
             - name: Publish to NPM
               run: npm publish --access public
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
               if: ${{ steps.release.outputs.release_created }}
