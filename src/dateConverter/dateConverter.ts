@@ -7,10 +7,10 @@
  *
  * Functions:
  *
- * - `englishToNepali(year: number, month0: number, day: number): [number, number, number]`
+ * - `englishToNepali(year: number, month: number, day: number): [number, number, number]`
  *   Converts a given English (Gregorian) date to Nepali date.
  *
- * - `nepaliToEnglish(year: number, month0: number, day: number): [number, number, number]`
+ * - `nepaliToEnglish(year: number, month: number, day: number): [number, number, number]`
  *   Converts a given Nepali date to English (Gregorian) date.
  *
  * - `DateOutOfRangeError`
@@ -30,10 +30,8 @@
  * console.log(`English Date: ${enYear}-${enMonth}-${enDay}`);
  * ```
  *
- * Note: There are two types of month variables used in this file.
- * The first is `month0`, which represents month values starting from 0,
- * for example, 0 for January and 0 for Baishakh.
- * The second is `month`, which represents month values starting from 1.
+ * Note: The `month` parameter in the public API is 0-indexed (0-11),
+ * matching JavaScript's Date.getMonth() convention.
  */
 import {
     NP_INITIAL_YEAR,
@@ -155,21 +153,21 @@ const _getTotalDaysFromEnglishDate = (
 /**
  * Converts an English date to Nepali date.
  * @param year - The year in English calendar.
- * @param month0 - The month in English calendar. Starting from 0, 0 for January.
+ * @param month - The month in English calendar. Starting from 0, 0 for January.
  * @param day - The day in English calendar.
  * @returns The corresponding Nepali date as an array of [year, month, day].
  * @throws {DateOutOfRangeError} If the provided date is out of range.
  */
 function englishToNepali(
     year: number,
-    month0: number,
+    month: number,
     day: number
 ): [number, number, number] {
-    const month = month0 + 1
+    const month1Indexed = month + 1
 
     // VALIDATION
     // checking if date is in range
-    if (!_checkEnglishDate(year, month, day)) {
+    if (!_checkEnglishDate(year, month1Indexed, day)) {
         throw new DateOutOfRangeError('Date out of range')
     }
 
@@ -181,7 +179,7 @@ function englishToNepali(
     // DIFFERENCE
     // calculating days count from the reference date
     let difference: number = Math.abs(
-        _getTotalDaysFromEnglishDate(year, month, day) -
+        _getTotalDaysFromEnglishDate(year, month1Indexed, day) -
             _getTotalDaysFromEnglishDate(...REFERENCE_EN_DATE)
     )
 
@@ -260,20 +258,20 @@ const _getTotalDaysFromNepaliDate = (
 /**
  * Converts a Nepali date to the corresponding English date.
  * @param year - The year in Nepali calendar.
- * @param month - The month in Nepali calendar.
- * @param day - The day in Nepali calendar. Starting from 0, 0 for Baishakh.
+ * @param month - The month in Nepali calendar. Starting from 0, 0 for Baishakh.
+ * @param day - The day in Nepali calendar.
  * @returns An array containing the corresponding English year, month, and day.
  * @throws {DateOutOfRangeError} If the provided Nepali date is out of range.
  */
 const nepaliToEnglish = (
     year: number,
-    month0: number,
+    month: number,
     day: number
 ): [number, number, number] => {
-    const month = month0 + 1
+    const month1Indexed = month + 1
 
     // VALIDATION
-    if (!_checkNepaliDate(year, month, day)) {
+    if (!_checkNepaliDate(year, month1Indexed, day)) {
         throw new DateOutOfRangeError('Date out of range')
     }
 
@@ -293,7 +291,7 @@ const nepaliToEnglish = (
     // DIFFERENCE
     // calculating days count from the reference date
     let difference: number = Math.abs(
-        _getTotalDaysFromNepaliDate(year, month, day) + reference_diff
+        _getTotalDaysFromNepaliDate(year, month1Indexed, day) + reference_diff
     )
 
     // YEAR
