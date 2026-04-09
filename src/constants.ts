@@ -11,7 +11,7 @@ export const OLD_UTC_OFFSET_IN_MS = 19800000 // 5 hours 40 minutes in ms
 export const TIMEZONE_TRANSITION_TIMESTAMP = 504901800000
 export const TIMEZONE_TRANSITION_DATE_REFERENCE = new Date(1986, 0, 1, 0, 15)
 
-export const NEPALI_MONTHS_EN = [
+export const NEPALI_MONTHS_EN: readonly string[] = [
     'Baisakh',
     'Jestha',
     'Asar',
@@ -26,7 +26,7 @@ export const NEPALI_MONTHS_EN = [
     'Chaitra',
 ]
 
-export const NEPALI_MONTHS_SHORT_EN = [
+export const NEPALI_MONTHS_SHORT_EN: readonly string[] = [
     'Bai',
     'Jes',
     'Asa',
@@ -41,7 +41,7 @@ export const NEPALI_MONTHS_SHORT_EN = [
     'Cha',
 ]
 
-export const NEPALI_MONTHS_NE = [
+export const NEPALI_MONTHS_NE: readonly string[] = [
     'बैशाख',
     'जेठ',
     'असार',
@@ -56,7 +56,7 @@ export const NEPALI_MONTHS_NE = [
     'चैत्र',
 ]
 
-export const NEPALI_MONTHS_SHORT_NE = [
+export const NEPALI_MONTHS_SHORT_NE: readonly string[] = [
     'बै',
     'जे',
     'अ',
@@ -71,7 +71,7 @@ export const NEPALI_MONTHS_SHORT_NE = [
     'चै',
 ]
 
-export const ENGLISH_MONTHS_EN = [
+export const ENGLISH_MONTHS_EN: readonly string[] = [
     'January',
     'February',
     'March',
@@ -86,7 +86,7 @@ export const ENGLISH_MONTHS_EN = [
     'December',
 ]
 
-export const ENGLISH_MONTHS_SHORT_EN = [
+export const ENGLISH_MONTHS_SHORT_EN: readonly string[] = [
     'Jan',
     'Feb',
     'Mar',
@@ -101,7 +101,7 @@ export const ENGLISH_MONTHS_SHORT_EN = [
     'Dec',
 ]
 
-export const ENGLISH_MONTHS_NE = [
+export const ENGLISH_MONTHS_NE: readonly string[] = [
     'जनवरी',
     'फेब्रुअरी',
     'मार्च',
@@ -116,7 +116,7 @@ export const ENGLISH_MONTHS_NE = [
     'डिसेम्बर',
 ]
 
-export const ENGLISH_MONTHS_SHORT_NE = [
+export const ENGLISH_MONTHS_SHORT_NE: readonly string[] = [
     'जन',
     'फेब',
     'मार',
@@ -131,11 +131,30 @@ export const ENGLISH_MONTHS_SHORT_NE = [
     'डिसे',
 ]
 
-export const NUM_NE = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९']
+export const NUM_NE: readonly string[] = [
+    '०',
+    '१',
+    '२',
+    '३',
+    '४',
+    '५',
+    '६',
+    '७',
+    '८',
+    '९',
+]
 
-export const WEEKDAYS_SHORT_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+export const WEEKDAYS_SHORT_EN: readonly string[] = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+]
 
-export const WEEKDAYS_LONG_EN = [
+export const WEEKDAYS_LONG_EN: readonly string[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -145,9 +164,17 @@ export const WEEKDAYS_LONG_EN = [
     'Saturday',
 ]
 
-export const WEEKDAYS_SHORT_NE = ['आइत', 'सोम', 'मंगल', 'बुध', 'बिहि', 'शुक्र', 'शनि']
+export const WEEKDAYS_SHORT_NE: readonly string[] = [
+    'आइत',
+    'सोम',
+    'मंगल',
+    'बुध',
+    'बिहि',
+    'शुक्र',
+    'शनि',
+]
 
-export const WEEKDAYS_LONG_NE = [
+export const WEEKDAYS_LONG_NE: readonly string[] = [
     'आइतबार',
     'सोमबार',
     'मंगलबार',
