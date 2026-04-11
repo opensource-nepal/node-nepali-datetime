@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [2.0.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.6.0...v2.0.0) (2026-04-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop Node.js 18 and 20 support, require Node.js 22+ ([#116](https://github.com/opensource-nepal/node-nepali-datetime/issues/116))
+
+### Features
+
+* drop Node.js 18 and 20 support, require Node.js 22+ ([#116](https://github.com/opensource-nepal/node-nepali-datetime/issues/116)) ([3ff1a6b](https://github.com/opensource-nepal/node-nepali-datetime/commit/3ff1a6be43d210f50c4bd0c70e929beb4bba54cf))
+
 ## [1.6.0](https://github.com/opensource-nepal/node-nepali-datetime/compare/v1.5.0...v1.6.0) (2026-04-04)
 
 
