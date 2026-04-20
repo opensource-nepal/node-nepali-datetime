@@ -44,12 +44,14 @@
         "test": "jest",
         "coverage": "jest --coverage",
         "prepare": "husky && npm run build",
-        "lint": "prettier --check .",
         "format": "prettier --write .",
-        "example": "ts-node example.ts"
+        "example": "ts-node example.ts",
+        "oxlint": "oxlint",
+        "lint": "prettier --check . && npm run oxlint"
     },
     "lint-staged": {
-        "*": "prettier --ignore-unknown --write"
+    "*.ts": ["oxlint", "prettier --ignore-unknown --write"],
+    "*": "prettier --ignore-unknown --write"
     },
     "repository": {
         "url": "https://github.com/opensource-nepal/node-nepali-datetime.git",
